@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login | SkillTwin AI</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f3f7fc;
+    color:#334155;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    height:75px;
+    background:white;
+    border-bottom:1px solid #e2e8f0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    border-radius:11px;
+    background:linear-gradient(135deg,#5b2eff,#00a88f);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    font-size:19px;
+}
+
+.logo-text{
+    font-size:20px;
+    font-weight:750;
+    color:#0b1f3a;
+}
+
+.logo-text span{
+    color:#5b2eff;
+}
+
+.back-home{
+    text-decoration:none;
+    color:#64748b;
+    font-size:13px;
+}
+
+.back-home:hover{
+    color:#5b2eff;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.login-container{
+    min-height:calc(100vh - 75px);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:50px;
+    max-width:1100px;
+    margin:auto;
+    padding:45px 30px;
+}
+
+/* =========================
+   LEFT
+========================= */
+
+.brand-section{
+    padding:20px;
+}
+
+.ai-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 11px;
+    border-radius:20px;
+    background:#ede9fe;
+    color:#5b2eff;
+    font-size:10px;
+    font-weight:750;
+    margin-bottom:18px;
+}
+
+.brand-section h1{
+    color:#0b1f3a;
+    font-size:42px;
+    line-height:1.15;
+    margin-bottom:16px;
+}
+
+.brand-section h1 span{
+    color:#5b2eff;
+}
+
+.brand-section p{
+    color:#64748b;
+    font-size:14px;
+    line-height:1.8;
+    max-width:480px;
+}
+
+.feature-list{
+    margin-top:28px;
+    display:grid;
+    gap:13px;
+}
+
+.feature{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    font-size:12px;
+    color:#475569;
+}
+
+.feature-icon{
+    width:30px;
+    height:30px;
+    border-radius:8px;
+    background:#e6f7f4;
+    color:#00a88f;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+}
+
+/* =========================
+   LOGIN CARD
+========================= */
+
+.login-card{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:18px;
+    padding:32px;
+    box-shadow:0 15px 40px rgba(15,23,42,.08);
+}
+
+.login-card h2{
+    color:#0b1f3a;
+    font-size:23px;
+    margin-bottom:7px;
+}
+
+.subtitle{
+    color:#94a3b8;
+    font-size:12px;
+    margin-bottom:25px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-group{
+    margin-bottom:17px;
+}
+
+.form-group label{
+    display:block;
+    color:#334155;
+    font-size:11px;
+    font-weight:650;
+    margin-bottom:7px;
+}
+
+.input-wrapper{
+    position:relative;
+}
+
+.input-wrapper input{
+    width:100%;
+    height:44px;
+    border:1px solid #dbe3ed;
+    border-radius:9px;
+    padding:0 13px;
+    outline:none;
+    color:#334155;
+    font-size:12px;
+    background:white;
+}
+
+.input-wrapper input:focus{
+    border-color:#5b2eff;
+    box-shadow:0 0 0 3px rgba(91,46,255,.07);
+}
+
+.password-toggle{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    color:#64748b;
+    font-size:11px;
+    cursor:pointer;
+}
+
+/* =========================
+   OPTIONS
+========================= */
+
+.form-options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:5px 0 20px;
+}
+
+.remember{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#64748b;
+    font-size:11px;
+}
+
+.remember input{
+    accent-color:#5b2eff;
+}
+
+.forgot{
+    color:#5b2eff;
+    text-decoration:none;
+    font-size:11px;
+}
+
+.forgot:hover{
+    text-decoration:underline;
+}
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.login-btn{
+    width:100%;
+    height:44px;
+    background:#5b2eff;
+    color:white;
+    border-radius:9px;
+    font-size:12px;
+    font-weight:700;
+    transition:.2s;
+}
+
+.login-btn:hover{
+    background:#4a20df;
+    transform:translateY(-1px);
+}
+
+.login-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
+/* =========================
+   SIGNUP
+========================= */
+
+.signup-text{
+    text-align:center;
+    margin-top:20px;
+    color:#94a3b8;
+    font-size:11px;
+}
+
+.signup-text a{
+    color:#5b2eff;
+    font-weight:700;
+    text-decoration:none;
+}
+
+.signup-text a:hover{
+    text-decoration:underline;
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.error-message{
+    display:none;
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    color:#dc2626;
+    padding:10px 12px;
+    border-radius:8px;
+    font-size:11px;
+    margin-bottom:15px;
+}
+
+.error-message.show{
+    display:block;
+}
+
+/* =========================
+   SUCCESS
+========================= */
+
+.success-message{
+    display:none;
+    background:#ecfdf5;
+    border:1px solid #a7f3d0;
+    color:#047857;
+    padding:10px 12px;
+    border-radius:8px;
+    font-size:11px;
+    margin-bottom:15px;
+}
+
+.success-message.show{
+    display:block;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer-text{
+    text-align:center;
+    color:#94a3b8;
+    font-size:10px;
+    margin-top:22px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:800px){
+
+    .login-container{
+        grid-template-columns:1fr;
+        max-width:550px;
+        padding:35px 20px;
+    }
+
+    .brand-section{
+        text-align:center;
+        padding:0;
+    }
+
+    .brand-section p{
+        margin:auto;
+    }
+
+    .feature-list{
+        text-align:left;
+    }
+
+    .brand-section h1{
+        font-size:34px;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .navbar{
+        padding:0 20px;
+    }
+
+    .logo-text{
+        font-size:17px;
+    }
+
+    .back-home{
+        font-size:11px;
+    }
+
+    .login-card{
+        padding:23px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <a href="index.html" class="logo">
+
+        <div class="logo-icon">
+            S
+        </div>
+
+        <div class="logo-text">
+            Skill<span>Twin</span> AI
+        </div>
+
+    </a>
+
+    <a href="index.html" class="back-home">
+        ← Back to Home
+    </a>
+
+</nav>
+
+
+<!-- MAIN -->
+
+<div class="login-container">
+
+
+    <!-- LEFT -->
+
+    <div class="brand-section">
+
+        <div class="ai-badge">
+            ✦ AI-POWERED CAREER PLATFORM
+        </div>
+
+        <h1>
+            Welcome back to
+            <span>SkillTwin AI</span>
+        </h1>
+
+        <p>
+            Continue your personalized journey toward becoming
+            job-ready. Track your skills, complete assessments,
+            build projects and prepare for interviews.
+        </p>
+
+
+        <div class="feature-list">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ✓
+                </div>
+
+                Personalized skill analysis
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ◆
+                </div>
+
+                AI-powered learning roadmap
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ◉
+                </div>
+
+                AI mock interview preparation
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ↗
+                </div>
+
+                Track your career progress
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOGIN CARD -->
+
+    <div class="login-card">
+
+        <h2>
+            Sign in
+        </h2>
+
+        <p class="subtitle">
+            Enter your account details to continue.
+        </p>
+
+
+        <div
+            class="error-message"
+            id="errorMessage">
+        </div>
+
+
+        <div
+            class="success-message"
+            id="successMessage">
+        </div>
+
+
+        <form id="loginForm">
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label>
+                    Email Address
+                </label>
+
+                <div class="input-wrapper">
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="input-wrapper">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword()"
+                        id="passwordToggle">
+
+                        Show
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- OPTIONS -->
+
+            <div class="form-options">
+
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        id="remember">
+
+                    Remember me
+
+                </label>
+
+
+                <a
+                    href="#"
+                    class="forgot"
+                    onclick="forgotPassword(event)">
+
+                    Forgot password?
+
+                </a>
+
+            </div>
+
+
+            <!-- LOGIN -->
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginButton">
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        <!-- SIGNUP -->
+
+        <div class="signup-text">
+
+            Don't have an account?
+
+            <a href="signup.html">
+                Create Account
+            </a>
+
+        </div>
+
+
+        <div class="footer-text">
+            © 2026 SkillTwin AI. All rights reserved.
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   PASSWORD TOGGLE
+========================= */
+
+function togglePassword(){
+
+    const password =
+        document.getElementById("password");
+
+    const button =
+        document.getElementById("passwordToggle");
+
+
+    if(password.type === "password"){
+
+        password.type = "text";
+
+        button.textContent = "Hide";
+
+    }else{
+
+        password.type = "password";
+
+        button.textContent = "Show";
+
+    }
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+document
+.getElementById("loginForm")
+.addEventListener("submit",function(event){
+
+    event.preventDefault();
+
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const password =
+        document
+        .getElementById("password")
+        .value;
+
+
+    const error =
+        document.getElementById("errorMessage");
+
+    const success =
+        document.getElementById("successMessage");
+
+    const button =
+        document.getElementById("loginButton");
+
+
+    error.classList.remove("show");
+    success.classList.remove("show");
+
+
+    if(!email || !password){
+
+        showError(
+            "Please enter your email and password."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Get account created during signup.
+    */
+
+    const registeredUser =
+        JSON.parse(
+            localStorage.getItem("registered_user") || "null"
+        );
+
+
+    if(!registeredUser){
+
+        showError(
+            "No account found. Please create an account first."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Check email and password.
+    */
+
+    if(
+        email !== registeredUser.email ||
+        password !== registeredUser.password
+    ){
+
+        showError(
+            "Incorrect email or password. Please try again."
+        );
+
+        return;
+
+    }
+
+
+    /* Login successful */
+
+    const loggedInUser = {
+
+        name:registeredUser.name,
+
+        email:registeredUser.email,
+
+        career:registeredUser.career,
+
+        loggedIn:true
+
+    };
+
+
+    localStorage.setItem(
+        "skilltwin_user",
+        JSON.stringify(loggedInUser)
+    );
+
+
+    if(
+        document.getElementById("remember").checked
+    ){
+
+        localStorage.setItem(
+            "remember_login",
+            "true"
+        );
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Signing in...";
+
+
+    success.textContent =
+        "Login successful. Redirecting...";
+
+    success.classList.add("show");
+
+
+    setTimeout(function(){
+
+        window.location.href =
+            "dashboard.html";
+
+    },700);
+
+});
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(message){
+
+    const error =
+        document.getElementById("errorMessage");
+
+    error.textContent = message;
+
+    error.classList.add("show");
+
+}
+
+
+/* =========================
+   FORGOT PASSWORD
+========================= */
+
+function forgotPassword(event){
+
+    event.preventDefault();
+
+    alert(
+        "Password recovery will be available when the backend and email service are connected."
+    );
+
+}
+
+</script>
+
+</body>
+</html>

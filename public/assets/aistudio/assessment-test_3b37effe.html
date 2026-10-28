@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assessment Test | SkillTwin AI</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --navy:#0B1F3A;
+  --purple:#5B2EFF;
+  --purple-dark:#4920DC;
+  --teal:#00A88F;
+  --bg:#F3F7FC;
+  --text:#334155;
+  --muted:#64748B;
+  --border:#E2E8F0;
+  --white:#FFFFFF;
+}
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+}
+
+body { background:var(--bg); color:var(--text); }
+button { font:inherit; cursor:pointer; }
+
+.sidebar {
+  position:fixed;
+  inset:0 auto 0 0;
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:0 12px 24px;
+  overflow-y:auto;
+  z-index:1000;
+}
+
+.logo {
+  height:75px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:0 10px;
+  margin-bottom:5px;
+  border-bottom:1px solid #ffffff14;
+}
+
+.logo-icon {
+  width:40px;
+  height:40px;
+  min-width:40px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#5B2EFF,#2563EB);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  font-weight:800;
+  color:white;
+  box-shadow:0 5px 15px #2563eb35;
+}
+
+.logo-text {
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:-.4px;
+  color:white;
+  white-space:nowrap;
+}
+
+.logo-text span { color:#A99AFF; }
+
+.nav-title {
+  margin:24px 11px 10px;
+  color:#94A3B8;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1.3px;
+}
+
+.nav-item {
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:11px 12px;
+  margin:4px 0;
+  border-radius:9px;
+  color:#CBD5E1;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:500;
+  transition:.2s;
+}
+
+.nav-item:hover { background:#172F50; color:white; }
+
+.nav-item.active {
+  background:var(--purple);
+  color:white;
+  box-shadow:0 6px 18px #5b2eff40;
+}
+
+.nav-icon {
+  width:20px;
+  min-width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+.main { margin-left:245px; min-height:100vh; }
+
+.topbar {
+  height:70px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:18px;
+  padding:0 30px;
+}
+
+.notification {
+  width:38px;
+  height:38px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  position:relative;
+  cursor:pointer;
+}
+
+.notification::after {
+  content:"";
+  position:absolute;
+  top:7px;
+  right:7px;
+  width:7px;
+  height:7px;
+  background:#EF4444;
+  border-radius:50%;
+}
+
+.profile { position:relative; }
+
+.profile-btn {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:11px;
+  padding:6px 10px;
+  text-align:left;
+}
+
+.avatar {
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--purple);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-size:12px;
+  font-weight:800;
+}
+
+.profile-name { font-size:11px; font-weight:700; color:var(--navy); }
+.profile-email { font-size:9px; color:var(--muted); margin-top:3px; }
+
+.profile-menu {
+  display:none;
+  position:absolute;
+  top:48px;
+  right:0;
+  width:190px;
+  padding:8px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:white;
+  box-shadow:0 12px 30px #0f172a20;
+  z-index:2000;
+}
+
+.profile-menu.show { display:block; }
+
+.profile-menu a,
+.profile-menu button {
+  display:block;
+  width:100%;
+  padding:10px;
+  border:0;
+  border-radius:8px;
+  background:white;
+  text-align:left;
+  text-decoration:none;
+  color:var(--text);
+  font-size:12px;
+}
+
+.profile-menu a:hover,
+.profile-menu button:hover { background:var(--bg); }
+
+.content { padding:30px; max-width:1500px; margin:auto; }
+
+.page-header {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:24px;
+}
+
+.page-header h1 { color:var(--navy); font-size:28px; margin-bottom:7px; }
+.page-header p { color:var(--muted); font-size:12px; line-height:1.7; }
+
+.btn {
+  border:0;
+  border-radius:9px;
+  padding:11px 17px;
+  font-size:12px;
+  font-weight:700;
+  transition:.2s;
+}
+
+.btn-primary { background:var(--purple); color:white; }
+.btn-primary:hover { background:var(--purple-dark); }
+.btn-secondary { background:#F1F5F9; color:var(--text); }
+.btn-secondary:hover { background:#E2E8F0; }
+.btn-submit { background:var(--teal); color:white; }
+
+.ai-banner {
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#0B1F3A,#182F55);
+  border-radius:16px;
+  padding:23px 25px;
+  color:white;
+  margin-bottom:24px;
+}
+
+.ai-banner::after {
+  content:"";
+  position:absolute;
+  width:210px;
+  height:210px;
+  right:-80px;
+  top:-110px;
+  border-radius:50%;
+  background:#5B2EFF30;
+}
+
+.ai-label {
+  position:relative;
+  z-index:1;
+  color:#A5B4FC;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+  margin-bottom:8px;
+}
+
+.ai-banner h2 {
+  position:relative;
+  z-index:1;
+  font-size:19px;
+  margin-bottom:7px;
+}
+
+.ai-banner p {
+  position:relative;
+  z-index:1;
+  font-size:11px;
+  color:#CBD5E1;
+  line-height:1.7;
+}
+
+.test-layout {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 280px;
+  gap:20px;
+  align-items:start;
+}
+
+.test-card,.side-card,.result-card {
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  overflow:hidden;
+}
+
+.test-header {
+  padding:20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:1px solid var(--border);
+}
+
+.test-title { display:flex; align-items:center; gap:12px; }
+
+.test-icon {
+  width:43px;
+  height:43px;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  background:#EDE9FE;
+  color:var(--purple);
+  font-size:20px;
+}
+
+.test-title h2 { color:var(--navy); font-size:15px; }
+.test-title p { color:var(--muted); font-size:10px; margin-top:4px; }
+
+.timer {
+  background:#FFF7ED;
+  color:#C2410C;
+  border:1px solid #FED7AA;
+  border-radius:9px;
+  padding:9px 12px;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.question-area { padding:24px; }
+
+.progress-row {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:8px;
+}
+
+.progress {
+  height:7px;
+  border-radius:20px;
+  background:#E2E8F0;
+  overflow:hidden;
+  margin-bottom:23px;
+}
+
+.progress-bar {
+  height:100%;
+  width:0;
+  background:var(--purple);
+  transition:.25s;
+}
+
+.category-badge {
+  display:inline-block;
+  background:#E6F7F4;
+  color:#008A75;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.question {
+  color:var(--navy);
+  font-size:18px;
+  line-height:1.6;
+  font-weight:700;
+  margin-bottom:19px;
+}
+
+.options { display:grid; gap:10px; }
+
+.option {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:white;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.option:hover { border-color:var(--purple); background:#FAF9FF; }
+.option.selected { border-color:var(--purple); background:#F3EFFF; }
+
+.option-letter {
+  width:30px;
+  height:30px;
+  min-width:30px;
+  border-radius:8px;
+  background:#F1F5F9;
+  display:grid;
+  place-items:center;
+  color:#475569;
+  font-size:11px;
+  font-weight:800;
+}
+
+.option.selected .option-letter { background:var(--purple); color:white; }
+.option-text { font-size:12px; line-height:1.6; }
+
+.navigation {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:24px;
+  padding-top:19px;
+  border-top:1px solid var(--border);
+}
+
+.side-card { padding:19px; }
+
+.side-card h3 {
+  color:var(--navy);
+  font-size:13px;
+  margin-bottom:14px;
+}
+
+.test-info {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #F1F5F9;
+  font-size:10px;
+}
+
+.test-info span:first-child { color:var(--muted); }
+.test-info span:last-child { color:var(--navy); font-weight:700; text-align:right; }
+
+.question-map { margin-top:21px; }
+.map-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; }
+
+.map-btn {
+  width:100%;
+  aspect-ratio:1;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:7px;
+  font-size:10px;
+}
+
+.map-btn.current { background:var(--purple); color:white; border-color:var(--purple); }
+.map-btn.answered { background:#E6F7F4; color:#008A75; border-color:#9DDFD3; }
+
+.legend { margin-top:13px; display:grid; gap:9px; }
+.legend-item { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:10px; }
+.legend-dot { width:10px; height:10px; border-radius:3px; background:#E2E8F0; }
+.legend-dot.current { background:var(--purple); }
+.legend-dot.answered { background:var(--teal); }
+
+.result-screen { display:none; }
+
+.result-card {
+  padding:30px;
+  max-width:950px;
+  margin:auto;
+  text-align:center;
+}
+
+.result-icon {
+  width:70px;
+  height:70px;
+  margin:0 auto 15px;
+  border-radius:50%;
+  background:#E6F7F4;
+  color:var(--teal);
+  display:grid;
+  place-items:center;
+  font-size:30px;
+}
+
+.result-card h2 { color:var(--navy); font-size:24px; margin-bottom:8px; }
+.result-card > p { color:var(--muted); font-size:12px; line-height:1.7; }
+
+.score-circle {
+  width:135px;
+  height:135px;
+  border:10px solid #E2E8F0;
+  border-radius:50%;
+  margin:23px auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.score-circle strong { color:var(--purple); font-size:32px; }
+.score-circle span { color:var(--muted); font-size:10px; }
+
+.result-stats {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:20px;
+}
+
+.result-stat { padding:15px 8px; background:#F8FAFC; border-radius:10px; }
+.result-stat strong { display:block; color:var(--navy); font-size:20px; margin-bottom:5px; }
+.result-stat span { color:var(--muted); font-size:10px; }
+
+.analysis {
+  margin-top:22px;
+  padding:18px;
+  background:#F8FAFC;
+  border-radius:11px;
+  text-align:left;
+}
+
+.analysis h3 { color:var(--navy); font-size:13px; margin-bottom:8px; }
+.analysis p { color:var(--muted); font-size:11px; line-height:1.8; }
+
+.review-section { margin-top:25px; text-align:left; }
+.review-section h3 { color:var(--navy); font-size:16px; margin-bottom:13px; }
+
+.review-item {
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.review-question { color:var(--navy); font-size:12px; font-weight:700; line-height:1.6; }
+.review-answer { color:var(--muted); font-size:11px; margin-top:7px; line-height:1.6; }
+.correct-answer { color:#008A75; font-weight:700; }
+.wrong-answer { color:#DC2626; font-weight:700; }
+.unanswered-answer { color:#D97706; font-weight:700; }
+
+.result-actions {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:23px;
+}
+
+.modal {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:3000;
+  background:#0B1F3A99;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal.show { display:flex; }
+
+.modal-box {
+  background:white;
+  width:100%;
+  max-width:420px;
+  border-radius:15px;
+  padding:24px;
+}
+
+.modal-box h3 { color:var(--navy); font-size:18px; margin-bottom:10px; }
+.modal-box p { color:var(--muted); font-size:12px; line-height:1.8; margin-bottom:15px; }
+.modal-actions { display:flex; justify-content:flex-end; gap:10px; }
+
+.mobile-menu {
+  display:none;
+  position:fixed;
+  left:15px;
+  top:15px;
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:9px;
+  background:var(--navy);
+  color:white;
+  z-index:2000;
+}
+
+.toast {
+  position:fixed;
+  bottom:22px;
+  right:22px;
+  background:var(--navy);
+  color:white;
+  border-radius:9px;
+  padding:12px 17px;
+  font-size:11px;
+  opacity:0;
+  transform:translateY(8px);
+  transition:.2s;
+  z-index:4000;
+  pointer-events:none;
+}
+
+.toast.show { opacity:1; transform:translateY(0); }
+
+.footer { padding:22px 0 5px; text-align:center; color:#94A3B8; font-size:9px; }
+
+@media(max-width:1100px) {
+  .test-layout { grid-template-columns:1fr; }
+  .side-card { display:none; }
+}
+
+@media(max-width:700px) {
+  .sidebar { transform:translateX(-100%); transition:.25s; }
+  .sidebar.open { transform:translateX(0); }
+  .mobile-menu { display:block; }
+  .main { margin-left:0; }
+  .topbar { padding:0 15px 0 68px; }
+  .content { padding:20px 13px; }
+  .page-header { flex-direction:column; }
+  .test-header { align-items:flex-start; flex-direction:column; }
+  .question-area { padding:17px; }
+  .question { font-size:16px; }
+  .result-card { padding:20px 13px; }
+  .result-stats { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+  <!-- Navigation bar logo -->
+  <div class="logo">
+    <div class="logo-icon">✦</div>
+    <div class="logo-text">Skill<span>Twin</span> AI</div>
+  </div>
+
+  <div class="nav-title">MAIN</div>
+  <a href="dashboard.html" class="nav-item"><span class="nav-icon">⌂</span>Dashboard</a>
+  <a href="resume-analyzer.html" class="nav-item"><span class="nav-icon">▤</span>Resume Analyzer</a>
+  <a href="assessments.html" class="nav-item active"><span class="nav-icon">✓</span>Assessments</a>
+  <a href="skill-gap.html" class="nav-item"><span class="nav-icon">◈</span>Skill Gap</a>
+  <a href="career-path.html" class="nav-item"><span class="nav-icon">↗</span>Career Path</a>
+
+  <div class="nav-title">LEARN</div>
+  <a href="learning-resources.html" class="nav-item"><span class="nav-icon">▥</span>Learning Resources</a>
+  <a href="projects.html" class="nav-item"><span class="nav-icon">▣</span>Projects</a>
+
+  <div class="nav-title">CAREER</div>
+  <a href="mock-interview.html" class="nav-item"><span class="nav-icon">◉</span>Mock Interview</a>
+  <a href="job-vacancies.html" class="nav-item"><span class="nav-icon">▰</span>Job Vacancies</a>
+
+  <div class="nav-title">INSIGHTS</div>
+  <a href="analytics.html" class="nav-item"><span class="nav-icon">▥</span>Analytics & Reports</a>
+
+  <div class="nav-title">SYSTEM</div>
+  <a href="settings.html" class="nav-item"><span class="nav-icon">⚙</span>Settings</a>
+</aside>
+
+<button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+
+<main class="main">
+  <header class="topbar">
+    <div class="notification" onclick="showToast('You have no new notifications.')" title="Notifications">♧</div>
+
+    <div class="profile">
+      <button class="profile-btn" onclick="toggleProfile()">
+        <span class="avatar" id="avatar">AC</span>
+        <span>
+          <span class="profile-name" id="profileName">Ankita Chintakindi</span><br>
+          <span class="profile-email" id="profileEmail">Student</span>
+        </span>
+        <span>⌄</span>
+      </button>
+
+      <div class="profile-menu" id="profileMenu">
+        <a href="profile.html">View Profile</a>
+        <a href="settings.html">Settings</a>
+        <button onclick="showHelp()">Help & Support</button>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="content">
+    <div class="page-header">
+      <div>
+        <h1 id="pageTitle">Assessment Test</h1>
+        <p id="pageDescription">Test your technical knowledge and identify areas for improvement.</p>
+      </div>
+      <button class="btn btn-secondary" onclick="goBack()">← Back to Assessments</button>
+    </div>
+
+    <div class="ai-banner">
+      <div class="ai-label">✦ SKILLTWIN AI ASSESSMENT</div>
+      <h2>Test your skills and discover your gaps</h2>
+      <p>Your result helps you identify strengths and areas for improvement.</p>
+    </div>
+
+    <section id="testArea">
+      <div class="test-layout">
+        <div class="test-card">
+          <div class="test-header">
+            <div class="test-title">
+              <div class="test-icon">✓</div>
+              <div>
+                <h2 id="testTitle">JavaScript Fundamentals</h2>
+                <p>Knowledge Assessment</p>
+              </div>
+            </div>
+            <div class="timer" id="timer">20:00</div>
+          </div>
+
+          <div class="question-area">
+            <div class="progress-row">
+              <span id="questionNumber">Question 1 of 10</span>
+              <span id="progressText">0% Complete</span>
+            </div>
+            <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+            <div class="category-badge" id="category">Technical</div>
+            <div class="question" id="question">Loading question...</div>
+            <div class="options" id="options"></div>
+
+            <div class="navigation">
+              <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()">← Previous</button>
+              <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="side-card">
+          <h3>Test Overview</h3>
+          <div class="test-info"><span>Assessment</span><span id="sideAssessment">JavaScript</span></div>
+          <div class="test-info"><span>Questions</span><span id="questionTotal">10</span></div>
+          <div class="test-info"><span>Duration</span><span>20 min</span></div>
+          <div class="test-info"><span>Difficulty</span><span>Beginner</span></div>
+          <div class="test-info"><span>Negative Marking</span><span>No</span></div>
+
+          <div class="question-map">
+            <h3>Questions</h3>
+            <div class="map-grid" id="questionMap"></div>
+            <div class="legend">
+              <div class="legend-item"><span class="legend-dot current"></span>Current</div>
+              <div class="legend-item"><span class="legend-dot answered"></span>Answered</div>
+              <div class="legend-item"><span class="legend-dot"></span>Unanswered</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="result-screen" id="resultScreen">
+      <div class="result-card">
+        <div class="result-icon">✓</div>
+        <h2>Assessment Completed!</h2>
+        <p id="resultSubtitle">Your assessment has been evaluated.</p>
+
+        <div class="score-circle">
+          <strong id="finalScore">0%</strong>
+          <span>Overall Score</span>
+        </div>
+
+        <div class="result-stats">
+          <div class="result-stat"><strong id="correctCount">0</strong><span>Correct</span></div>
+          <div class="result-stat"><strong id="incorrectCount">0</strong><span>Incorrect</span></div>
+          <div class="result-stat"><strong id="unansweredCount">0</strong><span>Unanswered</span></div>
+          <div class="result-stat"><strong id="timeTaken">0:00</strong><span>Time Taken</span></div>
+        </div>
+
+        <div class="analysis">
+          <h3>✦ AI Performance Analysis</h3>
+          <p id="analysisText"></p>
+        </div>
+
+        <div class="review-section">
+          <h3>Question Review</h3>
+          <div id="reviewList"></div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-secondary" onclick="retakeTest()">Retake Assessment</button>
+          <button class="btn btn-primary" onclick="goToSkillGap()">View Skill Gap →</button>
+          <button class="btn btn-submit" onclick="goBack()">Back to Assessments</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">SkillTwin AI · Discover Your Skills. Bridge Your Gaps. Build Your Future.</div>
+  </section>
+</main>
+
+<div class="modal" id="helpModal">
+  <div class="modal-box">
+    <h3>Assessment Help</h3>
+    <p>Select an answer for each question. Use Previous and Next to move between questions, or select a question number in the overview. Your result is calculated when you submit the test or the timer ends.</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeHelp()">Got it</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const questionBanks = {
+  "JavaScript Fundamentals": [
+    {question:"Which keyword declares a block-scoped variable?",options:["var","let","define","variable"],correct:1},
+    {question:"Which method converts JSON text into a JavaScript object?",options:["JSON.parse()","JSON.stringify()","JSON.convert()","JSON.object()"],correct:0},
+    {question:"What does === compare?",options:["Only value","Only type","Value and type","Variable name"],correct:2},
+    {question:"Which method adds an element to the end of an array?",options:["push()","pop()","shift()","unshift()"],correct:0},
+    {question:"Which symbol starts a single-line JavaScript comment?",options:["<!-- -->","//","##","**"],correct:1},
+    {question:"What is typeof [] in JavaScript?",options:["array","object","list","undefined"],correct:1},
+    {question:"Which function executes code after a delay?",options:["setTimeout()","delay()","wait()","setDelay()"],correct:0},
+    {question:"Which option is not a primitive data type?",options:["String","Number","Object","Boolean"],correct:2},
+    {question:"What does DOM stand for?",options:["Document Object Model","Data Object Management","Document Order Method","Digital Object Model"],correct:0},
+    {question:"Which keyword declares a constant?",options:["constant","const","fixed","static"],correct:1}
+  ],
+  "React Development": [
+    {question:"What is React primarily used for?",options:["Database management","Building user interfaces","Operating systems","Network configuration"],correct:1},
+    {question:"What is the HTML-like syntax used in React called?",options:["XML","JSX","SQL","JSON"],correct:1},
+    {question:"Which hook manages component state?",options:["useState","useRoute","usePage","useData"],correct:0},
+    {question:"Which hook is commonly used for side effects?",options:["useEffect","useStyle","useAction","useSide"],correct:0},
+    {question:"Props are used to:",options:["Store database records","Pass data to components","Create CSS files","Start a server"],correct:1},
+    {question:"Which command creates a Vite project?",options:["npm create vite@latest","npm create react-server","npm install react-app","react start vite"],correct:0},
+    {question:"What do React components describe?",options:["SQL tables","User interfaces","CSS only","Database records"],correct:1},
+    {question:"What does a React key help identify?",options:["Database","Elements in a list","CSS color","Browser"],correct:1},
+    {question:"Which file commonly contains the main component?",options:["App.jsx","database.sql","server.exe","style.json"],correct:0},
+    {question:"React is maintained by:",options:["Microsoft","Meta","Google","Amazon"],correct:1}
+  ],
+  "HTML & CSS": [
+    {question:"What does HTML stand for?",options:["HyperText Markup Language","HighText Machine Language","Hyper Transfer Markup Language","Home Tool Markup Language"],correct:0},
+    {question:"Which HTML tag creates a hyperlink?",options:["<link>","<a>","<href>","<url>"],correct:1},
+    {question:"Which tag creates the largest standard heading?",options:["<h6>","<head>","<h1>","<heading>"],correct:2},
+    {question:"Which CSS property changes text color?",options:["font-color","text-color","color","foreground"],correct:2},
+    {question:"Which CSS property controls inner spacing?",options:["margin","padding","spacing","border-space"],correct:1},
+    {question:"Which CSS property controls outer spacing?",options:["padding","margin","outside","space"],correct:1},
+    {question:"Which tag inserts an image?",options:["<image>","<img>","<picture>","<src>"],correct:1},
+    {question:"How do you create a flex container?",options:["display:flex","position:flex","layout:flex","flex:display"],correct:0},
+    {question:"Which attribute provides alternative image text?",options:["src","alt","title","href"],correct:1},
+    {question:"Which element creates a form?",options:["<input>","<form>","<fieldset>","<data>"],correct:1}
+  ],
+  "Node.js Fundamentals": [
+    {question:"Node.js is built on which JavaScript engine?",options:["SpiderMonkey","V8","Chakra","JavaScriptCore"],correct:1},
+    {question:"Node.js is commonly used for:",options:["Server-side development","Image editing","Spreadsheet formatting","Operating system installation"],correct:0},
+    {question:"Which command checks the Node.js version?",options:["node -v","node version","npm node","node check"],correct:0},
+    {question:"Which tool manages Node.js packages?",options:["npm","git","vite","html"],correct:0},
+    {question:"Which file lists project dependencies?",options:["package.json","index.css","database.html","config.jpg"],correct:0},
+    {question:"Which command installs project dependencies?",options:["npm install","npm start-install","node install","package install"],correct:0},
+    {question:"Node.js allows JavaScript to run:",options:["Only inside HTML","Outside the browser","Only inside CSS","Only inside databases"],correct:1},
+    {question:"Which built-in module can create an HTTP server?",options:["http","server","web","request"],correct:0},
+    {question:"Which is a common JavaScript file extension?",options:[".js",".css",".sql",".jpg"],correct:0},
+    {question:"Node.js is commonly used to build:",options:["Backend services","Image files","CSS selectors","Slide decks only"],correct:0}
+  ],
+  "SQL & DBMS": [
+    {question:"What does SQL stand for?",options:["Structured Query Language","Simple Query Language","System Query Logic","Structured Question Language"],correct:0},
+    {question:"Which command retrieves data?",options:["SELECT","GET","FETCH","READ"],correct:0},
+    {question:"Which command adds a new record?",options:["INSERT","ADD","CREATE ROW","APPEND"],correct:0},
+    {question:"Which command modifies existing records?",options:["UPDATE","MODIFY","CHANGE","ALTER ROW"],correct:0},
+    {question:"Which command removes records?",options:["DELETE","REMOVE","DROP ROW","CLEAR"],correct:0},
+    {question:"A primary key should be:",options:["Unique","Always a string","Always negative","Optional in every table"],correct:0},
+    {question:"Which clause filters records?",options:["WHERE","FILTER","WHEN","HAVING ONLY"],correct:0},
+    {question:"Which clause sorts results?",options:["ORDER BY","SORT","SORT BY","ARRANGE"],correct:0},
+    {question:"Which command creates a table?",options:["CREATE TABLE","NEW TABLE","ADD TABLE","MAKE TABLE"],correct:0},
+    {question:"What does DBMS stand for?",options:["Database Management System","Data Backup Management Software","Database Machine System","Digital Base Management System"],correct:0}
+  ],
+  "Python Programming": [
+    {question:"Which keyword defines a function in Python?",options:["function","def","func","define"],correct:1},
+    {question:"Which symbol starts a Python comment?",options:["//","#","<!-- -->","**"],correct:1},
+    {question:"Which data type stores key-value pairs?",options:["List","Tuple","Dictionary","Set"],correct:2},
+    {question:"Which function displays output?",options:["print()","display()","show()","output()"],correct:0},
+    {question:"Which function returns the length of an object?",options:["length()","len()","size()","count()"],correct:1},
+    {question:"Which keyword starts a condition?",options:["if","when","condition","check"],correct:0},
+    {question:"What is the usual Python file extension?",options:[".py",".python",".pt",".pyt"],correct:0},
+    {question:"Which structure is ordered and mutable?",options:["Tuple","List","Set","FrozenSet"],correct:1},
+    {question:"Which keyword starts a loop over a sequence?",options:["for","loop","iterate","repeat"],correct:0},
+    {question:"Python is generally described as:",options:["A high-level programming language","A database","An operating system","A markup language"],correct:0}
+  ],
+  "MongoDB Basics": [
+    {question:"MongoDB is a:",options:["Relational database","NoSQL database","Programming language","Frontend framework"],correct:1},
+    {question:"MongoDB stores data primarily as:",options:["Documents","Rows only","Spreadsheets","HTML files"],correct:0},
+    {question:"MongoDB documents use a JSON-like structure.",options:["True","False","Only in SQL mode","Only in HTML"],correct:0},
+    {question:"Which shell is used with modern MongoDB installations?",options:["mongosh","mongo-start","mongodb-shell","dbshell"],correct:0},
+    {question:"A group of MongoDB documents is called a:",options:["Collection","Table","Row","Sheet"],correct:0},
+    {question:"What is the default unique identifier field?",options:["_id","id","primary_id","key"],correct:0},
+    {question:"Which method inserts one document?",options:["insertOne()","addOne()","createOne()","pushOne()"],correct:0},
+    {question:"Which method retrieves documents?",options:["find()","select()","getRows()","fetchDataOnly()"],correct:0},
+    {question:"MongoDB is commonly used with:",options:["Node.js","Only C","Only HTML","Only CSS"],correct:0},
+    {question:"MongoDB Atlas is:",options:["A cloud database service","A CSS framework","A JavaScript compiler","A Git client"],correct:0}
+  ]
+};
+
+let selectedAssessment = localStorage.getItem("selected_assessment") || "JavaScript Fundamentals";
+let questions = questionBanks[selectedAssessment] || questionBanks["JavaScript Fundamentals"];
+let answers = Array(questions.length).fill(null);
+let current = 0;
+let secondsLeft = 20 * 60;
+let elapsedSeconds = 0;
+let timerInterval = null;
+let finished = false;
+
+const $ = id => document.getElementById(id);
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  })[ch]);
+}
+
+function initializeUser() {
+  let user = {};
+  try {
+    user = JSON.parse(localStorage.getItem("skilltwin_user") || "{}") || {};
+  } catch(e) {}
+
+  const name = user.name || "Ankita Chintakindi";
+  $("profileName").textContent = name;
+  $("profileEmail").textContent = user.email || "Student Account";
+  $("avatar").textContent = name.split(/\s+/).filter(Boolean).slice(0,2).map(x => x[0]).join("").toUpperCase() || "AC";
+}
+
+function initializeTest() {
+  $("testTitle").textContent = selectedAssessment;
+  $("sideAssessment").textContent = selectedAssessment;
+  $("questionTotal").textContent = questions.length;
+  $("questionNumber").textContent = `Question 1 of ${questions.length}`;
+  $("category").textContent = selectedAssessment;
+  renderQuestion();
+  renderMap();
+  startTimer();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+
+  $("questionNumber").textContent = `Question ${current + 1} of ${questions.length}`;
+  $("progressText").textContent = `${Math.round(current / questions.length * 100)}% Complete`;
+  $("progressBar").style.width = `${current / questions.length * 100}%`;
+  $("category").textContent = selectedAssessment;
+  $("question").textContent = q.question;
+
+  $("options").innerHTML = q.options.map((option,index) => `
+    <div class="option ${answers[current] === index ? "selected" : ""}"
+         role="button" tabindex="0" data-index="${index}">
+      <span class="option-letter">${String.fromCharCode(65 + index)}</span>
+      <span class="option-text">${escapeHTML(option)}</span>
+    </div>
+  `).join("");
+
+  $("options").querySelectorAll(".option").forEach(option => {
+    const choose = () => selectAnswer(Number(option.dataset.index));
+
+    option.addEventListener("click", choose);
+    option.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        choose();
+      }
+    });
+  });
+
+  $("prevBtn").disabled = current === 0;
+  $("prevBtn").style.opacity = current === 0 ? ".5" : "1";
+  $("nextBtn").textContent = current === questions.length - 1 ? "Submit Test ✓" : "Next →";
+
+  renderMap();
+}
+
+function selectAnswer(index) {
+  if (finished) return;
+  answers[current] = index;
+  renderQuestion();
+}
+
+function renderMap() {
+  $("questionMap").innerHTML = questions.map((q,index) => `
+    <button class="map-btn ${index === current ? "current" : answers[index] !== null ? "answered" : ""}"
+      onclick="goToQuestion(${index})" aria-label="Go to question ${index + 1}">
+      ${index + 1}
+    </button>
+  `).join("");
+}
+
+function goToQuestion(index) {
+  if (finished) return;
+  current = index;
+  renderQuestion();
+}
+
+function nextQuestion() {
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    const unanswered = answers.filter(answer => answer === null).length;
+
+    if (unanswered > 0) {
+      if (!confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)) return;
+    }
+
+    submitTest();
+  }
+}
+
+function previousQuestion() {
+  if (current > 0) {
+    current--;
+    renderQuestion();
+  }
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    if (finished) {
+      clearInterval(timerInterval);
+      return;
+    }
+
+    secondsLeft--;
+    elapsedSeconds++;
+
+    const minutes = Math.floor(secondsLeft / 60);
+    const seconds = secondsLeft % 60;
+
+    $("timer").textContent =
+      `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+
+    if (secondsLeft <= 60) {
+      $("timer").style.background = "#FEE2E2";
+      $("timer").style.color = "#B91C1C";
+    }
+
+    if (secondsLeft <= 0) {
+      clearInterval(timerInterval);
+      submitTest();
+    }
+  },1000);
+}
+
+function submitTest() {
+  if (finished) return;
+
+  finished = true;
+  clearInterval(timerInterval);
+
+  const correct = answers.filter((answer,index) => answer === questions[index].correct).length;
+  const unanswered = answers.filter(answer => answer === null).length;
+  const incorrect = questions.length - correct - unanswered;
+  const score = Math.round((correct / questions.length) * 100);
+
+  $("testArea").style.display = "none";
+  $("resultScreen").style.display = "block";
+
+  $("finalScore").textContent = `${score}%`;
+  $("correctCount").textContent = correct;
+  $("incorrectCount").textContent = incorrect;
+  $("unansweredCount").textContent = unanswered;
+
+  const timeUsed = elapsedSeconds;
+  $("timeTaken").textContent =
+    `${Math.floor(timeUsed / 60)}:${String(timeUsed % 60).padStart(2,"0")}`;
+
+  $("resultSubtitle").textContent =
+    `You scored ${score}% in ${selectedAssessment}.`;
+
+  let analysis = score >= 80
+    ? "Excellent work! You demonstrated a strong understanding of this topic. Continue practising advanced concepts and real-world projects."
+    : score >= 60
+    ? "Good progress. Review the questions you missed, practise the relevant concepts, and retake the assessment to improve your score."
+    : "Use this result as a learning guide. Review the fundamentals, practise with examples, and retake the assessment after studying.";
+
+  if (unanswered > 0) analysis += ` You left ${unanswered} question(s) unanswered.`;
+  $("analysisText").textContent = analysis;
+
+  $("reviewList").innerHTML = questions.map((q,index) => {
+    const answer = answers[index];
+    const isCorrect = answer === q.correct;
+    const answerText = answer === null ? "Not answered" : q.options[answer];
+    const answerClass = answer === null ? "unanswered-answer" : isCorrect ? "correct-answer" : "wrong-answer";
+
+    return `
+      <div class="review-item">
+        <div class="review-question">${index + 1}. ${escapeHTML(q.question)}</div>
+        <div class="review-answer ${answerClass}">Your answer: ${escapeHTML(answerText)}</div>
+        <div class="review-answer correct-answer">Correct answer: ${escapeHTML(q.options[q.correct])}</div>
+      </div>
+    `;
+  }).join("");
+
+  saveResult(score,correct,incorrect,unanswered);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function saveResult(score,correct,incorrect,unanswered) {
+  const result = {
+    assessment:selectedAssessment,
+    percentage:score,
+    correct,
+    incorrect,
+    unanswered,
+    date:new Date().toISOString()
+  };
+
+  let results = [];
+
+  try {
+    results = JSON.parse(localStorage.getItem("assessment_results") || "[]");
+  } catch(e) {}
+
+  if (!Array.isArray(results)) results = [];
+
+  results.push(result);
+
+  localStorage.setItem("assessment_results",JSON.stringify(results));
+  localStorage.setItem("latest_assessment_result",JSON.stringify(result));
+}
+
+function retakeTest() {
+  answers = Array(questions.length).fill(null);
+  current = 0;
+  secondsLeft = 20 * 60;
+  elapsedSeconds = 0;
+  finished = false;
+
+  $("timer").textContent = "20:00";
+  $("timer").style.background = "";
+  $("timer").style.color = "";
+  $("testArea").style.display = "block";
+  $("resultScreen").style.display = "none";
+
+  renderQuestion();
+  startTimer();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function goBack() {
+  window.location.href = "assessments.html";
+}
+
+function goToSkillGap() {
+  window.location.href = "skill-gap.html";
+}
+
+function toggleProfile() {
+  $("profileMenu").classList.toggle("show");
+}
+
+document.addEventListener("click", event => {
+  const profile = document.querySelector(".profile");
+
+  if (profile && !profile.contains(event.target)) {
+    $("profileMenu").classList.remove("show");
+  }
+});
+
+function toggleSidebar() {
+  $("sidebar").classList.toggle("open");
+}
+
+function showHelp() {
+  $("profileMenu").classList.remove("show");
+  $("helpModal").classList.add("show");
+}
+
+function closeHelp() {
+  $("helpModal").classList.remove("show");
+}
+
+$("helpModal").addEventListener("click", event => {
+  if (event.target === $("helpModal")) closeHelp();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeHelp();
+    $("profileMenu").classList.remove("show");
+  }
+});
+
+function logout() {
+  if (confirm("Are you sure you want to log out?")) {
+    localStorage.removeItem("skilltwin_user");
+    window.location.href = "login.html";
+  }
+}
+
+function showToast(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(showToast.timeout);
+  showToast.timeout = setTimeout(() => toast.classList.remove("show"),2500);
+}
+
+initializeUser();
+initializeTest();
+</script>
+</body>
+</html>

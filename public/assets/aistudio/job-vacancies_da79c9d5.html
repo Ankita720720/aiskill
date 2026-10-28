@@ -1,0 +1,1489 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Vacancies | SkillTwin AI</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background: #f3f7fc;
+    color: #334155;
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+
+:root {
+    --navy: #0b1f3a;
+    --purple: #5b2eff;
+    --teal: #00a88f;
+    --bg: #f3f7fc;
+    --border: #e2e8f0;
+    --muted: #64748b;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    background: var(--navy);
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+    transition: .3s;
+}
+
+.logo {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    border-bottom: 1px solid #ffffff14;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--purple), var(--teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 18px;
+    margin-right: 11px;
+}
+
+.logo-text { font-size: 19px; font-weight: 750; }
+.logo-text span { color: #8f75ff; }
+
+.nav { padding: 18px 12px 30px; }
+
+.nav-section {
+    color: #7f91aa;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    padding: 15px 12px 8px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 13px;
+    margin: 3px 0;
+    color: #b9c6d8;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 13px;
+    transition: .2s;
+}
+
+.nav-item:hover { background: #ffffff12; color: white; }
+
+.nav-item.active {
+    background: var(--purple);
+    color: white;
+    box-shadow: 0 6px 18px #5b2eff40;
+}
+
+.nav-icon { width: 20px; text-align: center; font-size: 16px; }
+
+/* MAIN */
+
+.main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    min-height: 100vh;
+}
+
+/* TOP BAR */
+
+.topbar {
+    height: 75px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.topbar-title { font-size: 16px; color: var(--navy); font-weight: 700; }
+
+.top-actions { display: flex; align-items: center; gap: 20px; }
+
+.notification { position: relative; font-size: 20px; cursor: pointer; }
+
+.notification-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: #ef4444;
+    border-radius: 50%;
+    right: -1px;
+    top: 0;
+    border: 2px solid white;
+}
+
+.profile { position: relative; }
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ede9fe;
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.profile-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 51px;
+    width: 200px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 15px 35px #0f172a1f;
+    overflow: hidden;
+}
+
+.profile-menu.show { display: block; }
+
+.profile-head { padding: 14px; border-bottom: 1px solid #eef2f7; }
+.profile-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+.profile-email { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+
+.profile-menu a, .profile-menu button {
+    display: block;
+    width: 100%;
+    padding: 11px 14px;
+    background: white;
+    color: #475569;
+    text-align: left;
+    text-decoration: none;
+    font-size: 12px;
+    border: none;
+}
+
+.profile-menu a:hover, .profile-menu button:hover {
+    background: #f8fafc;
+    color: var(--purple);
+}
+
+.logout { color: #ef4444 !important; }
+
+/* CONTENT */
+
+.content {
+    padding: 30px 34px 50px;
+    max-width: 1500px;
+    margin: auto;
+}
+
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 22px;
+    gap: 20px;
+}
+
+.page-heading h1 {
+    color: var(--navy);
+    font-size: 28px;
+    margin-bottom: 7px;
+}
+
+.page-heading p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+/* AI BANNER */
+
+.ai-banner {
+    background: linear-gradient(135deg, var(--navy), #172d4d);
+    border-radius: 15px;
+    padding: 22px 25px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.ai-banner-left { display: flex; align-items: center; gap: 15px; }
+
+.ai-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--purple), var(--teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    flex-shrink: 0;
+}
+
+.ai-banner h3 { font-size: 15px; margin-bottom: 5px; }
+.ai-banner p { color: #b9c6d8; font-size: 11px; line-height: 1.6; }
+
+.ai-banner button {
+    background: var(--purple);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+/* NOTICE */
+
+.notice {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #9a3412;
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 11px;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+
+/* SEARCH */
+
+.search-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-box { flex: 1; min-width: 200px; }
+
+.search-box input {
+    width: 100%;
+    height: 42px;
+    border: 1px solid #dbe3ed;
+    border-radius: 8px;
+    padding: 0 14px;
+    outline: none;
+    font-size: 12px;
+}
+
+.search-box input:focus { border-color: var(--purple); }
+
+.search-card select {
+    min-width: 145px;
+    border: 1px solid #dbe3ed;
+    border-radius: 8px;
+    padding: 0 10px;
+    height: 42px;
+    outline: none;
+    font-size: 11px;
+    color: #475569;
+    background: white;
+}
+
+.search-btn {
+    background: var(--purple);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 18px;
+    font-size: 11px;
+    font-weight: 650;
+}
+
+/* CATEGORY BUTTONS */
+
+.categories { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+
+.category-btn {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: #475569;
+    font-size: 10px;
+}
+
+.category-btn:hover, .category-btn.active {
+    background: #ede9fe;
+    color: var(--purple);
+    border-color: #c4b5fd;
+}
+
+/* TWO-COLUMN LAYOUT */
+
+.job-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+}
+
+.jobs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 13px;
+    gap: 10px;
+}
+
+.jobs-header h3 { color: var(--navy); font-size: 15px; }
+.jobs-header span { color: #94a3b8; font-size: 10px; }
+
+.jobs-list { display: grid; gap: 13px; }
+
+/* JOB CARDS */
+
+.job-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    transition: .2s;
+}
+
+.job-card:hover {
+    border-color: #c9befc;
+    box-shadow: 0 8px 25px #0f172a0f;
+}
+
+.job-top { display: flex; justify-content: space-between; gap: 15px; }
+
+.company-logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    background: #ede9fe;
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.job-main { flex: 1; }
+
+.job-title { color: var(--navy); font-size: 14px; font-weight: 750; margin-bottom: 5px; }
+.company { color: var(--muted); font-size: 11px; line-height: 1.6; }
+
+.match {
+    background: #e6f7f4;
+    color: #008f7a;
+    border-radius: 20px;
+    padding: 6px 9px;
+    height: max-content;
+    font-size: 10px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.job-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+
+.meta {
+    background: #f8fafc;
+    border: 1px solid #edf1f6;
+    color: #64748b;
+    padding: 6px 9px;
+    border-radius: 6px;
+    font-size: 10px;
+}
+
+.job-description { color: var(--muted); font-size: 11px; line-height: 1.7; margin-bottom: 13px; }
+
+.skills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
+
+.skill-tag {
+    background: #f3f7fc;
+    color: #475569;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 9px;
+}
+
+.job-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    border-top: 1px solid #eef2f7;
+    padding-top: 14px;
+}
+
+.apply-btn, .save-btn {
+    border-radius: 8px;
+    padding: 9px 13px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.apply-btn { background: var(--purple); color: white; border: none; }
+.save-btn { background: white; color: #64748b; border: 1px solid #dbe3ed; }
+.save-btn.saved { background: #ede9fe; color: var(--purple); border-color: #d9d0ff; }
+
+/* RIGHT SIDE PANELS */
+
+.side-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.side-card h3 { color: var(--navy); font-size: 14px; margin-bottom: 15px; }
+
+.readiness { text-align: center; }
+
+.readiness-circle {
+    width: 105px;
+    height: 105px;
+    margin: 5px auto 13px;
+    border-radius: 50%;
+    background: conic-gradient(var(--purple) 245deg, #ede9fe 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.readiness-circle::after {
+    content: "";
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.readiness-number {
+    position: relative;
+    z-index: 2;
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--navy);
+}
+
+.readiness p { color: var(--muted); font-size: 10px; line-height: 1.7; }
+
+.gap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.gap:last-child { border: none; }
+.gap-name { font-size: 11px; color: #475569; }
+
+.gap-level { font-size: 9px; padding: 4px 7px; border-radius: 20px; }
+.high { background: #fef2f2; color: #dc2626; }
+.medium { background: #fff7ed; color: #c2410c; }
+
+.quick-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f5f9;
+    text-decoration: none;
+    color: #475569;
+    font-size: 11px;
+}
+
+.quick-action:last-child { border: none; }
+.quick-action:hover { color: var(--purple); }
+
+.quick-icon {
+    width: 30px;
+    height: 30px;
+    background: #f3f7fc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* EXTRA JOB PORTALS */
+
+.portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.portal-link {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-decoration: none;
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 700;
+    display: block;
+}
+
+.portal-link small {
+    display: block;
+    color: var(--muted);
+    font-weight: 400;
+    line-height: 1.5;
+    margin-top: 5px;
+}
+
+.portal-link:hover { border-color: var(--purple); background: #faf9ff; }
+
+/* MODAL */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: #0b1f3a99;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 20px;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+    background: white;
+    width: 550px;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 16px;
+    padding: 25px;
+    position: relative;
+}
+
+.modal h2 { color: var(--navy); font-size: 19px; margin-bottom: 5px; }
+.modal-company { color: var(--muted); font-size: 11px; margin-bottom: 18px; }
+.modal-section { margin-bottom: 17px; }
+.modal-section h4 { color: var(--navy); font-size: 12px; margin-bottom: 7px; }
+.modal-section p, .modal-section li { color: var(--muted); font-size: 11px; line-height: 1.7; }
+.modal-section ul { padding-left: 18px; }
+
+.modal-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+
+.btn { padding: 10px 15px; border-radius: 8px; font-size: 11px; font-weight: 650; border: none; }
+.btn-outline { background: white; color: #475569; border: 1px solid #dbe3ed; }
+.btn-primary { background: var(--purple); color: white; }
+
+.close-modal {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    border: none;
+    background: #f1f5f9;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 19px;
+}
+
+/* TOAST */
+
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    background: var(--navy);
+    color: white;
+    padding: 12px 17px;
+    border-radius: 9px;
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(15px);
+    pointer-events: none;
+    transition: .3s;
+    z-index: 500;
+}
+
+.toast.show { opacity: 1; transform: translateY(0); }
+
+.mobile-menu {
+    display: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: #f3f7fc;
+    color: var(--navy);
+    border: none;
+    font-size: 18px;
+}
+
+.empty {
+    background: white;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.footer { color: #94a3b8; font-size: 10px; text-align: center; padding: 25px 0; }
+
+@media(max-width:1150px) {
+    .job-layout { grid-template-columns: 1fr; }
+}
+
+@media(max-width:800px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; width: 100%; }
+    .topbar { padding: 0 18px; }
+    .mobile-menu { display: block; }
+    .content { padding: 22px 17px 40px; }
+    .ai-banner { flex-direction: column; align-items: flex-start; }
+    .search-card { flex-direction: column; }
+    .search-card select { width: 100%; }
+}
+
+@media(max-width:500px) {
+    .page-heading { flex-direction: column; }
+    .job-top { flex-wrap: wrap; }
+    .portal-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<!-- SIDEBAR: ORIGINAL NAVIGATION -->
+<aside class="sidebar" id="sidebar">
+    <div class="logo">
+        <div class="logo-icon">S</div>
+        <div class="logo-text">Skill<span>Twin</span> AI</div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-section">MAIN</div>
+        <a href="index.html" class="nav-item"><span class="nav-icon">⌂</span>Dashboard</a>
+        <a href="resume.html" class="nav-item"><span class="nav-icon">▤</span>Resume Analyzer</a>
+        <a href="assessment.html" class="nav-item"><span class="nav-icon">✓</span>Assessments</a>
+        <a href="skill-gap.html" class="nav-item"><span class="nav-icon">◈</span>Skill Gap</a>
+        <a href="roadmap.html" class="nav-item"><span class="nav-icon">⌁</span>Career Path</a>
+
+        <div class="nav-section">LEARN</div>
+        <a href="courses.html" class="nav-item"><span class="nav-icon">▣</span>Learning Resources</a>
+        <a href="projects.html" class="nav-item"><span class="nav-icon">◆</span>Projects</a>
+
+        <div class="nav-section">CAREER</div>
+        <a href="interview.html" class="nav-item"><span class="nav-icon">◉</span>Mock Interview</a>
+        <a href="job-vacancies.html" class="nav-item active"><span class="nav-icon">▥</span>Job Vacancies</a>
+
+        <div class="nav-section">INSIGHTS</div>
+        <a href="reports.html" class="nav-item"><span class="nav-icon">◫</span>Analytics & Reports</a>
+
+        <div class="nav-section">SYSTEM</div>
+        <a href="settings.html" class="nav-item"><span class="nav-icon">⚙</span>Settings</a>
+    </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+    <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+    <div class="topbar-title">Career Opportunities</div>
+
+    <div class="top-actions">
+        <div class="notification" onclick="showToast('No new notifications')" title="Notifications">
+            ♧ <span class="notification-dot"></span>
+        </div>
+
+        <div class="profile">
+            <div class="avatar" id="avatar" onclick="toggleProfile()">AC</div>
+
+            <div class="profile-menu" id="profileMenu">
+                <div class="profile-head">
+                    <div class="profile-name" id="profileName">Student Profile</div>
+                    <div class="profile-email" id="profileEmail">Career Explorer</div>
+                </div>
+                <a href="profile.html">View Profile</a>
+                <a href="settings.html">Settings</a>
+                <a href="settings.html">Help & Support</a>
+                <button class="logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="content">
+
+    <div class="page-heading">
+        <div>
+            <h1>Job Vacancies</h1>
+            <p>Explore internships, full-time jobs, part-time work and opportunities from startups to global companies.</p>
+        </div>
+    </div>
+
+    <div class="ai-banner">
+        <div class="ai-banner-left">
+            <div class="ai-icon">✦</div>
+            <div>
+                <h3>AI Career Matching</h3>
+                <p id="careerMessage">Discover jobs that match your skills, interests and career goals.</p>
+            </div>
+        </div>
+        <button onclick="goSkillGap()">Improve Skill Match →</button>
+    </div>
+
+    <div class="notice">
+        <strong>Important:</strong> Job cards help you discover roles and job sources. Current vacancies can change. Use the official job-detail link when available; otherwise, open the official career portal or job-search source and verify the listing before applying.
+    </div>
+
+    <!-- SEARCH AND FILTERS -->
+    <div class="search-card">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search jobs, companies or skills..." oninput="filterJobs()">
+        </div>
+
+        <select id="locationFilter" onchange="filterJobs()">
+            <option value="all">All Locations</option>
+            <option value="Remote">Remote</option>
+            <option value="Bengaluru">Bengaluru</option>
+            <option value="Pune">Pune</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="India">India</option>
+        </select>
+
+        <select id="typeFilter" onchange="filterJobs()">
+            <option value="all">All Job Types</option>
+            <option value="Internship">Internship</option>
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Freelance">Freelance</option>
+            <option value="Contract">Contract</option>
+            <option value="Apprenticeship">Apprenticeship</option>
+            <option value="Entry Level">Entry Level</option>
+        </select>
+
+        <select id="companyFilter" onchange="filterJobs()">
+            <option value="all">All Companies</option>
+            <option value="Startup">Startups</option>
+            <option value="Small Business">Small Businesses</option>
+            <option value="Growing Company">Growing Companies</option>
+            <option value="MNC">MNCs</option>
+            <option value="Job Platform">Job Platforms</option>
+        </select>
+
+        <button class="search-btn" onclick="filterJobs()">Search</button>
+    </div>
+
+    <div class="categories" id="categories">
+        <button class="category-btn active" data-category="all">All Opportunities</button>
+        <button class="category-btn" data-category="Technology">💻 IT & Technology</button>
+        <button class="category-btn" data-category="Data & AI">📊 Data & AI</button>
+        <button class="category-btn" data-category="Marketing">📢 Marketing</button>
+        <button class="category-btn" data-category="Design">🎨 Design</button>
+        <button class="category-btn" data-category="Business">💼 Business & Sales</button>
+        <button class="category-btn" data-category="Finance">💰 Finance</button>
+        <button class="category-btn" data-category="HR">👥 HR</button>
+    </div>
+
+    <div class="job-layout">
+
+        <!-- LEFT: JOBS -->
+        <div>
+            <div class="jobs-header">
+                <h3 id="listHeading">Recommended Opportunities</h3>
+                <span id="jobCount">Loading...</span>
+            </div>
+
+            <div class="jobs-list" id="jobsList"></div>
+
+            <div class="side-card" style="margin-top:20px">
+                <h3>Explore More Job Websites</h3>
+                <div class="portal-grid" id="portalGrid"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT: ORIGINAL SIDE PANELS -->
+        <div>
+            <div class="side-card readiness">
+                <h3>Job Readiness</h3>
+                <div class="readiness-circle">
+                    <span class="readiness-number" id="readinessNumber">68%</span>
+                </div>
+                <p>Complete your skill gaps, assessments and mock interviews to improve your preparation.</p>
+                <a class="quick-action" href="skill-gap.html" style="justify-content:center;margin-top:12px">Improve My Readiness →</a>
+            </div>
+
+            <div class="side-card">
+                <h3>Skills To Improve</h3>
+                <div class="gap"><span class="gap-name">Node.js</span><span class="gap-level high">High</span></div>
+                <div class="gap"><span class="gap-name">SQL</span><span class="gap-level high">High</span></div>
+                <div class="gap"><span class="gap-name">Communication</span><span class="gap-level medium">Medium</span></div>
+                <div class="gap"><span class="gap-name">Git & GitHub</span><span class="gap-level medium">Medium</span></div>
+                <a href="skill-gap.html" class="quick-action">View Complete Skill Gap →</a>
+            </div>
+
+            <div class="side-card">
+                <h3>Quick Actions</h3>
+                <a href="resume.html" class="quick-action"><span class="quick-icon">▤</span>Improve Resume</a>
+                <a href="assessment.html" class="quick-action"><span class="quick-icon">✓</span>Take Skill Assessment</a>
+                <a href="interview.html" class="quick-action"><span class="quick-icon">◉</span>Practice Interview</a>
+                <a href="roadmap.html" class="quick-action"><span class="quick-icon">⌁</span>View Career Roadmap</a>
+            </div>
+
+            <div class="side-card">
+                <h3>Saved Jobs</h3>
+                <p id="savedSummary" style="font-size:11px;color:#64748b;line-height:1.7">You have not saved any jobs yet.</p>
+                <button class="btn btn-primary" style="margin-top:12px;width:100%" onclick="showSavedJobs()">View Saved Jobs</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        SkillTwin AI · Discover Your Skills. Bridge Your Gaps. Build Your Future.
+    </div>
+</section>
+</main>
+</div>
+
+<!-- JOB DETAILS MODAL -->
+<div class="modal-overlay" id="jobModal" onclick="closeOnBackdrop(event)">
+    <div class="modal">
+        <button class="close-modal" onclick="closeJobModal()" aria-label="Close">×</button>
+        <h2 id="modalTitle">Job Title</h2>
+        <div class="modal-company" id="modalCompany"></div>
+
+        <div class="modal-section">
+            <h4>Role Overview</h4>
+            <p id="modalDescription"></p>
+        </div>
+
+        <div class="modal-section">
+            <h4>Skills / Search Keywords</h4>
+            <ul id="modalSkills"></ul>
+        </div>
+
+        <div class="modal-section">
+            <h4>Before You Apply</h4>
+            <p id="modalNotice"></p>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeJobModal()">Close</button>
+            <button class="btn btn-primary" onclick="applyFromModal()">Open Official Website ↗</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/*
+  Add verified individual job links in jobDetailUrl.
+  If no exact vacancy link is known, the Apply button opens
+  the official careers page or job-search portal instead.
+*/
+
+const jobs = [
+    {
+        id: 1,
+        title: "Software Development Intern",
+        company: "Startup Jobs — Wellfound",
+        initials: "WF",
+        companyType: "Startup",
+        location: "India",
+        type: "Internship",
+        category: "Technology",
+        salary: "Check listing",
+        match: 88,
+        description: "Explore software development internships at startups and early-stage companies. Search current listings for the exact role and eligibility.",
+        skills: ["JavaScript", "React", "Git"],
+        url: "https://wellfound.com/jobs",
+        jobDetailUrl: ""
+    },
+    {
+        id: 2,
+        title: "Frontend Developer / Intern",
+        company: "Internshala Opportunities",
+        initials: "IS",
+        companyType: "Job Platform",
+        location: "India",
+        type: "Internship",
+        category: "Technology",
+        salary: "Check listing",
+        match: 86,
+        description: "Search internships and fresher opportunities in web development, design, marketing, and other fields.",
+        skills: ["HTML", "CSS", "JavaScript"],
+        url: "https://internshala.com/internships/",
+        jobDetailUrl: ""
+    },
+    {
+        id: 3,
+        title: "Part-time and Remote Opportunities",
+        company: "LinkedIn Jobs",
+        initials: "LI",
+        companyType: "Job Platform",
+        location: "Remote",
+        type: "Part-time",
+        category: "Business",
+        salary: "Check listing",
+        match: 80,
+        description: "Search part-time and remote opportunities across startups, small businesses, and established employers.",
+        skills: ["Communication", "Time Management"],
+        url: "https://www.linkedin.com/jobs/",
+        jobDetailUrl: ""
+    },
+    {
+        id: 4,
+        title: "Startup Software Engineer",
+        company: "Y Combinator Startup Jobs",
+        initials: "YC",
+        companyType: "Startup",
+        location: "India",
+        type: "Full-time",
+        category: "Technology",
+        salary: "Check listing",
+        match: 84,
+        description: "Explore engineering roles at startups. Search the live portal for open positions, locations, and application instructions.",
+        skills: ["Python", "JavaScript", "Problem Solving"],
+        url: "https://www.ycombinator.com/jobs/role/all/india",
+        jobDetailUrl: ""
+    },
+    {
+        id: 5,
+        title: "Graduate Engineer / Developer",
+        company: "Tata Consultancy Services",
+        initials: "TCS",
+        companyType: "MNC",
+        location: "India",
+        type: "Entry Level",
+        category: "Technology",
+        salary: "Check listing",
+        match: 82,
+        description: "Use the official careers portal to find current software, graduate, and technology opportunities.",
+        skills: ["Programming", "SQL", "Problem Solving"],
+        url: "https://www.tcs.com/careers/india",
+        jobDetailUrl: ""
+    },
+    {
+        id: 6,
+        title: "Software Engineer / Systems Engineer",
+        company: "Infosys",
+        initials: "IN",
+        companyType: "MNC",
+        location: "India",
+        type: "Full-time",
+        category: "Technology",
+        salary: "Check listing",
+        match: 79,
+        description: "Search official Infosys vacancies and verify experience, eligibility, location, and job requirements.",
+        skills: ["Java", "SQL", "Testing"],
+        url: "https://career.infosys.com/jobs?countrycode=IN",
+        jobDetailUrl: ""
+    },
+    {
+        id: 7,
+        title: "Graduate and Technology Roles",
+        company: "Wipro",
+        initials: "WP",
+        companyType: "MNC",
+        location: "India",
+        type: "Entry Level",
+        category: "Technology",
+        salary: "Check listing",
+        match: 78,
+        description: "Browse official Wipro careers listings for technology roles, graduate opportunities, and other openings.",
+        skills: ["Java", "Python", "Communication"],
+        url: "https://careers.wipro.com/go/India/9649255/",
+        jobDetailUrl: ""
+    },
+    {
+        id: 8,
+        title: "Application Development Roles",
+        company: "Accenture",
+        initials: "AC",
+        companyType: "MNC",
+        location: "India",
+        type: "Full-time",
+        category: "Technology",
+        salary: "Check listing",
+        match: 77,
+        description: "Explore software, application development, consulting, and technology roles on the official careers website.",
+        skills: ["Java", "APIs", "Cloud"],
+        url: "https://www.accenture.com/in-en/careers",
+        jobDetailUrl: ""
+    },
+    {
+        id: 9,
+        title: "Software Engineering Opportunities",
+        company: "Microsoft",
+        initials: "MS",
+        companyType: "MNC",
+        location: "India",
+        type: "Full-time",
+        category: "Technology",
+        salary: "Check listing",
+        match: 75,
+        description: "Search Microsoft's official careers portal for software engineering and other current openings.",
+        skills: ["Algorithms", "Python", "Cloud"],
+        url: "https://careers.microsoft.com/v2/global/en/locations/india.html",
+        jobDetailUrl: ""
+    },
+    {
+        id: 10,
+        title: "Associate Developer / Data Roles",
+        company: "IBM",
+        initials: "IBM",
+        companyType: "MNC",
+        location: "India",
+        type: "Full-time",
+        category: "Data & AI",
+        salary: "Check listing",
+        match: 76,
+        description: "Explore software, data, AI, cloud, and early-career opportunities on IBM's official careers website.",
+        skills: ["Python", "SQL", "Cloud"],
+        url: "https://www.ibm.com/in-en/careers",
+        jobDetailUrl: ""
+    },
+    {
+        id: 11,
+        title: "Digital Marketing and Business Roles",
+        company: "Naukri Job Search",
+        initials: "NK",
+        companyType: "Job Platform",
+        location: "India",
+        type: "Full-time",
+        category: "Marketing",
+        salary: "Check listing",
+        match: 81,
+        description: "Search current openings from companies of different sizes across marketing, sales, operations, and business.",
+        skills: ["SEO", "Communication", "Analytics"],
+        url: "https://www.naukri.com/",
+        jobDetailUrl: ""
+    },
+    {
+        id: 12,
+        title: "Apprenticeship and Trainee Roles",
+        company: "Apprenticeship India",
+        initials: "AI",
+        companyType: "Job Platform",
+        location: "India",
+        type: "Apprenticeship",
+        category: "Business",
+        salary: "Check listing",
+        match: 80,
+        description: "Explore apprenticeship and training opportunities, then check the current official listing for eligibility.",
+        skills: ["Learning", "Communication", "Technical Skills"],
+        url: "https://www.apprenticeshipindia.gov.in/",
+        jobDetailUrl: ""
+    },
+    {
+        id: 13,
+        title: "Startup and Small Business Jobs",
+        company: "Indeed India",
+        initials: "ID",
+        companyType: "Job Platform",
+        location: "India",
+        type: "Part-time",
+        category: "Business",
+        salary: "Check listing",
+        match: 79,
+        description: "Search full-time, part-time, contract, remote, and internship opportunities from a wide range of employers.",
+        skills: ["Communication", "Organization"],
+        url: "https://in.indeed.com/",
+        jobDetailUrl: ""
+    },
+    {
+        id: 14,
+        title: "Technology Startup Opportunities",
+        company: "Cutshort",
+        initials: "CS",
+        companyType: "Job Platform",
+        location: "India",
+        type: "Full-time",
+        category: "Technology",
+        salary: "Check listing",
+        match: 83,
+        description: "Search technology and startup jobs. Review each employer's listing for current openings and application steps.",
+        skills: ["Software", "Data", "Product"],
+        url: "https://cutshort.io/jobs",
+        jobDetailUrl: ""
+    },
+    {
+        id: 15,
+        title: "Freelance and Contract Opportunities",
+        company: "LinkedIn Jobs",
+        initials: "LI",
+        companyType: "Job Platform",
+        location: "Remote",
+        type: "Freelance",
+        category: "Design",
+        salary: "Check listing",
+        match: 78,
+        description: "Search for freelance, contract, design, writing, development, and remote project opportunities.",
+        skills: ["Portfolio", "Communication", "Project Delivery"],
+        url: "https://www.linkedin.com/jobs/",
+        jobDetailUrl: ""
+    },
+    {
+        id: 16,
+        title: "Internships Across Industries",
+        company: "AICTE Internship Portal",
+        initials: "AI",
+        companyType: "Job Platform",
+        location: "India",
+        type: "Internship",
+        category: "Technology",
+        salary: "Check listing",
+        match: 85,
+        description: "Explore internship listings and student opportunities. Confirm the organisation, requirements, and application deadline.",
+        skills: ["Learning", "Technical Skills", "Communication"],
+        url: "https://internship.aicte-india.org/",
+        jobDetailUrl: ""
+    },
+    {
+        id: 17,
+        title: "Startup Roles Across Functions",
+        company: "Wellfound",
+        initials: "WF",
+        companyType: "Startup",
+        location: "Remote",
+        type: "Full-time",
+        category: "Business",
+        salary: "Check listing",
+        match: 82,
+        description: "Browse startup jobs across engineering, product, design, marketing, operations, and business functions.",
+        skills: ["Communication", "Problem Solving", "Collaboration"],
+        url: "https://wellfound.com/jobs",
+        jobDetailUrl: ""
+    }
+];
+
+const portals = [
+    { name: "Wellfound", text: "Startup jobs", url: "https://wellfound.com/jobs" },
+    { name: "Y Combinator", text: "Startup careers", url: "https://www.ycombinator.com/jobs/role/all/india" },
+    { name: "Internshala", text: "Internships", url: "https://internshala.com/" },
+    { name: "LinkedIn Jobs", text: "All company sizes", url: "https://www.linkedin.com/jobs/" },
+    { name: "Naukri", text: "Indian job listings", url: "https://www.naukri.com/" },
+    { name: "Indeed India", text: "Part-time & full-time", url: "https://in.indeed.com/" },
+    { name: "AICTE Internships", text: "Student opportunities", url: "https://internship.aicte-india.org/" },
+    { name: "Apprenticeship India", text: "Apprenticeships", url: "https://www.apprenticeshipindia.gov.in/" },
+    { name: "Cutshort", text: "Tech & startup jobs", url: "https://cutshort.io/jobs" }
+];
+
+let currentJob = null;
+let onlySaved = false;
+let activeCategory = "all";
+let savedJobs = loadSavedJobs();
+
+function loadSavedJobs() {
+    try {
+        const data = JSON.parse(localStorage.getItem("saved_jobs") || "[]");
+        return Array.isArray(data) ? data : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(() => toast.classList.remove("show"), 2600);
+}
+
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+}
+
+function toggleProfile() {
+    document.getElementById("profileMenu").classList.toggle("show");
+}
+
+function logout() {
+    if (confirm("Are you sure you want to log out?")) {
+        window.location.href = "login.html";
+    }
+}
+
+function goSkillGap() {
+    window.location.href = "skill-gap.html";
+}
+
+function updateSavedSummary() {
+    document.getElementById("savedSummary").textContent =
+        savedJobs.length
+            ? "You have saved " + savedJobs.length + " opportunity/opportunities."
+            : "You have not saved any jobs yet.";
+}
+
+function getFilteredJobs() {
+    const search = document.getElementById("searchInput").value.trim().toLowerCase();
+    const location = document.getElementById("locationFilter").value;
+    const type = document.getElementById("typeFilter").value;
+    const companyType = document.getElementById("companyFilter").value;
+
+    return jobs.filter(job => {
+        const text = [
+            job.title, job.company, job.location, job.description,
+            job.companyType, job.type, job.category, ...job.skills
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = text.includes(search);
+        const matchesLocation = location === "all" ||
+            job.location.toLowerCase().includes(location.toLowerCase());
+        const matchesType = type === "all" || job.type === type;
+        const matchesCompany = companyType === "all" || job.companyType === companyType;
+        const matchesCategory = activeCategory === "all" || job.category === activeCategory;
+        const matchesSaved = !onlySaved || savedJobs.includes(job.id);
+
+        return matchesSearch && matchesLocation && matchesType &&
+            matchesCompany && matchesCategory && matchesSaved;
+    });
+}
+
+function filterJobs() {
+    renderJobs();
+}
+
+function renderJobs() {
+    const filtered = getFilteredJobs();
+    const list = document.getElementById("jobsList");
+
+    document.getElementById("jobCount").textContent =
+        filtered.length + " opportunities";
+
+    document.getElementById("listHeading").textContent =
+        onlySaved ? "Saved Opportunities" : "Recommended Opportunities";
+
+    if (!filtered.length) {
+        list.innerHTML = `
+            <div class="empty">
+                <h3 style="margin-bottom:8px">No matching opportunities</h3>
+                <p>Try different filters or open one of the job websites below.</p>
+                <button class="btn btn-primary" style="margin-top:12px" onclick="resetFilters()">Clear Filters</button>
+            </div>`;
+        updateSavedSummary();
+        return;
+    }
+
+    list.innerHTML = filtered.map(job => `
+        <article class="job-card">
+            <div class="job-top">
+                <div class="company-logo">${escapeHTML(job.initials)}</div>
+                <div class="job-main">
+                    <div class="job-title">${escapeHTML(job.title)}</div>
+                    <div class="company">${escapeHTML(job.company)} · ${escapeHTML(job.companyType)}</div>
+                </div>
+                <span class="match">${job.match}% demo match</span>
+            </div>
+
+            <div class="job-meta">
+                <span class="meta">📍 ${escapeHTML(job.location)}</span>
+                <span class="meta">💼 ${escapeHTML(job.type)}</span>
+                <span class="meta">🏢 ${escapeHTML(job.companyType)}</span>
+                <span class="meta">${escapeHTML(job.category)}</span>
+            </div>
+
+            <p class="job-description">${escapeHTML(job.description)}</p>
+
+            <div class="skills">
+                ${job.skills.map(skill => `<span class="skill-tag">${escapeHTML(skill)}</span>`).join("")}
+            </div>
+
+            <div class="job-actions">
+                <span style="font-size:10px;color:#64748b">Compensation: check official listing</span>
+                <div style="display:flex;gap:7px">
+                    <button class="save-btn ${savedJobs.includes(job.id) ? "saved" : ""}" onclick="toggleSave(${job.id})">
+                        ${savedJobs.includes(job.id) ? "♥ Saved" : "♡ Save"}
+                    </button>
+                    <button class="apply-btn" onclick="viewJob(${job.id})">View & Apply ↗</button>
+                </div>
+            </div>
+        </article>
+    `).join("");
+
+    updateSavedSummary();
+}
+
+function renderPortals() {
+    document.getElementById("portalGrid").innerHTML = portals.map(portal => `
+        <a class="portal-link" href="${portal.url}" target="_blank" rel="noopener noreferrer">
+            ↗ ${escapeHTML(portal.name)}
+            <small>${escapeHTML(portal.text)}</small>
+        </a>
+    `).join("");
+}
+
+function viewJob(id) {
+    currentJob = jobs.find(job => job.id === id);
+    if (!currentJob) return;
+
+    document.getElementById("modalTitle").textContent = currentJob.title;
+    document.getElementById("modalCompany").textContent =
+        currentJob.company + " • " + currentJob.location + " • " + currentJob.type;
+    document.getElementById("modalDescription").textContent = currentJob.description;
+
+    document.getElementById("modalSkills").innerHTML =
+        currentJob.skills.map(skill => `<li>${escapeHTML(skill)}</li>`).join("");
+
+    document.getElementById("modalNotice").textContent =
+        "This is a job-search recommendation, not confirmation of a live vacancy. " +
+        "The next page is the employer's official career portal or the selected job platform. " +
+        "Search for the role title and confirm that the vacancy is currently open.";
+
+    document.getElementById("jobModal").classList.add("show");
+}
+
+function closeJobModal() {
+    document.getElementById("jobModal").classList.remove("show");
+}
+
+function closeOnBackdrop(event) {
+    if (event.target.id === "jobModal") closeJobModal();
+}
+
+function applyFromModal() {
+    if (!currentJob) return;
+
+    const url = currentJob.jobDetailUrl || currentJob.url;
+
+    try {
+        const parsed = new URL(url);
+        if (parsed.protocol !== "https:") {
+            showToast("This link is not secure.");
+            return;
+        }
+    } catch (error) {
+        showToast("The official link is not configured.");
+        return;
+    }
+
+    const tab = window.open(url, "_blank", "noopener,noreferrer");
+
+    if (!tab) {
+        showToast("Popup blocked. Please allow popups and try again.");
+        return;
+    }
+
+    localStorage.setItem("selected_job", JSON.stringify(currentJob));
+
+    showToast(currentJob.jobDetailUrl
+        ? "Opening the specific job listing."
+        : "Opening the careers portal. Search for this role there.");
+
+    closeJobModal();
+}
+
+function toggleSave(id) {
+    if (savedJobs.includes(id)) {
+        savedJobs = savedJobs.filter(jobId => jobId !== id);
+        showToast("Job removed from saved jobs.");
+    } else {
+        savedJobs.push(id);
+        showToast("Job saved successfully.");
+    }
+
+    localStorage.setItem("saved_jobs", JSON.stringify(savedJobs));
+    renderJobs();
+}
+
+function showSavedJobs() {
+    onlySaved = !onlySaved;
+    renderJobs();
+
+    document.getElementById("listHeading").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+}
+
+function resetFilters() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("locationFilter").value = "all";
+    document.getElementById("typeFilter").value = "all";
+    document.getElementById("companyFilter").value = "all";
+    activeCategory = "all";
+    onlySaved = false;
+
+    document.querySelectorAll(".category-btn").forEach(button => {
+        button.classList.toggle("active", button.dataset.category === "all");
+    });
+
+    renderJobs();
+}
+
+document.getElementById("categories").addEventListener("click", event => {
+    const button = event.target.closest(".category-btn");
+    if (!button) return;
+
+    activeCategory = button.dataset.category;
+
+    document.querySelectorAll(".category-btn").forEach(item => {
+        item.classList.toggle("active", item === button);
+    });
+
+    renderJobs();
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeJobModal();
+    if (event.key === "Escape") document.getElementById("profileMenu").classList.remove("show");
+});
+
+document.addEventListener("click", event => {
+    const profile = document.querySelector(".profile");
+    if (profile && !profile.contains(event.target)) {
+        document.getElementById("profileMenu").classList.remove("show");
+    }
+});
+
+renderPortals();
+renderJobs();
+</script>
+</body>
+</html>

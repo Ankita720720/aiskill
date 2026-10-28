@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SkillTwin AI | Your AI Career Companion</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+            color: #0B1F3A;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        :root {
+            --navy: #0B1F3A;
+            --purple: #5B2EFF;
+            --teal: #00A88F;
+            --light-blue: #F3F7FC;
+            --light-purple: #EDE9FE;
+            --light-teal: #E6F7F4;
+            --gray: #64748B;
+            --border: #E2E8F0;
+            --white: #FFFFFF;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 76px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid #EEF2F7;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--navy);
+        }
+
+        .logo-icon {
+            width: 39px;
+            height: 39px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            color: white;
+            font-size: 19px;
+            background: linear-gradient(135deg, var(--purple), var(--teal));
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.25s;
+        }
+
+        .nav-links a:hover {
+            color: var(--purple);
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-btn {
+            padding: 11px 18px;
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        .login-btn:hover {
+            color: var(--purple);
+        }
+
+        .signup-btn {
+            padding: 11px 20px;
+            color: white;
+            background: var(--purple);
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 24px rgba(91, 46, 255, 0.25);
+        }
+
+        .mobile-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--navy);
+        }
+
+        /* ================= MOBILE MENU ================= */
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 76px;
+            left: 0;
+            width: 100%;
+            padding: 15px 7% 25px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 15px 30px rgba(11, 31, 58, 0.1);
+            z-index: 999;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 11px 0;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--purple);
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 650px;
+            padding: 85px 7%;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 65px;
+            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at 85% 15%,
+                    rgba(91, 46, 255, 0.08),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 15% 85%,
+                    rgba(0, 168, 143, 0.06),
+                    transparent 30%
+                ),
+                white;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            margin-bottom: 22px;
+            border-radius: 30px;
+            background: var(--light-purple);
+            color: var(--purple);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 5vw, 68px);
+            line-height: 1.08;
+            letter-spacing: -2.2px;
+            margin-bottom: 24px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(
+                90deg,
+                var(--purple),
+                var(--teal)
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            color: var(--gray);
+            font-size: 18px;
+            max-width: 600px;
+            margin-bottom: 32px;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 25px;
+            background: var(--purple);
+            color: white;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(91, 46, 255, 0.25);
+        }
+
+        .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 25px;
+            background: white;
+            color: var(--navy);
+            border: 1px solid #CBD5E1;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .secondary-btn:hover {
+            color: var(--purple);
+            border-color: var(--purple);
+        }
+
+        /* ================= HERO PREVIEW ================= */
+
+        .hero-visual {
+            min-height: 430px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-card {
+            width: 470px;
+            max-width: 100%;
+            padding: 28px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            box-shadow: 0 25px 70px rgba(11, 31, 58, 0.12);
+            position: relative;
+            z-index: 2;
+        }
+
+        .ai-card-header {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding-bottom: 21px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ai-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            color: white;
+            font-size: 21px;
+            background: linear-gradient(
+                135deg,
+                var(--purple),
+                var(--teal)
+            );
+        }
+
+        .ai-card-header h3 {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        .ai-card-header span {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        .ai-feature {
+            display: flex;
+            gap: 14px;
+            padding: 18px 0;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .ai-feature:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            width: 39px;
+            height: 39px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light-blue);
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        .ai-feature h4 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .ai-feature p {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        .floating-card {
+            position: absolute;
+            padding: 14px 17px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            box-shadow: 0 15px 40px rgba(11, 31, 58, 0.1);
+            z-index: 3;
+        }
+
+        .floating-card.one {
+            top: 25px;
+            right: -15px;
+        }
+
+        .floating-card.two {
+            bottom: 25px;
+            left: -20px;
+        }
+
+        .floating-label {
+            color: var(--gray);
+            font-size: 10px;
+            margin-bottom: 3px;
+        }
+
+        .floating-value {
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .purple {
+            color: var(--purple);
+        }
+
+        .teal {
+            color: var(--teal);
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            padding: 28px 7%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            background: var(--light-blue);
+        }
+
+        .stat {
+            padding: 18px;
+            text-align: center;
+        }
+
+        .stat h3 {
+            font-size: 27px;
+            margin-bottom: 3px;
+        }
+
+        .stat p {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        /* ================= SECTIONS ================= */
+
+        .section {
+            padding: 90px 7%;
+        }
+
+        .section-heading {
+            max-width: 700px;
+            margin: 0 auto 50px;
+            text-align: center;
+        }
+
+        .section-heading span {
+            color: var(--purple);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-heading h2 {
+            font-size: 39px;
+            line-height: 1.2;
+            margin: 9px 0 14px;
+        }
+
+        .section-heading p {
+            color: var(--gray);
+            font-size: 15px;
+        }
+
+        /* ================= FEATURES ================= */
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 21px;
+        }
+
+        .feature-card {
+            display: block;
+            padding: 27px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #C4B5FD;
+            box-shadow: 0 15px 35px rgba(11, 31, 58, 0.08);
+        }
+
+        .big-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 17px;
+            background: var(--light-purple);
+            color: var(--purple);
+            border-radius: 13px;
+            font-size: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        /* ================= HOW IT WORKS ================= */
+
+        .how-section {
+            background: var(--light-blue);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 17px;
+            background: var(--purple);
+            color: white;
+            border-radius: 50%;
+            font-weight: 800;
+        }
+
+        .step h3 {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .step p {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        /* ================= CAREER PATHS ================= */
+
+        .career-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .career-card {
+            padding: 23px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        .career-card:hover {
+            transform: translateY(-4px);
+            border-color: #C4B5FD;
+            box-shadow: 0 12px 30px rgba(11, 31, 58, 0.07);
+        }
+
+        .career-card h3 {
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .career-card p {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        /* ================= ABOUT ================= */
+
+        .about-section {
+            background: var(--light-blue);
+        }
+
+        .about-box {
+            max-width: 900px;
+            margin: auto;
+            padding: 48px;
+            background: linear-gradient(
+                135deg,
+                #F8FAFF,
+                #F2FBF9
+            );
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .about-box h2 {
+            font-size: 32px;
+            margin-bottom: 14px;
+        }
+
+        .about-box p {
+            max-width: 700px;
+            margin: auto;
+            color: var(--gray);
+            font-size: 15px;
+        }
+
+        /* ================= CTA ================= */
+
+        .cta {
+            margin: 20px 7% 90px;
+            padding: 65px 35px;
+            background: linear-gradient(
+                135deg,
+                var(--navy),
+                #172F50
+            );
+            color: white;
+            border-radius: 25px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 39px;
+            margin-bottom: 11px;
+        }
+
+        .cta p {
+            max-width: 620px;
+            margin: 0 auto 27px;
+            color: #CBD5E1;
+            font-size: 15px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            padding: 50px 7% 25px;
+            background: #08172B;
+            color: white;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .footer-brand {
+            max-width: 350px;
+        }
+
+        .footer-brand .logo {
+            color: white;
+        }
+
+        .footer-brand p {
+            color: #94A3B8;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 65px;
+        }
+
+        .footer-links div {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .footer-links h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .footer-links a {
+            color: #94A3B8;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid #1E293B;
+            color: #64748B;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content {
+                margin: auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                width: 100%;
+                max-width: 600px;
+                margin: auto;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .career-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 750px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-buttons .login-btn {
+                display: none;
+            }
+
+            .mobile-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 65px 5%;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 25px 5%;
+            }
+
+            .section {
+                padding: 70px 5%;
+            }
+
+            .features-grid,
+            .career-grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-card {
+                display: none;
+            }
+
+            .cta {
+                margin: 10px 5% 70px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .signup-btn {
+                padding: 10px 13px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+                letter-spacing: -1.5px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .ai-card {
+                padding: 20px;
+            }
+
+            .section-heading h2 {
+                font-size: 30px;
+            }
+
+            .cta h2 {
+                font-size: 30px;
+            }
+
+            .footer-links {
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+
+            <div class="logo-icon">
+                ✦
+            </div>
+
+            SkillTwin AI
+
+        </a>
+
+        <div class="nav-links">
+
+            <a href="#home">Home</a>
+
+            <a href="#features">Features</a>
+
+            <a href="#how-it-works">How It Works</a>
+
+            <a href="#career-paths">Career Paths</a>
+
+            <a href="#about">About</a>
+
+        </div>
+
+        <div class="nav-buttons">
+
+            <a href="login.html" class="login-btn">
+                Login
+            </a>
+
+            <a href="signup.html" class="signup-btn">
+                Get Started
+            </a>
+
+            <button
+                class="mobile-btn"
+                id="mobileBtn"
+                onclick="toggleMobileMenu()"
+                aria-label="Open menu"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= MOBILE MENU ================= -->
+
+    <div class="mobile-menu" id="mobileMenu">
+
+        <a href="#home" onclick="closeMobileMenu()">
+            Home
+        </a>
+
+        <a href="#features" onclick="closeMobileMenu()">
+            Features
+        </a>
+
+        <a href="#how-it-works" onclick="closeMobileMenu()">
+            How It Works
+        </a>
+
+        <a href="#career-paths" onclick="closeMobileMenu()">
+            Career Paths
+        </a>
+
+        <a href="#about" onclick="closeMobileMenu()">
+            About
+        </a>
+
+        <a href="login.html">
+            Login
+        </a>
+
+        <a href="signup.html">
+            Get Started
+        </a>
+
+    </div>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="hero-badge">
+                ✨ AI-POWERED CAREER PLATFORM
+            </div>
+
+            <h1>
+                Build Skills.
+                <span class="gradient-text">
+                    Prove Them.
+                </span>
+                Get Career Ready.
+            </h1>
+
+            <p class="hero-description">
+
+                SkillTwin AI is your intelligent career companion
+                for discovering your skills, identifying what to
+                learn, building practical experience and preparing
+                for your future career.
+
+            </p>
+
+            <div class="hero-actions">
+
+                <a href="signup.html" class="primary-btn">
+                    Get Started →
+                </a>
+
+                <a href="#how-it-works" class="secondary-btn">
+                    See How It Works
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- PUBLIC PRODUCT PREVIEW -->
+
+        <div class="hero-visual">
+
+            <div class="ai-card">
+
+                <div class="ai-card-header">
+
+                    <div class="ai-icon">
+                        ✦
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            SkillTwin AI
+                        </h3>
+
+                        <span>
+                            Your AI Career Companion
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-feature">
+
+                    <div class="feature-icon">
+                        📄
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Understand Your Skills
+                        </h4>
+
+                        <p>
+                            Build a clear picture of your
+                            current technical abilities.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-feature">
+
+                    <div class="feature-icon">
+                        🎯
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Identify What To Learn
+                        </h4>
+
+                        <p>
+                            Discover the knowledge and skills
+                            needed for your career direction.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-feature">
+
+                    <div class="feature-icon">
+                        📚
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Learn & Build
+                        </h4>
+
+                        <p>
+                            Develop your skills through learning
+                            and practical experience.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-feature">
+
+                    <div class="feature-icon">
+                        🎤
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Prepare For Your Career
+                        </h4>
+
+                        <p>
+                            Practice assessments and interviews
+                            before entering the job market.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="floating-card one">
+
+                <div class="floating-label">
+                    Career Guidance
+                </div>
+
+                <div class="floating-value purple">
+                    AI-Powered
+                </div>
+
+            </div>
+
+
+            <div class="floating-card two">
+
+                <div class="floating-label">
+                    Learning
+                </div>
+
+                <div class="floating-value teal">
+                    Personalized
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <h3>AI</h3>
+
+            <p>
+                Career Guidance
+            </p>
+
+        </div>
+
+        <div class="stat">
+
+            <h3>8+</h3>
+
+            <p>
+                Career Directions
+            </p>
+
+        </div>
+
+        <div class="stat">
+
+            <h3>3</h3>
+
+            <p>
+                Learning & Assessment Areas
+            </p>
+
+        </div>
+
+        <div class="stat">
+
+            <h3>24/7</h3>
+
+            <p>
+                Learning Support
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="section" id="features">
+
+        <div class="section-heading">
+
+            <span>
+                Why SkillTwin AI
+            </span>
+
+            <h2>
+                Everything You Need To Grow
+            </h2>
+
+            <p>
+                SkillTwin AI brings the important parts of
+                your career preparation together in one place.
+            </p>
+
+        </div>
+
+
+        <div class="features-grid">
+
+
+            <a href="resume-analyzer.html" class="feature-card">
+
+                <div class="big-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Resume Analysis
+                </h3>
+
+                <p>
+                    Understand your existing skills,
+                    projects and career alignment.
+                </p>
+
+            </a>
+
+
+            <a href="skill-gap.html" class="feature-card">
+
+                <div class="big-icon">
+                    🎯
+                </div>
+
+                <h3>
+                    Skill Gap Discovery
+                </h3>
+
+                <p>
+                    Identify important skills you need
+                    to develop for your career goal.
+                </p>
+
+            </a>
+
+
+            <a href="career-path.html" class="feature-card">
+
+                <div class="big-icon">
+                    🧭
+                </div>
+
+                <h3>
+                    Career Guidance
+                </h3>
+
+                <p>
+                    Explore career paths and understand
+                    the skills required for each direction.
+                </p>
+
+            </a>
+
+
+            <a href="assessments.html" class="feature-card">
+
+                <div class="big-icon">
+                    📝
+                </div>
+
+                <h3>
+                    Assessments
+                </h3>
+
+                <p>
+                    Practice technical, coding and
+                    aptitude skills to measure your progress.
+                </p>
+
+            </a>
+
+
+            <a href="mock-interview.html" class="feature-card">
+
+                <div class="big-icon">
+                    🎤
+                </div>
+
+                <h3>
+                    AI Mock Interviews
+                </h3>
+
+                <p>
+                    Practice interview conversations and
+                    improve your interview preparation.
+                </p>
+
+            </a>
+
+
+            <a href="job-vacancies.html" class="feature-card">
+
+                <div class="big-icon">
+                    💼
+                </div>
+
+                <h3>
+                    Career Opportunities
+                </h3>
+
+                <p>
+                    Explore job opportunities according to
+                    your skills and career direction.
+                </p>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= HOW IT WORKS ================= -->
+
+    <section class="section how-section" id="how-it-works">
+
+        <div class="section-heading">
+
+            <span>
+                Simple Process
+            </span>
+
+            <h2>
+                How SkillTwin AI Works
+            </h2>
+
+            <p>
+                Start with your goal and gradually build
+                the skills and experience you need.
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <h3>
+                    Tell Us Your Goal
+                </h3>
+
+                <p>
+                    Choose the career direction you
+                    want to work toward.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <h3>
+                    Understand Your Skills
+                </h3>
+
+                <p>
+                    Discover your current knowledge
+                    and areas for improvement.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <h3>
+                    Learn & Practice
+                </h3>
+
+                <p>
+                    Learn relevant skills and strengthen
+                    them through practical work.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    04
+                </div>
+
+                <h3>
+                    Prepare For Your Career
+                </h3>
+
+                <p>
+                    Practice assessments, projects and
+                    interviews for your career journey.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CAREER PATHS ================= -->
+
+    <section class="section" id="career-paths">
+
+        <div class="section-heading">
+
+            <span>
+                Career Directions
+            </span>
+
+            <h2>
+                Explore Your Career Possibilities
+            </h2>
+
+            <p>
+                Choose a direction and understand the
+                skills needed to move toward it.
+            </p>
+
+        </div>
+
+
+        <div class="career-grid">
+
+
+            <a href="career-path.html" class="career-card">
+
+                <h3>
+                    Frontend Developer
+                </h3>
+
+                <p>
+                    HTML, CSS, JavaScript, React
+                    and modern UI development.
+                </p>
+
+            </a>
+
+
+            <a href="career-path.html" class="career-card">
+
+                <h3>
+                    Backend Developer
+                </h3>
+
+                <p>
+                    Node.js, Express, APIs,
+                    databases and backend systems.
+                </p>
+
+            </a>
+
+
+            <a href="career-path.html" class="career-card">
+
+                <h3>
+                    Full Stack Developer
+                </h3>
+
+                <p>
+                    Frontend, backend, databases,
+                    APIs and deployment.
+                </p>
+
+            </a>
+
+
+            <a href="career-path.html" class="career-card">
+
+                <h3>
+                    Data Analyst
+                </h3>
+
+                <p>
+                    Python, SQL, data analysis
+                    and visualization.
+                </p>
+
+            </a>
+
+
+            <a href="career-path.html" class="career-card">
+
+                <h3>
+                    Data Scientist
+                </h3>
+
+                <p>
+                    Python, statistics, machine learning
+                    and data science.
+                </p>
+
+            </a>
+
+
+            <a href="career-path.html" class="career-card">
+
+                <h3>
+                    AI / ML Engineer
+                </h3>
+
+                <p>
+                    Python, machine learning,
+                    AI models and deployment.
+                </p>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section class="section about-section" id="about">
+
+        <div class="about-box">
+
+            <h2>
+                Your Career Journey, In One Place
+            </h2>
+
+            <p>
+
+                SkillTwin AI is designed to help learners
+                understand where they are, decide where
+                they want to go and continuously work toward
+                their career goals.
+
+                From skill development and learning to
+                assessments, projects and interview preparation,
+                your journey can be managed from one platform.
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta">
+
+        <h2>
+            Ready To Start Your Career Journey?
+        </h2>
+
+        <p>
+            Create your SkillTwin profile and start
+            building your personalized career journey.
+        </p>
+
+        <a href="signup.html" class="primary-btn">
+            Get Started With SkillTwin AI →
+        </a>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="logo">
+
+                    <div class="logo-icon">
+                        ✦
+                    </div>
+
+                    SkillTwin AI
+
+                </a>
+
+                <p>
+                    Your AI-powered career companion for
+                    learning, skill development and career growth.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <div>
+
+                    <h4>
+                        Explore
+                    </h4>
+
+                    <a href="#features">
+                        Features
+                    </a>
+
+                    <a href="#how-it-works">
+                        How It Works
+                    </a>
+
+                    <a href="#career-paths">
+                        Career Paths
+                    </a>
+
+                    <a href="#about">
+                        About
+                    </a>
+
+                </div>
+
+
+                <div>
+
+                    <h4>
+                        Account
+                    </h4>
+
+                    <a href="login.html">
+                        Login
+                    </a>
+
+                    <a href="signup.html">
+                        Get Started
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+            © 2026 SkillTwin AI. All rights reserved.
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const mobileMenu =
+            document.getElementById("mobileMenu");
+
+        const mobileBtn =
+            document.getElementById("mobileBtn");
+
+
+        function toggleMobileMenu() {
+
+            if (mobileMenu.style.display === "block") {
+
+                mobileMenu.style.display = "none";
+
+            } else {
+
+                mobileMenu.style.display = "block";
+
+            }
+
+        }
+
+
+        function closeMobileMenu() {
+
+            mobileMenu.style.display = "none";
+
+        }
+
+
+        document.addEventListener("click", function(event) {
+
+            if (
+                mobileMenu.style.display === "block" &&
+                !mobileMenu.contains(event.target) &&
+                !mobileBtn.contains(event.target)
+            ) {
+
+                mobileMenu.style.display = "none";
+
+            }
+
+        });
+
+
+        window.addEventListener("resize", function() {
+
+            if (window.innerWidth > 750) {
+
+                mobileMenu.style.display = "none";
+
+            }
+
+        });
+
+
+    </script>
+
+</body>
+</html>

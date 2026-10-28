@@ -1,0 +1,2564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings - SkillTwin AI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f7fc;
+    color:#334155;
+}
+
+button,input,select{
+    font-family:inherit;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    width:250px;
+    background:#0b1f3a;
+    color:white;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    padding:24px 16px;
+    overflow-y:auto;
+    z-index:1000;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:700;
+    padding:0 12px 28px;
+}
+
+.logo span{
+    color:#00a88f;
+}
+
+.nav-section{
+    margin-bottom:24px;
+}
+
+.nav-title{
+    font-size:11px;
+    color:#94a3b8;
+    letter-spacing:1px;
+    padding:0 12px;
+    margin-bottom:8px;
+    font-weight:700;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 12px;
+    border-radius:9px;
+    color:#cbd5e1;
+    text-decoration:none;
+    margin-bottom:4px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,.08);
+    color:white;
+}
+
+.nav-item.active{
+    background:#5b2eff;
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    height:72px;
+    background:white;
+    border-bottom:1px solid #e2e8f0;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:20px;
+    padding:0 32px;
+}
+
+.notification{
+    width:38px;
+    height:38px;
+    border:1px solid #e2e8f0;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.profile{
+    position:relative;
+}
+
+.profile-btn{
+    border:none;
+    background:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#5b2eff;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.profile-name{
+    color:#0b1f3a;
+    font-size:14px;
+    font-weight:600;
+}
+
+.profile-menu{
+    display:none;
+    position:absolute;
+    right:0;
+    top:52px;
+    width:190px;
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(15,23,42,.12);
+    z-index:2000;
+}
+
+.profile-menu.show{
+    display:block;
+}
+
+.profile-menu a,
+.profile-menu button{
+    display:block;
+    width:100%;
+    padding:12px 15px;
+    background:white;
+    border:none;
+    text-align:left;
+    color:#334155;
+    text-decoration:none;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.profile-menu a:hover,
+.profile-menu button:hover{
+    background:#f3f7fc;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:32px;
+    max-width:1200px;
+}
+
+.page-header{
+    margin-bottom:24px;
+}
+
+.page-header h1{
+    color:#0b1f3a;
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+.page-header p{
+    color:#64748b;
+    font-size:14px;
+}
+
+/* ================= SETTINGS LAYOUT ================= */
+
+.settings-layout{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:20px;
+}
+
+/* ================= SETTINGS NAV ================= */
+
+.settings-nav{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:10px;
+    height:max-content;
+}
+
+.settings-tab{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:white;
+    color:#64748b;
+    text-align:left;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.settings-tab:hover{
+    background:#f3f7fc;
+    color:#0b1f3a;
+}
+
+.settings-tab.active{
+    background:#ede9fe;
+    color:#5b2eff;
+    font-weight:700;
+}
+
+/* ================= PANELS ================= */
+
+.settings-panel{
+    display:none;
+}
+
+.settings-panel.active{
+    display:block;
+}
+
+.card{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:18px;
+}
+
+.card-header{
+    border-bottom:1px solid #e2e8f0;
+    padding-bottom:16px;
+    margin-bottom:20px;
+}
+
+.card-header h2{
+    color:#0b1f3a;
+    font-size:17px;
+    margin-bottom:5px;
+}
+
+.card-header p{
+    color:#64748b;
+    font-size:11px;
+    line-height:1.5;
+}
+
+/* ================= FORM ================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.form-group{
+    margin-bottom:17px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    display:block;
+    color:#0b1f3a;
+    font-size:12px;
+    font-weight:600;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid #e2e8f0;
+    border-radius:8px;
+    outline:none;
+    background:white;
+    color:#334155;
+    font-size:13px;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#5b2eff;
+}
+
+.form-group input:disabled{
+    background:#f8fafc;
+    color:#94a3b8;
+}
+
+/* ================= PROFILE PREVIEW ================= */
+
+.profile-preview{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.large-avatar{
+    width:70px;
+    height:70px;
+    background:#5b2eff;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:23px;
+    font-weight:bold;
+}
+
+.profile-preview h3{
+    color:#0b1f3a;
+    font-size:17px;
+    margin-bottom:4px;
+}
+
+.profile-preview p{
+    color:#64748b;
+    font-size:11px;
+}
+
+/* ================= TOGGLE ================= */
+
+.setting-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:16px 0;
+    border-bottom:1px solid #f1f5f9;
+}
+
+.setting-row:last-child{
+    border-bottom:none;
+}
+
+.setting-info h3{
+    color:#0b1f3a;
+    font-size:13px;
+    margin-bottom:5px;
+}
+
+.setting-info p{
+    color:#64748b;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.toggle{
+    width:46px;
+    height:25px;
+    background:#cbd5e1;
+    border-radius:30px;
+    border:none;
+    cursor:pointer;
+    position:relative;
+    flex-shrink:0;
+}
+
+.toggle::after{
+    content:"";
+    width:19px;
+    height:19px;
+    background:white;
+    border-radius:50%;
+    position:absolute;
+    top:3px;
+    left:3px;
+    transition:.2s;
+}
+
+.toggle.on{
+    background:#5b2eff;
+}
+
+.toggle.on::after{
+    left:24px;
+}
+
+/* ================= SELECT ROW ================= */
+
+.select-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:15px 0;
+    border-bottom:1px solid #f1f5f9;
+}
+
+.select-row:last-child{
+    border-bottom:none;
+}
+
+.select-row h3{
+    color:#0b1f3a;
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.select-row p{
+    color:#64748b;
+    font-size:11px;
+}
+
+.select-row select{
+    width:180px;
+    padding:9px;
+    border:1px solid #e2e8f0;
+    border-radius:7px;
+    outline:none;
+    color:#334155;
+}
+
+/* ================= AI SETTINGS ================= */
+
+.ai-box{
+    background:#ede9fe;
+    border:1px solid #ddd6fe;
+    border-radius:11px;
+    padding:17px;
+    margin-bottom:18px;
+}
+
+.ai-box h3{
+    color:#0b1f3a;
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+.ai-box p{
+    color:#64748b;
+    font-size:11px;
+    line-height:1.6;
+}
+
+/* ================= SECURITY ================= */
+
+.security-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 0;
+    border-bottom:1px solid #f1f5f9;
+}
+
+.security-item:last-child{
+    border-bottom:none;
+}
+
+.security-left{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.security-icon{
+    width:38px;
+    height:38px;
+    background:#f3f7fc;
+    border-radius:8px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.security-left h3{
+    color:#0b1f3a;
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.security-left p{
+    color:#64748b;
+    font-size:10px;
+}
+
+/* ================= DANGER ================= */
+
+.danger-card{
+    border-color:#fecaca;
+}
+
+.danger-card .card-header h2{
+    color:#b91c1c;
+}
+
+.danger-btn{
+    padding:10px 15px;
+    border-radius:8px;
+    border:1px solid #fecaca;
+    background:#fff;
+    color:#dc2626;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:600;
+}
+
+.danger-btn:hover{
+    background:#fef2f2;
+}
+
+/* ================= ACTIONS ================= */
+
+.actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:5px;
+}
+
+.btn{
+    padding:10px 17px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:600;
+}
+
+.btn-primary{
+    background:#5b2eff;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#4920df;
+}
+
+.btn-secondary{
+    background:white;
+    color:#334155;
+    border:1px solid #e2e8f0;
+}
+
+.btn-secondary:hover{
+    border-color:#5b2eff;
+    color:#5b2eff;
+}
+
+/* ================= MODAL ================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:3000;
+    padding:20px;
+}
+
+.modal-overlay.show{
+    display:flex;
+}
+
+.modal{
+    background:white;
+    width:460px;
+    max-width:100%;
+    border-radius:15px;
+    padding:25px;
+}
+
+.modal h2{
+    color:#0b1f3a;
+    font-size:19px;
+    margin-bottom:8px;
+}
+
+.modal p{
+    color:#64748b;
+    font-size:12px;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#0b1f3a;
+    color:white;
+    padding:13px 18px;
+    border-radius:9px;
+    font-size:13px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    z-index:5000;
+}
+
+/* ================= MOBILE ================= */
+
+.mobile-menu{
+    display:none;
+    border:none;
+    background:none;
+    font-size:22px;
+    cursor:pointer;
+}
+
+@media(max-width:900px){
+
+    .settings-layout{
+        grid-template-columns:1fr;
+    }
+
+    .settings-nav{
+        display:flex;
+        overflow-x:auto;
+        gap:5px;
+    }
+
+    .settings-tab{
+        min-width:max-content;
+        margin:0;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+    }
+
+    .mobile-menu{
+        display:block;
+        margin-right:auto;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .profile-name{
+        display:none;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .setting-row,
+    .select-row,
+    .security-item{
+        align-items:flex-start;
+    }
+
+    .select-row{
+        flex-direction:column;
+    }
+
+    .select-row select{
+        width:100%;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        Skill<span>Twin</span> AI
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">MAIN</div>
+
+        <a href="dashboard.html" class="nav-item">
+            <span class="nav-icon">⌂</span>
+            Dashboard
+        </a>
+
+        <a href="resume-analyzer.html" class="nav-item">
+            <span class="nav-icon">📄</span>
+            Resume Analyzer
+        </a>
+
+        <a href="assessments.html" class="nav-item">
+            <span class="nav-icon">📝</span>
+            Assessments
+        </a>
+
+        <a href="skill-gap.html" class="nav-item">
+            <span class="nav-icon">🎯</span>
+            Skill Gap
+        </a>
+
+        <a href="career-path.html" class="nav-item">
+            <span class="nav-icon">🛤</span>
+            Career Path
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">LEARN</div>
+
+        <a href="learning-resources.html" class="nav-item">
+            <span class="nav-icon">📚</span>
+            Learning Resources
+        </a>
+
+        <a href="projects.html" class="nav-item">
+            <span class="nav-icon">💻</span>
+            Projects
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">CAREER</div>
+
+        <a href="mock-interview.html" class="nav-item">
+            <span class="nav-icon">🎤</span>
+            Mock Interview
+        </a>
+
+        <a href="job-vacancies.html" class="nav-item">
+            <span class="nav-icon">💼</span>
+            Job Vacancies
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">INSIGHTS</div>
+
+        <a href="analytics.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            Analytics & Reports
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">SYSTEM</div>
+
+        <a href="settings.html" class="nav-item active">
+            <span class="nav-icon">⚙</span>
+            Settings
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <button class="mobile-menu"
+            onclick="toggleSidebar()">
+        ☰
+    </button>
+
+    <div class="notification"
+         onclick="showToast('No new notifications')">
+        🔔
+    </div>
+
+    <div class="profile">
+
+        <button class="profile-btn"
+                onclick="toggleProfile()">
+
+            <div class="avatar"
+                 id="avatar">
+                AC
+            </div>
+
+            <span class="profile-name"
+                  id="profileName">
+                Ankita Chintakindi
+            </span>
+
+            <span>⌄</span>
+
+        </button>
+
+        <div class="profile-menu"
+             id="profileMenu">
+
+            <a href="profile.html">
+                View Profile
+            </a>
+
+            <a href="settings.html">
+                Settings
+            </a>
+
+            <a href="#"
+               onclick="showToast('Help & Support coming soon');return false;">
+                Help & Support
+            </a>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+<div class="page-header">
+
+    <h1>
+        Settings
+    </h1>
+
+    <p>
+        Manage your account, preferences, AI experience and privacy.
+    </p>
+
+</div>
+
+
+<div class="settings-layout">
+
+<!-- ================= SETTINGS NAV ================= -->
+
+<div class="settings-nav">
+
+    <button class="settings-tab active"
+            onclick="openTab('account',this)">
+        👤 Account
+    </button>
+
+    <button class="settings-tab"
+            onclick="openTab('preferences',this)">
+        ⚙ Preferences
+    </button>
+
+    <button class="settings-tab"
+            onclick="openTab('ai',this)">
+        🤖 AI & Learning
+    </button>
+
+    <button class="settings-tab"
+            onclick="openTab('notifications',this)">
+        🔔 Notifications
+    </button>
+
+    <button class="settings-tab"
+            onclick="openTab('privacy',this)">
+        🔒 Privacy
+    </button>
+
+    <button class="settings-tab"
+            onclick="openTab('security',this)">
+        🛡 Security
+    </button>
+
+</div>
+
+
+<!-- ================= ACCOUNT ================= -->
+
+<div class="settings-panel active"
+     id="account">
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Account Information
+            </h2>
+
+            <p>
+                Update the basic information associated with your SkillTwin account.
+            </p>
+
+        </div>
+
+
+        <div class="profile-preview">
+
+            <div class="large-avatar"
+                 id="largeAvatar">
+                AC
+            </div>
+
+            <div>
+
+                <h3 id="previewName">
+                    Ankita Chintakindi
+                </h3>
+
+                <p id="previewEmail">
+                    ankita@example.com
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    value="Ankita Chintakindi">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    value="ankita@example.com">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Career Goal
+                </label>
+
+                <select id="careerGoal">
+
+                    <option selected>
+                        Full Stack Developer
+                    </option>
+
+                    <option>
+                        Frontend Developer
+                    </option>
+
+                    <option>
+                        Backend Developer
+                    </option>
+
+                    <option>
+                        Software Developer
+                    </option>
+
+                    <option>
+                        Data Analyst
+                    </option>
+
+                    <option>
+                        Data Scientist
+                    </option>
+
+                    <option>
+                        AI/ML Engineer
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Experience Level
+                </label>
+
+                <select id="experienceLevel">
+
+                    <option>
+                        Beginner
+                    </option>
+
+                    <option selected>
+                        Fresher
+                    </option>
+
+                    <option>
+                        Intermediate
+                    </option>
+
+                    <option>
+                        Experienced
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button class="btn btn-secondary"
+                    onclick="resetAccount()">
+
+                Cancel
+
+            </button>
+
+            <button class="btn btn-primary"
+                    onclick="saveAccount()">
+
+                Save Changes
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Account Status
+            </h2>
+
+            <p>
+                Information about your SkillTwin account.
+            </p>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Account Type
+                </h3>
+
+                <p>
+                    Current SkillTwin account
+                </p>
+
+            </div>
+
+            <strong style="color:#5b2eff;font-size:12px;">
+                Free Account
+            </strong>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Profile Completion
+                </h3>
+
+                <p>
+                    Complete your profile for more personalized recommendations.
+                </p>
+
+            </div>
+
+            <strong style="color:#00a88f;font-size:12px;">
+                80%
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= PREFERENCES ================= -->
+
+<div class="settings-panel"
+     id="preferences">
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                General Preferences
+            </h2>
+
+            <p>
+                Customize how SkillTwin AI behaves for you.
+            </p>
+
+        </div>
+
+
+        <div class="select-row">
+
+            <div>
+
+                <h3>
+                    Language
+                </h3>
+
+                <p>
+                    Choose your preferred interface language.
+                </p>
+
+            </div>
+
+            <select id="language">
+
+                <option selected>
+                    English
+                </option>
+
+                <option>
+                    Hindi
+                </option>
+
+                <option>
+                    Marathi
+                </option>
+
+                <option>
+                    Telugu
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="select-row">
+
+            <div>
+
+                <h3>
+                    Time Zone
+                </h3>
+
+                <p>
+                    Used for reminders and learning schedules.
+                </p>
+
+            </div>
+
+            <select>
+
+                <option selected>
+                    India Standard Time
+                </option>
+
+                <option>
+                    UTC
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="select-row">
+
+            <div>
+
+                <h3>
+                    Difficulty Preference
+                </h3>
+
+                <p>
+                    Default difficulty for learning resources.
+                </p>
+
+            </div>
+
+            <select>
+
+                <option>
+                    Beginner
+                </option>
+
+                <option selected>
+                    Adaptive
+                </option>
+
+                <option>
+                    Intermediate
+                </option>
+
+                <option>
+                    Advanced
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Appearance
+            </h2>
+
+            <p>
+                Customize the application appearance.
+            </p>
+
+        </div>
+
+
+        <div class="select-row">
+
+            <div>
+
+                <h3>
+                    Theme
+                </h3>
+
+                <p>
+                    Choose the appearance of SkillTwin AI.
+                </p>
+
+            </div>
+
+            <select id="themeSelect"
+                    onchange="changeTheme(this.value)">
+
+                <option selected value="light">
+                    Light
+                </option>
+
+                <option value="system">
+                    System Default
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= AI ================= -->
+
+<div class="settings-panel"
+     id="ai">
+
+    <div class="ai-box">
+
+        <h3>
+            🤖 Personalized AI Experience
+        </h3>
+
+        <p>
+            SkillTwin AI uses your learning progress, assessment results,
+            resume information and interview performance to personalize
+            your learning recommendations and career development path.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                AI & Learning Preferences
+            </h2>
+
+            <p>
+                Control how recommendations are generated.
+            </p>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Personalized Recommendations
+                </h3>
+
+                <p>
+                    Receive learning resources based on your current skill gaps.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Adaptive Assessments
+                </h3>
+
+                <p>
+                    Adjust future assessment difficulty according to performance.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    AI Career Suggestions
+                </h3>
+
+                <p>
+                    Use your skills and career progress to generate career suggestions.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    AI Interview Feedback
+                </h3>
+
+                <p>
+                    Analyze your interview transcripts and provide communication feedback.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= NOTIFICATIONS ================= -->
+
+<div class="settings-panel"
+     id="notifications">
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Notification Preferences
+            </h2>
+
+            <p>
+                Choose what notifications you want to receive.
+            </p>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Learning Reminders
+                </h3>
+
+                <p>
+                    Get reminders about unfinished lessons and courses.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Assessment Reminders
+                </h3>
+
+                <p>
+                    Receive reminders to complete recommended assessments.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Interview Practice
+                </h3>
+
+                <p>
+                    Receive reminders to practice mock interviews.
+                </p>
+
+            </div>
+
+            <button class="toggle"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Job Opportunity Alerts
+                </h3>
+
+                <p>
+                    Get notified when matching opportunities are available.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Weekly Progress Summary
+                </h3>
+
+                <p>
+                    Receive a summary of your weekly learning and career progress.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= PRIVACY ================= -->
+
+<div class="settings-panel"
+     id="privacy">
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Privacy Controls
+            </h2>
+
+            <p>
+                Manage how your information is used within SkillTwin AI.
+            </p>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Resume Analysis
+                </h3>
+
+                <p>
+                    Allow your resume information to be used for career recommendations.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Learning Progress
+                </h3>
+
+                <p>
+                    Use completed lessons and assessments to personalize your roadmap.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Interview Analytics
+                </h3>
+
+                <p>
+                    Save interview performance metrics for your analytics dashboard.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <h3>
+                    Job Matching
+                </h3>
+
+                <p>
+                    Use your profile skills to calculate job matching information.
+                </p>
+
+            </div>
+
+            <button class="toggle on"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SECURITY ================= -->
+
+<div class="settings-panel"
+     id="security">
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Security
+            </h2>
+
+            <p>
+                Manage your account security.
+            </p>
+
+        </div>
+
+
+        <div class="security-item">
+
+            <div class="security-left">
+
+                <div class="security-icon">
+                    🔑
+                </div>
+
+                <div>
+
+                    <h3>
+                        Password
+                    </h3>
+
+                    <p>
+                        Change your account password.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-secondary"
+                    onclick="openPasswordModal()">
+
+                Change
+
+            </button>
+
+        </div>
+
+
+        <div class="security-item">
+
+            <div class="security-left">
+
+                <div class="security-icon">
+                    📱
+                </div>
+
+                <div>
+
+                    <h3>
+                        Login Sessions
+                    </h3>
+
+                    <p>
+                        Manage active login sessions.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-secondary"
+                    onclick="showToast('Session management coming soon')">
+
+                Manage
+
+            </button>
+
+        </div>
+
+
+        <div class="security-item">
+
+            <div class="security-left">
+
+                <div class="security-icon">
+                    🛡
+                </div>
+
+                <div>
+
+                    <h3>
+                        Two-Factor Authentication
+                    </h3>
+
+                    <p>
+                        Add an additional security layer to your account.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button class="toggle"
+                    onclick="toggleSetting(this)">
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="card danger-card">
+
+        <div class="card-header">
+
+            <h2>
+                Delete Account
+            </h2>
+
+            <p>
+                Permanently remove your SkillTwin account and associated data.
+            </p>
+
+        </div>
+
+        <button class="danger-btn"
+                onclick="openDeleteModal()">
+
+            Delete My Account
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+
+<!-- ================= PASSWORD MODAL ================= -->
+
+<div class="modal-overlay"
+     id="passwordModal">
+
+<div class="modal">
+
+    <h2>
+        Change Password
+    </h2>
+
+    <p>
+        Enter a new password for your SkillTwin AI account.
+    </p>
+
+    <div class="form-group">
+
+        <label>
+            Current Password
+        </label>
+
+        <input
+            type="password"
+            id="currentPassword"
+            placeholder="Current password">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            New Password
+        </label>
+
+        <input
+            type="password"
+            id="newPassword"
+            placeholder="New password">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>
+            Confirm New Password
+        </label>
+
+        <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm password">
+
+    </div>
+
+    <div class="modal-actions">
+
+        <button class="btn btn-secondary"
+                onclick="closePasswordModal()">
+
+            Cancel
+
+        </button>
+
+        <button class="btn btn-primary"
+                onclick="changePassword()">
+
+            Update Password
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= DELETE MODAL ================= -->
+
+<div class="modal-overlay"
+     id="deleteModal">
+
+<div class="modal">
+
+    <h2 style="color:#b91c1c;">
+        Delete Account?
+    </h2>
+
+    <p>
+        This action is permanent. Your SkillTwin profile,
+        progress information and account data may be removed.
+        This demo only clears the local account data.
+    </p>
+
+    <div class="modal-actions">
+
+        <button class="btn btn-secondary"
+                onclick="closeDeleteModal()">
+
+            Cancel
+
+        </button>
+
+        <button class="danger-btn"
+                onclick="deleteAccount()">
+
+            Yes, Delete Account
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==========================================
+   USER
+========================================== */
+
+let user={
+    name:"Ankita Chintakindi",
+    email:"ankita@example.com"
+};
+
+try{
+
+    const saved=
+        JSON.parse(
+            localStorage.getItem("skilltwin_user")
+        );
+
+    if(saved){
+
+        user=saved;
+
+    }
+
+}catch(error){}
+
+
+/* ==========================================
+   LOAD USER
+========================================== */
+
+function initials(name){
+
+    return name
+        .split(" ")
+        .map(x=>x[0])
+        .join("")
+        .substring(0,2)
+        .toUpperCase();
+
+}
+
+
+document.getElementById(
+    "profileName"
+).textContent=user.name;
+
+
+document.getElementById(
+    "avatar"
+).textContent=
+    initials(user.name);
+
+
+document.getElementById(
+    "largeAvatar"
+).textContent=
+    initials(user.name);
+
+
+document.getElementById(
+    "previewName"
+).textContent=
+    user.name;
+
+
+document.getElementById(
+    "previewEmail"
+).textContent=
+    user.email;
+
+
+document.getElementById(
+    "fullName"
+).value=
+    user.name;
+
+
+document.getElementById(
+    "email"
+).value=
+    user.email;
+
+
+/* ==========================================
+   SETTINGS TABS
+========================================== */
+
+function openTab(tabId,button){
+
+    document
+        .querySelectorAll(".settings-panel")
+        .forEach(panel=>{
+            panel.classList.remove("active");
+        });
+
+
+    document
+        .querySelectorAll(".settings-tab")
+        .forEach(tab=>{
+            tab.classList.remove("active");
+        });
+
+
+    document.getElementById(
+        tabId
+    ).classList.add("active");
+
+
+    button.classList.add("active");
+
+}
+
+
+/* ==========================================
+   SAVE ACCOUNT
+========================================== */
+
+function saveAccount(){
+
+    const name=
+        document.getElementById(
+            "fullName"
+        ).value.trim();
+
+
+    const email=
+        document.getElementById(
+            "email"
+        ).value.trim();
+
+
+    const career=
+        document.getElementById(
+            "careerGoal"
+        ).value;
+
+
+    const experience=
+        document.getElementById(
+            "experienceLevel"
+        ).value;
+
+
+    if(!name){
+
+        showToast(
+            "Please enter your name"
+        );
+
+        return;
+
+    }
+
+
+    if(!email){
+
+        showToast(
+            "Please enter your email"
+        );
+
+        return;
+
+    }
+
+
+    user.name=name;
+
+    user.email=email;
+
+    user.career=career;
+
+    user.experience=experience;
+
+    user.loggedIn=true;
+
+
+    localStorage.setItem(
+        "skilltwin_user",
+        JSON.stringify(user)
+    );
+
+
+    document.getElementById(
+        "profileName"
+    ).textContent=name;
+
+
+    document.getElementById(
+        "avatar"
+    ).textContent=
+        initials(name);
+
+
+    document.getElementById(
+        "largeAvatar"
+    ).textContent=
+        initials(name);
+
+
+    document.getElementById(
+        "previewName"
+    ).textContent=name;
+
+
+    document.getElementById(
+        "previewEmail"
+    ).textContent=email;
+
+
+    showToast(
+        "Account information saved"
+    );
+
+}
+
+
+/* ==========================================
+   RESET ACCOUNT
+========================================== */
+
+function resetAccount(){
+
+    document.getElementById(
+        "fullName"
+    ).value=user.name;
+
+
+    document.getElementById(
+        "email"
+    ).value=user.email;
+
+
+    showToast(
+        "Changes cancelled"
+    );
+
+}
+
+
+/* ==========================================
+   TOGGLE SETTINGS
+========================================== */
+
+function toggleSetting(button){
+
+    button.classList.toggle("on");
+
+
+    if(
+        button.classList.contains("on")
+    ){
+
+        showToast(
+            "Setting enabled"
+        );
+
+    }else{
+
+        showToast(
+            "Setting disabled"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   THEME
+========================================== */
+
+function changeTheme(value){
+
+    if(value==="light"){
+
+        document.body.style.background=
+            "#f3f7fc";
+
+        showToast(
+            "Light theme enabled"
+        );
+
+    }
+
+    if(value==="system"){
+
+        showToast(
+            "System theme selected"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   PASSWORD MODAL
+========================================== */
+
+function openPasswordModal(){
+
+    document.getElementById(
+        "passwordModal"
+    ).classList.add("show");
+
+}
+
+
+function closePasswordModal(){
+
+    document.getElementById(
+        "passwordModal"
+    ).classList.remove("show");
+
+}
+
+
+function changePassword(){
+
+    const current=
+        document.getElementById(
+            "currentPassword"
+        ).value;
+
+
+    const password=
+        document.getElementById(
+            "newPassword"
+        ).value;
+
+
+    const confirm=
+        document.getElementById(
+            "confirmPassword"
+        ).value;
+
+
+    if(!current || !password || !confirm){
+
+        showToast(
+            "Please fill all password fields"
+        );
+
+        return;
+
+    }
+
+
+    if(password.length<6){
+
+        showToast(
+            "Password must contain at least 6 characters"
+        );
+
+        return;
+
+    }
+
+
+    if(password!==confirm){
+
+        showToast(
+            "New passwords do not match"
+        );
+
+        return;
+
+    }
+
+
+    closePasswordModal();
+
+
+    document.getElementById(
+        "currentPassword"
+    ).value="";
+
+
+    document.getElementById(
+        "newPassword"
+    ).value="";
+
+
+    document.getElementById(
+        "confirmPassword"
+    ).value="";
+
+
+    showToast(
+        "Password updated successfully"
+    );
+
+}
+
+
+/* ==========================================
+   DELETE ACCOUNT
+========================================== */
+
+function openDeleteModal(){
+
+    document.getElementById(
+        "deleteModal"
+    ).classList.add("show");
+
+}
+
+
+function closeDeleteModal(){
+
+    document.getElementById(
+        "deleteModal"
+    ).classList.remove("show");
+
+}
+
+
+function deleteAccount(){
+
+    localStorage.clear();
+
+    window.location.href=
+        "login.html";
+
+}
+
+
+/* ==========================================
+   PROFILE
+========================================== */
+
+function toggleProfile(){
+
+    document.getElementById(
+        "profileMenu"
+    ).classList.toggle("show");
+
+}
+
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const profile=
+            document.querySelector(
+                ".profile"
+            );
+
+        if(
+            !profile.contains(
+                event.target
+            )
+        ){
+
+            document.getElementById(
+                "profileMenu"
+            ).classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+function toggleSidebar(){
+
+    document.getElementById(
+        "sidebar"
+    ).classList.toggle(
+        "open"
+    );
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout(){
+
+    localStorage.removeItem(
+        "skilltwin_user"
+    );
+
+    window.location.href=
+        "login.html";
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+function showToast(message){
+
+    const old=
+        document.querySelector(
+            ".toast"
+        );
+
+    if(old){
+        old.remove();
+    }
+
+
+    const toast=
+        document.createElement(
+            "div"
+        );
+
+    toast.className="toast";
+
+    toast.textContent=message;
+
+    document.body.appendChild(
+        toast
+    );
+
+
+    setTimeout(()=>{
+
+        toast.remove();
+
+    },3000);
+
+}
+
+
+/* ==========================================
+   MODAL CLICK OUTSIDE
+========================================== */
+
+document
+.getElementById("passwordModal")
+.addEventListener(
+    "click",
+    function(event){
+
+        if(event.target===this){
+
+            closePasswordModal();
+
+        }
+
+    }
+);
+
+
+document
+.getElementById("deleteModal")
+.addEventListener(
+    "click",
+    function(event){
+
+        if(event.target===this){
+
+            closeDeleteModal();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

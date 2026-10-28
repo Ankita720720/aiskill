@@ -1,0 +1,6 @@
+{
+  "name": "SkillTwin AI Platform",
+  "description": "Professional AI-powered skill twin, career readiness intelligence, day-to-day job opportunities feed with direct apply, mock interviews, proctored assessments, and interactive learning resource system.",
+  "requestFramePermissions": ["microphone", "camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

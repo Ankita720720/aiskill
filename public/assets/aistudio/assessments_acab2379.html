@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assessments | SkillTwin AI</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --navy: #0B1F3A;
+  --purple: #5B2EFF;
+  --purple-dark: #4820D8;
+  --teal: #00A88F;
+  --bg: #F3F7FC;
+  --white: #FFFFFF;
+  --text: #1E293B;
+  --muted: #64748B;
+  --border: #E2E8F0;
+  --purple-light: #EDE9FE;
+  --teal-light: #E6F7F4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ===== SIDEBAR NAVIGATION ===== */
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  overflow-y: auto;
+  background: var(--navy);
+  color: white;
+  padding: 0 14px 25px;
+  z-index: 1000;
+}
+
+.logo {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #ffffff14;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #5B2EFF, #00A88F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 23px;
+  font-weight: 800;
+  box-shadow: 0 5px 15px #5b2eff38;
+}
+
+.logo-text {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: white;
+  white-space: nowrap;
+}
+
+.logo-text span {
+  color: #A99AFF;
+}
+
+.menu-title {
+  color: #94A3B8;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  margin: 24px 11px 10px;
+}
+
+.nav-item {
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  margin: 3px 0;
+  border-radius: 9px;
+  color: #B9C4D5;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-item:hover {
+  background: #172F50;
+  color: white;
+}
+
+.nav-item.active {
+  background: var(--purple);
+  color: white;
+  box-shadow: 0 7px 18px #5b2eff40;
+}
+
+.nav-icon {
+  width: 20px;
+  flex: 0 0 20px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* ===== MAIN CONTENT ===== */
+
+.main {
+  margin-left: 250px;
+  min-height: 100vh;
+  padding: 25px 32px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.notification {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.notification-dot {
+  width: 7px;
+  height: 7px;
+  background: #EF4444;
+  border-radius: 50%;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.profile {
+  position: relative;
+}
+
+.profile-btn {
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 12px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--purple);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.profile-name {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.profile-email {
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.profile-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 48px;
+  width: 180px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 15px 35px #0f172a26;
+  padding: 7px;
+  z-index: 200;
+}
+
+.profile-menu.show {
+  display: block;
+}
+
+.profile-menu a,
+.profile-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  border: 0;
+  border-radius: 7px;
+  background: white;
+  color: var(--text);
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.profile-menu a:hover,
+.profile-menu button:hover {
+  background: var(--bg);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.header h1 {
+  color: var(--navy);
+  font-size: 26px;
+  margin-bottom: 7px;
+}
+
+.header p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.help-btn {
+  border: 1px solid var(--border);
+  background: white;
+  padding: 10px 14px;
+  border-radius: 9px;
+  color: var(--purple);
+  font-size: 11px;
+}
+
+/* ===== SUMMARY CARDS ===== */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.summary-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 5px 18px #0f172a09;
+}
+
+.summary-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 13px;
+}
+
+.summary-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+
+.icon-purple {
+  background: var(--purple-light);
+  color: var(--purple);
+}
+
+.icon-teal {
+  background: var(--teal-light);
+  color: var(--teal);
+}
+
+.icon-orange {
+  background: #FFF7E6;
+  color: #D97706;
+}
+
+.icon-green {
+  background: #EAF8EF;
+  color: #16A34A;
+}
+
+.summary-number {
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.summary-label {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ===== FILTER TABS ===== */
+
+.tabs {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--muted);
+  padding: 10px 17px;
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.tab:hover {
+  color: var(--purple);
+  border-color: #C9BEFF;
+}
+
+.tab.active {
+  background: var(--purple);
+  color: white;
+  border-color: var(--purple);
+}
+
+/* ===== ASSESSMENT CONTENT ===== */
+
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(260px, 0.75fr);
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  box-shadow: 0 5px 18px #0f172a09;
+}
+
+.assessment-card {
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-header h2 {
+  font-size: 15px;
+  margin-bottom: 5px;
+  color: var(--navy);
+}
+
+.card-header p {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.assessment-row {
+  display: grid;
+  grid-template-columns: minmax(170px, 1.7fr) 0.75fr 0.9fr 0.65fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  min-height: 76px;
+  border-bottom: 1px solid #EEF2F7;
+  transition: background 0.2s;
+}
+
+.assessment-row:last-child {
+  border-bottom: none;
+}
+
+.assessment-row:hover {
+  background: #FAF9FF;
+}
+
+.assessment-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.assessment-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--purple);
+  font-size: 17px;
+}
+
+.assessment-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.assessment-desc {
+  color: var(--muted);
+  font-size: 9px;
+  margin-top: 4px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 8px;
+  border-radius: 20px;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.badge-technical {
+  color: var(--purple);
+  background: var(--purple-light);
+}
+
+.badge-coding {
+  color: var(--teal);
+  background: var(--teal-light);
+}
+
+.badge-aptitude {
+  color: #B45309;
+  background: #FFF7E6;
+}
+
+.badge-domain {
+  color: #2563EB;
+  background: #EFF6FF;
+}
+
+.last-attempt {
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.action-btn {
+  border: none;
+  background: var(--purple);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 7px;
+  font-size: 9px;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.action-btn:hover {
+  background: var(--purple-dark);
+  transform: translateY(-1px);
+}
+
+.action-btn.coding {
+  background: var(--teal);
+}
+
+.action-btn.aptitude {
+  background: #D97706;
+}
+
+/* ===== PERFORMANCE PANEL ===== */
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.analytics {
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 5px;
+}
+
+.card-subtitle {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.progress-circle {
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  margin: 25px auto;
+  background: conic-gradient(
+    var(--purple) 0deg 273deg,
+    #E9EDF5 273deg 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.progress-circle::after {
+  content: "";
+  position: absolute;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: white;
+}
+
+.progress-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.progress-number {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.progress-text {
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.progress-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  margin: 13px 0 7px;
+}
+
+.mini-progress {
+  height: 6px;
+  background: #EDF1F7;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.mini-fill {
+  height: 100%;
+  border-radius: 20px;
+}
+
+.purple-fill {
+  background: var(--purple);
+  width: 76%;
+}
+
+.teal-fill {
+  background: var(--teal);
+  width: 68%;
+}
+
+.orange-fill {
+  background: #F59E0B;
+  width: 72%;
+}
+
+/* ===== AI COACH ===== */
+
+.ai-card {
+  padding: 20px;
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.ai-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--purple), #2563EB);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+
+.ai-header h3 {
+  font-size: 12px;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.ai-header span {
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.ai-card p {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.ai-link {
+  color: var(--purple);
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.ai-link:hover {
+  text-decoration: underline;
+}
+
+.empty {
+  display: none;
+  padding: 30px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.empty-icon {
+  font-size: 25px;
+  margin-bottom: 8px;
+}
+
+.empty h3 {
+  color: var(--navy);
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+/* ===== HELP MODAL ===== */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: #0B1F3A99;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal {
+  width: 520px;
+  max-width: 100%;
+  background: white;
+  border-radius: 15px;
+  padding: 24px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.modal-header h2 {
+  font-size: 18px;
+  color: var(--navy);
+}
+
+.close-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: var(--bg);
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.modal p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.modal-steps {
+  margin-top: 18px;
+}
+
+.modal-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #EEF2F7;
+  font-size: 10px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.modal-step strong {
+  color: var(--navy);
+}
+
+.step-number {
+  width: 25px;
+  height: 25px;
+  border-radius: 8px;
+  background: var(--purple-light);
+  color: var(--purple);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-weight: 800;
+}
+
+/* ===== NOTIFICATION TOAST ===== */
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: var(--navy);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 9px;
+  font-size: 11px;
+  z-index: 500;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.25s;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footer {
+  padding: 22px 0 5px;
+  text-align: center;
+  color: #94A3B8;
+  font-size: 9px;
+}
+
+/* ===== RESPONSIVE LAYOUT ===== */
+
+@media (max-width: 1200px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .main {
+    margin-left: 220px;
+    padding: 22px 18px;
+  }
+
+  .assessment-row {
+    grid-template-columns: minmax(150px, 1.5fr) 0.7fr 0.7fr;
+  }
+
+  .assessment-row > :nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 18px 12px;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .assessment-row {
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+  }
+
+  .assessment-row > :nth-child(2),
+  .assessment-row > :nth-child(3) {
+    display: none;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== SIDEBAR NAVIGATION ===== -->
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">✦</div>
+    <div class="logo-text">Skill<span>Twin</span> AI</div>
+  </div>
+
+  <nav>
+    <div class="menu-title">MAIN</div>
+
+    <a href="dashboard.html" class="nav-item">
+      <span class="nav-icon">⌂</span>Dashboard
+    </a>
+
+    <a href="resume-analyzer.html" class="nav-item">
+      <span class="nav-icon">▣</span>Resume Analyzer
+    </a>
+
+    <a href="assessments.html" class="nav-item active">
+      <span class="nav-icon">✓</span>Assessments
+    </a>
+
+    <a href="skill-gap.html" class="nav-item">
+      <span class="nav-icon">◇</span>Skill Gap
+    </a>
+
+    <a href="career-path.html" class="nav-item">
+      <span class="nav-icon">⌁</span>Career Path
+    </a>
+
+    <div class="menu-title">LEARN</div>
+
+    <a href="learning-resources.html" class="nav-item">
+      <span class="nav-icon">▤</span>Learning Resources
+    </a>
+
+    <a href="projects.html" class="nav-item">
+      <span class="nav-icon">▦</span>Projects
+    </a>
+
+    <div class="menu-title">CAREER</div>
+
+    <a href="mock-interview.html" class="nav-item">
+      <span class="nav-icon">◉</span>Mock Interview
+    </a>
+
+    <a href="job-vacancies.html" class="nav-item">
+      <span class="nav-icon">▥</span>Job Vacancies
+    </a>
+
+    <div class="menu-title">INSIGHTS</div>
+
+    <a href="analytics.html" class="nav-item">
+      <span class="nav-icon">◫</span>Analytics & Reports
+    </a>
+
+    <div class="menu-title">SYSTEM</div>
+
+    <a href="settings.html" class="nav-item">
+      <span class="nav-icon">⚙</span>Settings
+    </a>
+  </nav>
+</aside>
+
+<main class="main">
+
+  <header class="topbar">
+    <div class="notification"
+         onclick="showToast('No new notifications')"
+         title="Notifications">
+      ♧ <span class="notification-dot"></span>
+    </div>
+
+    <div class="profile">
+      <button class="profile-btn" onclick="toggleProfile()">
+        <span class="avatar" id="avatar">AC</span>
+
+        <span>
+          <span class="profile-name" id="profileName">Ankita Chintakindi</span><br>
+          <span class="profile-email" id="profileEmail">Student</span>
+        </span>
+
+        <span>⌄</span>
+      </button>
+
+      <div class="profile-menu" id="profileMenu">
+        <a href="profile.html">View Profile</a>
+        <a href="settings.html">Settings</a>
+        <button onclick="openHelp()">Help & Support</button>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="header">
+    <div>
+      <h1>Assessments</h1>
+      <p>Test your knowledge, evaluate your skills, and track your learning progress.</p>
+    </div>
+
+    <button class="help-btn" onclick="openHelp()">ⓘ How It Works</button>
+  </section>
+
+  <section class="summary-grid">
+
+    <div class="summary-card">
+      <div class="summary-top">
+        <div class="summary-icon icon-purple">▤</div>
+      </div>
+      <div class="summary-number" id="totalCount">8</div>
+      <div class="summary-label">Available Assessments</div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-top">
+        <div class="summary-icon icon-teal">✓</div>
+      </div>
+      <div class="summary-number" id="completedCount">3</div>
+      <div class="summary-label">Completed Assessments</div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-top">
+        <div class="summary-icon icon-orange">◷</div>
+      </div>
+      <div class="summary-number">45 min</div>
+      <div class="summary-label">Average Test Duration</div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-top">
+        <div class="summary-icon icon-green">↗</div>
+      </div>
+      <div class="summary-number" id="averageScore">76%</div>
+      <div class="summary-label">Average Score</div>
+    </div>
+
+  </section>
+
+  <section class="tabs">
+    <button class="tab active" onclick="filterAssessments('all',this)">All Assessments</button>
+    <button class="tab" onclick="filterAssessments('technical',this)">Technical</button>
+    <button class="tab" onclick="filterAssessments('coding',this)">Coding</button>
+    <button class="tab" onclick="filterAssessments('aptitude',this)">Aptitude</button>
+    <button class="tab" onclick="filterAssessments('domain',this)">Domain Specific</button>
+  </section>
+
+  <section class="content-grid">
+
+    <div class="card assessment-card">
+
+      <div class="card-header">
+        <h2>Available Assessments</h2>
+        <p>Choose an assessment to practise and evaluate your knowledge.</p>
+      </div>
+
+      <div class="assessment-row" data-type="technical">
+        <div class="assessment-info">
+          <div class="assessment-icon">⌘</div>
+          <div>
+            <div class="assessment-name">JavaScript Fundamentals</div>
+            <div class="assessment-desc">Core concepts, functions and objects</div>
+          </div>
+        </div>
+        <span class="badge badge-technical">Technical</span>
+        <span class="last-attempt">Last score: 82%</span>
+        <button class="action-btn" onclick="startTechnical('JavaScript Fundamentals')">Start</button>
+      </div>
+
+      <div class="assessment-row" data-type="technical">
+        <div class="assessment-info">
+          <div class="assessment-icon">⚛</div>
+          <div>
+            <div class="assessment-name">React.js Development</div>
+            <div class="assessment-desc">Components, hooks and state management</div>
+          </div>
+        </div>
+        <span class="badge badge-technical">Technical</span>
+        <span class="last-attempt">Last score: 74%</span>
+        <button class="action-btn" onclick="startTechnical('React.js Development')">Start</button>
+      </div>
+
+      <div class="assessment-row" data-type="technical">
+        <div class="assessment-info">
+          <div class="assessment-icon">⬡</div>
+          <div>
+            <div class="assessment-name">Node.js Fundamentals</div>
+            <div class="assessment-desc">Backend development and APIs</div>
+          </div>
+        </div>
+        <span class="badge badge-technical">Technical</span>
+        <span class="last-attempt">Not attempted</span>
+        <button class="action-btn" onclick="startTechnical('Node.js Fundamentals')">Start</button>
+      </div>
+
+      <div class="assessment-row" data-type="coding">
+        <div class="assessment-info">
+          <div class="assessment-icon">{ }</div>
+          <div>
+            <div class="assessment-name">Coding Challenge</div>
+            <div class="assessment-desc">Logic, algorithms and problem solving</div>
+          </div>
+        </div>
+        <span class="badge badge-coding">Coding</span>
+        <span class="last-attempt">Last score: 68%</span>
+        <button class="action-btn coding" onclick="startCoding()">Start</button>
+      </div>
+
+      <div class="assessment-row" data-type="aptitude">
+        <div class="assessment-info">
+          <div class="assessment-icon">∑</div>
+          <div>
+            <div class="assessment-name">Quantitative Aptitude</div>
+            <div class="assessment-desc">Numerical reasoning and mathematics</div>
+          </div>
+        </div>
+        <span class="badge badge-aptitude">Aptitude</span>
+        <span class="last-attempt">Last score: 72%</span>
+        <button class="action-btn aptitude" onclick="startAptitude()">Start</button>
+      </div>
+
+      <div class="assessment-row" data-type="aptitude">
+        <div class="assessment-info">
+          <div class="assessment-icon">◎</div>
+          <div>
+            <div class="assessment-name">Logical Reasoning</div>
+            <div class="assessment-desc">Patterns, sequences and logical thinking</div>
+          </div>
+        </div>
+        <span class="badge badge-aptitude">Aptitude</span>
+        <span class="last-attempt">Not attempted</span>
+        <button class="action-btn aptitude" onclick="startAptitude()">Start</button>
+      </div>
+
+      <div class="assessment-row" data-type="domain">
+        <div class="assessment-info">
+          <div class="assessment-icon">▦</div>
+          <div>
+            <div class="assessment-name">SQL & Database Basics</div>
+            <div class="assessment-desc">Queries, joins and database concepts</div>
+          </div>
+        </div>
+        <span class="badge badge-domain">Domain</span>
+        <span class="last-attempt">Last score: 80%</span>
+        <button class="action-btn" onclick="startTechnical('SQL & Database Basics')">Start</button>
+      </div>
+
+      <div class="assessment-row" data-type="domain">
+        <div class="assessment-info">
+          <div class="assessment-icon">◈</div>
+          <div>
+            <div class="assessment-name">MongoDB Basics</div>
+            <div class="assessment-desc">Collections, documents and queries</div>
+          </div>
+        </div>
+        <span class="badge badge-domain">Domain</span>
+        <span class="last-attempt">Not attempted</span>
+        <button class="action-btn" onclick="startTechnical('MongoDB Basics')">Start</button>
+      </div>
+
+      <div class="empty" id="emptyState">
+        <div class="empty-icon">🔍</div>
+        <h3>No assessments found</h3>
+        <p>There are no assessments in this category yet.</p>
+      </div>
+
+    </div>
+
+    <div class="right-column">
+
+      <div class="card analytics">
+        <div class="card-title">Assessment Performance</div>
+        <div class="card-subtitle">Your overall assessment progress</div>
+
+        <div class="progress-circle">
+          <div class="progress-content">
+            <div class="progress-number" id="circleScore">76%</div>
+            <div class="progress-text">Average Score</div>
+          </div>
+        </div>
+
+        <div class="progress-line"><span>Technical</span><span>76%</span></div>
+        <div class="mini-progress"><div class="mini-fill purple-fill"></div></div>
+
+        <div class="progress-line"><span>Coding</span><span>68%</span></div>
+        <div class="mini-progress"><div class="mini-fill teal-fill"></div></div>
+
+        <div class="progress-line"><span>Aptitude</span><span>72%</span></div>
+        <div class="mini-progress"><div class="mini-fill orange-fill"></div></div>
+      </div>
+
+      <div class="card ai-card">
+        <div class="ai-header">
+          <div class="ai-icon">✦</div>
+          <div>
+            <h3>AI Assessment Coach</h3>
+            <span>Personalized recommendation</span>
+          </div>
+        </div>
+
+        <p>Your current skill profile suggests that backend development needs more practice. Try the Node.js assessment next, then use your result to update your Skill Gap analysis.</p>
+
+        <div class="ai-link" onclick="startTechnical('Node.js Fundamentals')">
+          Start Node.js Assessment →
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <div class="footer">
+    SkillTwin AI · Discover Your Skills. Bridge Your Gaps. Build Your Future.
+  </div>
+
+</main>
+
+<!-- ===== HELP MODAL ===== -->
+
+<div class="modal-overlay" id="helpModal">
+  <div class="modal">
+
+    <div class="modal-header">
+      <h2>How Assessments Work</h2>
+      <button class="close-btn" onclick="closeHelp()">×</button>
+    </div>
+
+    <p>SkillTwin AI uses different assessment formats to evaluate your technical knowledge, coding ability and aptitude.</p>
+
+    <div class="modal-steps">
+
+      <div class="modal-step">
+        <div class="step-number">1</div>
+        <div>
+          <strong>Choose an assessment</strong><br>
+          Select Technical, Coding, Aptitude or Domain.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-number">2</div>
+        <div>
+          <strong>Complete the assessment</strong><br>
+          Answer questions or solve coding problems.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-number">3</div>
+        <div>
+          <strong>Get your result</strong><br>
+          Your score and performance can be saved automatically.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-number">4</div>
+        <div>
+          <strong>Improve your skills</strong><br>
+          Use your results to identify skill gaps and choose learning resources.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== LOAD PROFILE ===== */
+
+function loadUser() {
+  let savedUser = null;
+
+  try {
+    savedUser = JSON.parse(
+      localStorage.getItem("skilltwin_user") || "null"
+    );
+  } catch (error) {}
+
+  const name = savedUser?.name || "Ankita Chintakindi";
+  const email = savedUser?.email || "Student Account";
+
+  document.getElementById("profileName").textContent = name;
+  document.getElementById("profileEmail").textContent = email;
+
+  const initials = name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(word => word[0])
+    .join("")
+    .toUpperCase();
+
+  document.getElementById("avatar").textContent = initials || "AC";
+}
+
+loadUser();
+
+/* ===== PROFILE MENU ===== */
+
+function toggleProfile() {
+  document.getElementById("profileMenu").classList.toggle("show");
+}
+
+document.addEventListener("click", function(event) {
+  const profile = document.querySelector(".profile");
+
+  if (profile && !profile.contains(event.target)) {
+    document.getElementById("profileMenu").classList.remove("show");
+  }
+});
+
+/* ===== LOGOUT ===== */
+
+function logout() {
+  localStorage.removeItem("skilltwin_user");
+  window.location.href = "login.html";
+}
+
+/* ===== NAVIGATION ===== */
+
+function go(page) {
+  window.location.href = page;
+}
+
+/* ===== START ASSESSMENTS ===== */
+
+function startTechnical(testName) {
+  localStorage.setItem("selected_assessment", testName);
+  localStorage.setItem("assessment_type", "technical");
+  window.location.href = "assessment-test.html";
+}
+
+function startCoding() {
+  localStorage.setItem("assessment_type", "coding");
+  localStorage.setItem("selected_assessment", "Coding Challenge");
+  window.location.href = "coding-test.html";
+}
+
+function startAptitude() {
+  localStorage.setItem("assessment_type", "aptitude");
+  localStorage.setItem("selected_assessment", "Aptitude Assessment");
+  window.location.href = "aptitude-test.html";
+}
+
+/* ===== FILTER ASSESSMENTS ===== */
+
+function filterAssessments(type, button) {
+  const rows = document.querySelectorAll(".assessment-row");
+  let visible = 0;
+
+  rows.forEach(row => {
+    const rowType = row.getAttribute("data-type");
+    const show = type === "all" || rowType === type;
+
+    row.style.display = show ? "grid" : "none";
+
+    if (show) visible++;
+  });
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+  });
+
+  button.classList.add("active");
+
+  document.getElementById("emptyState").style.display =
+    visible === 0 ? "block" : "none";
+}
+
+/* ===== HELP MODAL ===== */
+
+function openHelp() {
+  document.getElementById("helpModal").classList.add("show");
+}
+
+function closeHelp() {
+  document.getElementById("helpModal").classList.remove("show");
+}
+
+document.getElementById("helpModal").addEventListener("click", function(event) {
+  if (event.target === this) {
+    closeHelp();
+  }
+});
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") {
+    closeHelp();
+    document.getElementById("profileMenu").classList.remove("show");
+  }
+});
+
+/* ===== TOAST MESSAGE ===== */
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(showToast.timer);
+
+  showToast.timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
+
+/* ===== UPDATE ASSESSMENT STATISTICS ===== */
+
+function updateAssessmentStats() {
+  let savedScores = [];
+
+  try {
+    savedScores = JSON.parse(
+      localStorage.getItem("assessment_scores") || "[]"
+    );
+  } catch (error) {
+    savedScores = [];
+  }
+
+  const scores = savedScores
+    .map(item => Number(typeof item === "object" ? item.score : item))
+    .filter(score => Number.isFinite(score));
+
+  if (!scores.length) return;
+
+  const average = Math.round(
+    scores.reduce((a, b) => a + b, 0) / scores.length
+  );
+
+  document.getElementById("completedCount").textContent = scores.length;
+  document.getElementById("averageScore").textContent = average + "%";
+  document.getElementById("circleScore").textContent = average + "%";
+}
+
+updateAssessmentStats();
+</script>
+
+</body>
+</html>

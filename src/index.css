@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+:root {
+  --navy: #0B1F3A;
+  --purple: #5B2EFF;
+  --purple-dark: #4820DC;
+  --teal: #00A88F;
+  --bg: #F3F7FC;
+  --white: #FFFFFF;
+  --text: #334155;
+  --muted: #64748B;
+  --border: #E2E8F0;
+  --light-purple: #EDE9FE;
+  --light-teal: #E6F7F4;
+}
+
+body {
+  font-family: Inter, Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global button, link & typography resets */
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Common button classes matching all provided HTML templates */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 9px;
+  padding: 11px 17px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--purple);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--purple-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(91, 46, 255, 0.2);
+}
+
+.btn-outline {
+  background: white;
+  border: 1px solid #D8E0EA;
+  color: var(--text);
+}
+
+.btn-outline:hover {
+  border-color: var(--purple);
+  color: var(--purple);
+}
+
+.btn-secondary {
+  background: white;
+  color: #334155;
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: #F8FAFC;
+}
+
+.btn-teal, .btn-success {
+  background: var(--teal);
+  color: white;
+}
+
+.btn-teal:hover, .btn-success:hover {
+  background: #008F7A;
+}
+
+/* Global Card style */
+.st-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.025);
+}
+
+/* Global AI Banner style */
+.st-ai-banner {
+  background: linear-gradient(120deg, #0B1F3A, #182F55);
+  color: white;
+  border-radius: 16px;
+  padding: 24px 28px;
+}
+
+/* Smooth custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}

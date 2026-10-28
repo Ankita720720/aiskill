@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Analysis Result | SkillTwin AI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+}
+
+body{
+    background:#F3F7FC;
+    color:#0B1F3A;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button{
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:255px;
+    background:#0B1F3A;
+    color:white;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    padding:24px 16px;
+    overflow-y:auto;
+    z-index:1000;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:0 10px 28px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#5B2EFF,#00A88F);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:800;
+}
+
+.logo h2{
+    font-size:19px;
+    letter-spacing:-.4px;
+}
+
+.logo span{
+    color:#A5B4FC;
+}
+
+.menu-title{
+    font-size:10px;
+    font-weight:700;
+    color:#7F91AA;
+    letter-spacing:1.2px;
+    margin:24px 10px 8px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 12px;
+    border-radius:9px;
+    margin-bottom:4px;
+    color:#C5D0DE;
+    font-size:13.5px;
+    transition:.2s;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,.07);
+    color:white;
+}
+
+.nav-item.active{
+    background:#5B2EFF;
+    color:white;
+    box-shadow:0 5px 15px rgba(91,46,255,.25);
+}
+
+.nav-icon{
+    width:19px;
+    text-align:center;
+    font-size:16px;
+}
+
+/* MAIN */
+.main{
+    margin-left:255px;
+    width:calc(100% - 255px);
+    min-height:100vh;
+}
+
+/* TOPBAR */
+.topbar{
+    height:72px;
+    background:white;
+    border-bottom:1px solid #E2E8F0;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding:0 32px;
+    gap:20px;
+    position:sticky;
+    top:0;
+    z-index:500;
+}
+
+.notification{
+    width:38px;
+    height:38px;
+    border:1px solid #E2E8F0;
+    border-radius:10px;
+    background:white;
+    font-size:17px;
+    position:relative;
+}
+
+.notification::after{
+    content:"";
+    position:absolute;
+    width:7px;
+    height:7px;
+    background:#5B2EFF;
+    border-radius:50%;
+    top:7px;
+    right:7px;
+    border:2px solid white;
+}
+
+.profile-wrap{
+    position:relative;
+}
+
+.profile-btn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:white;
+    padding:5px 8px 5px 5px;
+    border-radius:12px;
+}
+
+.avatar{
+    width:39px;
+    height:39px;
+    border-radius:11px;
+    background:linear-gradient(135deg,#5B2EFF,#00A88F);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:13px;
+}
+
+.profile-info{
+    text-align:left;
+}
+
+.profile-info strong{
+    display:block;
+    font-size:13px;
+}
+
+.profile-info small{
+    color:#64748B;
+    font-size:11px;
+}
+
+.dropdown{
+    position:absolute;
+    top:53px;
+    right:0;
+    width:190px;
+    background:white;
+    border:1px solid #E2E8F0;
+    border-radius:12px;
+    box-shadow:0 15px 40px rgba(15,23,42,.13);
+    padding:8px;
+    display:none;
+}
+
+.dropdown.show{
+    display:block;
+}
+
+.dropdown a,
+.dropdown button{
+    width:100%;
+    padding:10px;
+    display:block;
+    background:white;
+    text-align:left;
+    border-radius:8px;
+    font-size:13px;
+    color:#334155;
+}
+
+.dropdown a:hover,
+.dropdown button:hover{
+    background:#F3F7FC;
+}
+
+.dropdown .logout{
+    color:#DC2626;
+}
+
+/* CONTENT */
+.content{
+    padding:30px 34px 50px;
+    max-width:1500px;
+    margin:auto;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:24px;
+}
+
+.page-header h1{
+    font-size:28px;
+    letter-spacing:-.8px;
+    margin-bottom:7px;
+}
+
+.page-header p{
+    color:#64748B;
+    font-size:14px;
+}
+
+.header-actions{
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    padding:11px 17px;
+    border-radius:9px;
+    font-size:13px;
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+}
+
+.btn-primary{
+    background:#5B2EFF;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#4820DC;
+}
+
+.btn-secondary{
+    background:white;
+    color:#334155;
+    border:1px solid #E2E8F0;
+}
+
+.btn-secondary:hover{
+    background:#F8FAFC;
+}
+
+/* SUCCESS BANNER */
+.success-banner{
+    background:linear-gradient(110deg,#EEFDF9,#F3F0FF);
+    border:1px solid #D8EDE8;
+    border-radius:15px;
+    padding:18px 21px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:24px;
+}
+
+.success-left{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.success-icon{
+    width:43px;
+    height:43px;
+    border-radius:12px;
+    background:#00A88F;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:20px;
+}
+
+.success-banner strong{
+    font-size:15px;
+}
+
+.success-banner p{
+    font-size:12px;
+    color:#64748B;
+    margin-top:3px;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border:1px solid #E2E8F0;
+    border-radius:15px;
+    padding:22px;
+    box-shadow:0 5px 20px rgba(15,23,42,.035);
+}
+
+.card-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.card-title h3{
+    font-size:16px;
+}
+
+.card-title span{
+    font-size:12px;
+    color:#64748B;
+}
+
+/* MATCH SCORE */
+.match-card{
+    display:flex;
+    align-items:center;
+    gap:28px;
+    min-height:235px;
+}
+
+.score-circle{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background:conic-gradient(#5B2EFF 72%,#EDE9FE 0);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    flex-shrink:0;
+}
+
+.score-circle::before{
+    content:"";
+    position:absolute;
+    width:116px;
+    height:116px;
+    background:white;
+    border-radius:50%;
+}
+
+.score-number{
+    position:relative;
+    text-align:center;
+}
+
+.score-number strong{
+    display:block;
+    font-size:34px;
+}
+
+.score-number small{
+    color:#64748B;
+    font-size:11px;
+}
+
+.match-info h2{
+    font-size:21px;
+    margin-bottom:8px;
+}
+
+.match-info p{
+    color:#64748B;
+    font-size:13px;
+    line-height:1.6;
+    margin-bottom:14px;
+}
+
+.tag{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:20px;
+    background:#E6F7F4;
+    color:#008774;
+    font-size:11px;
+    font-weight:700;
+}
+
+/* SCORE BREAKDOWN */
+.breakdown{
+    display:grid;
+    gap:15px;
+}
+
+.score-row{
+    display:grid;
+    grid-template-columns:125px 1fr 42px;
+    gap:10px;
+    align-items:center;
+}
+
+.score-row span{
+    font-size:12px;
+    color:#475569;
+}
+
+.bar{
+    height:8px;
+    background:#EEF2F7;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    border-radius:20px;
+    background:#5B2EFF;
+}
+
+.score-row b{
+    font-size:12px;
+    text-align:right;
+}
+
+/* SECTION */
+.section{
+    margin-top:20px;
+}
+
+/* SKILLS */
+.skills{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.skill{
+    padding:14px;
+    border:1px solid #E2E8F0;
+    border-radius:11px;
+}
+
+.skill-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.skill-top span{
+    font-size:12px;
+    font-weight:600;
+}
+
+.skill-top b{
+    font-size:12px;
+    color:#00A88F;
+}
+
+.skill-bar{
+    height:6px;
+    background:#F1F5F9;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.skill-fill{
+    height:100%;
+    background:#00A88F;
+}
+
+/* INFO GRID */
+.info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.info-item{
+    padding:13px 0;
+    border-bottom:1px solid #EEF2F7;
+}
+
+.info-item:last-child{
+    border-bottom:none;
+}
+
+.info-label{
+    color:#94A3B8;
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.info-value{
+    font-size:13px;
+    font-weight:600;
+}
+
+/* PROJECTS */
+.project{
+    padding:13px 0;
+    border-bottom:1px solid #EEF2F7;
+}
+
+.project:last-child{
+    border-bottom:none;
+}
+
+.project h4{
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.project p{
+    color:#64748B;
+    font-size:11px;
+}
+
+/* LIST */
+.list{
+    display:grid;
+    gap:12px;
+}
+
+.list-item{
+    display:flex;
+    gap:11px;
+    align-items:flex-start;
+}
+
+.list-icon{
+    width:27px;
+    height:27px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#E6F7F4;
+    color:#00A88F;
+    font-size:12px;
+    flex-shrink:0;
+}
+
+.list-icon.warning{
+    background:#FFF7ED;
+    color:#EA580C;
+}
+
+.list-item strong{
+    display:block;
+    font-size:12px;
+    margin-bottom:3px;
+}
+
+.list-item p{
+    color:#64748B;
+    font-size:11px;
+    line-height:1.5;
+}
+
+/* AI CARD */
+.ai-card{
+    background:linear-gradient(135deg,#F5F2FF,#F0FDFA);
+    border:1px solid #E3DDFE;
+}
+
+.ai-heading{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:13px;
+}
+
+.ai-icon{
+    width:35px;
+    height:35px;
+    background:#5B2EFF;
+    color:white;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.ai-card h3{
+    font-size:15px;
+}
+
+.ai-card p{
+    font-size:12px;
+    color:#475569;
+    line-height:1.65;
+}
+
+.ai-list{
+    margin-top:15px;
+    display:grid;
+    gap:9px;
+}
+
+.ai-list div{
+    background:white;
+    border-radius:9px;
+    padding:10px 12px;
+    font-size:12px;
+    display:flex;
+    gap:8px;
+}
+
+.ai-list b{
+    color:#5B2EFF;
+}
+
+/* BOTTOM ACTION */
+.bottom-actions{
+    margin-top:20px;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+/* MOBILE */
+.mobile-toggle{
+    display:none;
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    background:#0B1F3A;
+    color:white;
+    font-size:18px;
+}
+
+@media(max-width:1050px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .skills{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:800px){
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+    }
+
+    .mobile-toggle{
+        display:block;
+        margin-right:auto;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .profile-info{
+        display:none;
+    }
+
+    .content{
+        padding:22px 16px 40px;
+    }
+
+    .page-header{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .match-card{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .skills{
+        grid-template-columns:1fr;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .success-banner{
+        align-items:flex-start;
+        gap:15px;
+        flex-direction:column;
+    }
+}
+
+@media(max-width:500px){
+    .page-header h1{
+        font-size:23px;
+    }
+
+    .header-actions{
+        width:100%;
+    }
+
+    .header-actions .btn{
+        flex:1;
+        justify-content:center;
+    }
+
+    .score-row{
+        grid-template-columns:100px 1fr 35px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">S</div>
+        <h2>Skill<span>Twin</span> AI</h2>
+    </div>
+
+    <div class="menu-title">MAIN</div>
+
+    <a href="dashboard.html" class="nav-item">
+        <span class="nav-icon">⌂</span> Dashboard
+    </a>
+
+    <a href="resume-analyzer.html" class="nav-item active">
+        <span class="nav-icon">▣</span> Resume Analyzer
+    </a>
+
+    <a href="assessments.html" class="nav-item">
+        <span class="nav-icon">✓</span> Assessments
+    </a>
+
+    <a href="skill-gap.html" class="nav-item">
+        <span class="nav-icon">◈</span> Skill Gap
+    </a>
+
+    <a href="career-path.html" class="nav-item">
+        <span class="nav-icon">⌁</span> Career Path
+    </a>
+
+    <div class="menu-title">LEARN</div>
+
+    <a href="learning-resources.html" class="nav-item">
+        <span class="nav-icon">▤</span> Learning Resources
+    </a>
+
+    <a href="projects.html" class="nav-item">
+        <span class="nav-icon">▦</span> Projects
+    </a>
+
+    <div class="menu-title">CAREER</div>
+
+    <a href="mock-interview.html" class="nav-item">
+        <span class="nav-icon">◉</span> Mock Interview
+    </a>
+
+    <a href="job-vacancies.html" class="nav-item">
+        <span class="nav-icon">▰</span> Job Vacancies
+    </a>
+
+    <div class="menu-title">INSIGHTS</div>
+
+    <a href="analytics.html" class="nav-item">
+        <span class="nav-icon">◒</span> Analytics & Reports
+    </a>
+
+    <div class="menu-title">SYSTEM</div>
+
+    <a href="settings.html" class="nav-item">
+        <span class="nav-icon">⚙</span> Settings
+    </a>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+        <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+
+        <button class="notification">♢</button>
+
+        <div class="profile-wrap">
+
+            <button class="profile-btn" onclick="toggleProfile()">
+
+                <div class="avatar" id="avatar">AC</div>
+
+                <div class="profile-info">
+                    <strong id="userName">Ankita Chintakindi</strong>
+                    <small id="userEmail">ankita@example.com</small>
+                </div>
+
+                <span>⌄</span>
+
+            </button>
+
+            <div class="dropdown" id="dropdown">
+
+                <a href="profile.html">View Profile</a>
+                <a href="settings.html">Settings</a>
+                <a href="#">Help & Support</a>
+                <button class="logout" onclick="logout()">Logout</button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+
+        <div class="page-header">
+
+            <div>
+                <h1>Resume Analysis Result</h1>
+                <p>Here's what SkillTwin AI discovered from your resume.</p>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="downloadReport()">
+                    ↓ Download Report
+                </button>
+
+                <button class="btn btn-primary" onclick="analyzeAnother()">
+                    + Analyze Another
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- SUCCESS -->
+        <div class="success-banner">
+
+            <div class="success-left">
+
+                <div class="success-icon">✓</div>
+
+                <div>
+                    <strong>Resume analysis completed successfully</strong>
+                    <p id="fileName">Your resume has been analyzed using AI.</p>
+                </div>
+
+            </div>
+
+            <span class="tag">AI Analysis Complete</span>
+
+        </div>
+
+
+        <div class="grid">
+
+            <!-- MATCH SCORE -->
+            <div class="card">
+
+                <div class="card-title">
+                    <h3>Overall Resume Match</h3>
+                    <span>AI Career Analysis</span>
+                </div>
+
+                <div class="match-card">
+
+                    <div class="score-circle">
+                        <div class="score-number">
+                            <strong>72%</strong>
+                            <small>Match</small>
+                        </div>
+                    </div>
+
+                    <div class="match-info">
+                        <h2>Good Career Alignment</h2>
+
+                        <p>
+                            Your resume shows a solid foundation in frontend
+                            development. Adding backend and database skills
+                            can improve your alignment with full-stack roles.
+                        </p>
+
+                        <span class="tag">Frontend → Full Stack</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SCORE BREAKDOWN -->
+            <div class="card">
+
+                <div class="card-title">
+                    <h3>Score Breakdown</h3>
+                    <span>AI Evaluation</span>
+                </div>
+
+                <div class="breakdown">
+
+                    <div class="score-row">
+                        <span>Technical Skills</span>
+                        <div class="bar">
+                            <div class="fill" style="width:78%"></div>
+                        </div>
+                        <b>78%</b>
+                    </div>
+
+                    <div class="score-row">
+                        <span>Career Alignment</span>
+                        <div class="bar">
+                            <div class="fill" style="width:75%"></div>
+                        </div>
+                        <b>75%</b>
+                    </div>
+
+                    <div class="score-row">
+                        <span>Projects</span>
+                        <div class="bar">
+                            <div class="fill" style="width:70%"></div>
+                        </div>
+                        <b>70%</b>
+                    </div>
+
+                    <div class="score-row">
+                        <span>Resume Strength</span>
+                        <div class="bar">
+                            <div class="fill" style="width:68%"></div>
+                        </div>
+                        <b>68%</b>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DETECTED SKILLS -->
+        <div class="card section">
+
+            <div class="card-title">
+                <h3>Detected Technical Skills</h3>
+                <span>8 skills identified</span>
+            </div>
+
+            <div class="skills">
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>HTML</span>
+                        <b>92%</b>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width:92%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>CSS</span>
+                        <b>88%</b>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width:88%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>JavaScript</span>
+                        <b>74%</b>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width:74%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>React</span>
+                        <b>78%</b>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width:78%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>Python</span>
+                        <b>65%</b>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width:65%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>SQL</span>
+                        <b>62%</b>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width:62%"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFO -->
+        <div class="info-grid section">
+
+            <!-- EDUCATION -->
+            <div class="card">
+
+                <div class="card-title">
+                    <h3>Education & Experience</h3>
+                    <span>Detected</span>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">EDUCATION</div>
+                    <div class="info-value">
+                        B.Tech — Electronics & Telecommunication Engineering
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">COLLEGE</div>
+                    <div class="info-value">
+                        VVPIT, Solapur
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">EXPERIENCE</div>
+                    <div class="info-value">
+                        Web Development / Internship Experience
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- PROJECTS -->
+            <div class="card">
+
+                <div class="card-title">
+                    <h3>Projects Detected</h3>
+                    <span>3+ projects</span>
+                </div>
+
+                <div class="project">
+                    <h4>Omicra IT Solutions</h4>
+                    <p>Company website / web development project</p>
+                </div>
+
+                <div class="project">
+                    <h4>Rajkamal Traders</h4>
+                    <p>Business website development project</p>
+                </div>
+
+                <div class="project">
+                    <h4>Allah-Bakhsh Bakery Website</h4>
+                    <p>Responsive frontend website project</p>
+                </div>
+
+                <div class="project">
+                    <h4>Personal Portfolio</h4>
+                    <p>Portfolio showcasing technical projects</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STRENGTHS & GAPS -->
+        <div class="grid section">
+
+            <div class="card">
+
+                <div class="card-title">
+                    <h3>Resume Strengths</h3>
+                    <span>What stands out</span>
+                </div>
+
+                <div class="list">
+
+                    <div class="list-item">
+
+                        <div class="list-icon">✓</div>
+
+                        <div>
+                            <strong>Strong Frontend Foundation</strong>
+                            <p>
+                                Your resume demonstrates practical experience
+                                with HTML, CSS, JavaScript and React.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="list-item">
+
+                        <div class="list-icon">✓</div>
+
+                        <div>
+                            <strong>Multiple Practical Projects</strong>
+                            <p>
+                                Your projects provide evidence of hands-on
+                                web development experience.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="list-item">
+
+                        <div class="list-icon">✓</div>
+
+                        <div>
+                            <strong>SQL Knowledge</strong>
+                            <p>
+                                Database fundamentals are already present in
+                                your technical profile.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    <h3>Skills to Develop</h3>
+                    <span>Recommended</span>
+                </div>
+
+                <div class="list">
+
+                    <div class="list-item">
+
+                        <div class="list-icon warning">!</div>
+
+                        <div>
+                            <strong>Node.js</strong>
+                            <p>
+                                Develop backend programming skills to move
+                                toward full-stack development.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="list-item">
+
+                        <div class="list-icon warning">!</div>
+
+                        <div>
+                            <strong>Express.js</strong>
+                            <p>
+                                Learn how to build APIs and backend services.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="list-item">
+
+                        <div class="list-icon warning">!</div>
+
+                        <div>
+                            <strong>MongoDB</strong>
+                            <p>
+                                Add practical NoSQL database knowledge.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="list-item">
+
+                        <div class="list-icon warning">!</div>
+
+                        <div>
+                            <strong>REST APIs</strong>
+                            <p>
+                                Learn how frontend and backend applications
+                                communicate.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AI RECOMMENDATION -->
+        <div class="card ai-card section">
+
+            <div class="ai-heading">
+
+                <div class="ai-icon">✦</div>
+
+                <div>
+                    <h3>SkillTwin AI Recommendations</h3>
+                </div>
+
+            </div>
+
+            <p>
+                Based on your resume, current technical profile and
+                career direction, SkillTwin AI recommends strengthening
+                backend development before moving deeper into full-stack
+                projects.
+            </p>
+
+            <div class="ai-list">
+
+                <div>
+                    <b>01</b>
+                    <span>
+                        <strong>Target Roles:</strong>
+                        Full Stack Developer, Frontend Developer,
+                        Software Developer
+                    </span>
+                </div>
+
+                <div>
+                    <b>02</b>
+                    <span>
+                        <strong>Learn Next:</strong>
+                        Node.js → Express.js → MongoDB → REST APIs
+                    </span>
+                </div>
+
+                <div>
+                    <b>03</b>
+                    <span>
+                        <strong>Build Next:</strong>
+                        Create a full-stack application using your
+                        frontend and newly developed backend skills.
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+        <div class="bottom-actions">
+
+            <button class="btn btn-secondary"
+                    onclick="goTo('skill-gap.html')">
+                View Skill Gap →
+            </button>
+
+            <button class="btn btn-secondary"
+                    onclick="goTo('career-path.html')">
+                View Career Path →
+            </button>
+
+            <button class="btn btn-primary"
+                    onclick="startLearning()">
+                Start Recommended Learning →
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* USER */
+function loadUser(){
+
+    const savedUser = localStorage.getItem("skilltwin_user");
+
+    if(savedUser){
+
+        try{
+
+            const user = JSON.parse(savedUser);
+
+            const name = user.name || "Ankita Chintakindi";
+            const email = user.email || "ankita@example.com";
+
+            document.getElementById("userName").textContent = name;
+            document.getElementById("userEmail").textContent = email;
+
+            const initials = name
+                .split(" ")
+                .map(word => word.charAt(0))
+                .slice(0,2)
+                .join("")
+                .toUpperCase();
+
+            document.getElementById("avatar").textContent =
+                initials || "AC";
+
+        }catch(error){
+
+            console.log("User data error");
+
+        }
+
+    }
+
+}
+
+
+/* PROFILE DROPDOWN */
+function toggleProfile(){
+
+    document
+        .getElementById("dropdown")
+        .classList.toggle("show");
+
+}
+
+
+/* CLOSE DROPDOWN */
+document.addEventListener("click",function(event){
+
+    const profile =
+        document.querySelector(".profile-wrap");
+
+    if(!profile.contains(event.target)){
+
+        document
+            .getElementById("dropdown")
+            .classList.remove("show");
+
+    }
+
+});
+
+
+/* SIDEBAR */
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* NAVIGATION */
+function goTo(page){
+
+    window.location.href = page;
+
+}
+
+
+/* START LEARNING */
+function startLearning(){
+
+    localStorage.setItem(
+        "recommended_skill",
+        "Node.js"
+    );
+
+    localStorage.setItem(
+        "selected_learning_resource",
+        "Node.js Fundamentals"
+    );
+
+    window.location.href =
+        "learning-resources.html";
+
+}
+
+
+/* ANALYZE ANOTHER */
+function analyzeAnother(){
+
+    window.location.href =
+        "resume-analyzer.html";
+
+}
+
+
+/* DOWNLOAD REPORT */
+function downloadReport(){
+
+    const report = `
+SKILLTWIN AI — RESUME ANALYSIS REPORT
+
+Overall Resume Match: 72%
+
+Technical Skills: 78%
+Career Alignment: 75%
+Projects: 70%
+Resume Strength: 68%
+
+Detected Skills:
+- HTML — 92%
+- CSS — 88%
+- JavaScript — 74%
+- React — 78%
+- Python — 65%
+- SQL — 62%
+
+Recommended Skills:
+- Node.js
+- Express.js
+- MongoDB
+- REST APIs
+
+Recommended Roles:
+- Full Stack Developer
+- Frontend Developer
+- Software Developer
+
+Recommended Next Step:
+Learn Node.js Fundamentals and continue toward
+backend and full-stack development.
+
+Generated by SkillTwin AI
+`;
+
+    const blob =
+        new Blob([report],{type:"text/plain"});
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "SkillTwin-AI-Resume-Report.txt";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+/* LOGOUT */
+function logout(){
+
+    localStorage.removeItem("skilltwin_user");
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* FILE NAME */
+function loadFileName(){
+
+    const file =
+        localStorage.getItem("resume_file_name");
+
+    if(file){
+
+        document.getElementById("fileName").textContent =
+            `"${file}" has been analyzed using SkillTwin AI.`;
+
+    }
+
+}
+
+
+/* INITIALIZE */
+loadUser();
+loadFileName();
+
+</script>
+
+</body>
+</html>

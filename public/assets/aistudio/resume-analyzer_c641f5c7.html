@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Analyzer | SkillTwin AI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+}
+
+body{
+    background:#f3f7fc;
+    color:#334155;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#0b1f3a;
+    color:white;
+    padding:22px 14px;
+    overflow-y:auto;
+    z-index:1000;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:4px 12px 24px;
+    font-size:21px;
+    font-weight:800;
+}
+
+.logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    background:linear-gradient(135deg,#5b2eff,#00a88f);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+}
+
+.nav-title{
+    color:#94a3b8;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1.2px;
+    padding:14px 13px 7px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 13px;
+    margin:3px 0;
+    border-radius:9px;
+    color:#cbd5e1;
+    text-decoration:none;
+    font-size:13px;
+    transition:.2s;
+}
+
+.nav-item:hover{
+    background:#172f50;
+    color:white;
+}
+
+.nav-item.active{
+    background:#5b2eff;
+    color:white;
+    box-shadow:0 6px 18px rgba(91,46,255,.25);
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+    font-size:15px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    height:72px;
+    background:white;
+    border-bottom:1px solid #e2e8f0;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding:0 32px;
+    position:sticky;
+    top:0;
+    z-index:500;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.notification{
+    width:38px;
+    height:38px;
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    position:relative;
+}
+
+.notification:hover{
+    background:#f8fafc;
+}
+
+.notification-dot{
+    position:absolute;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#5b2eff;
+    top:7px;
+    right:7px;
+}
+
+/* ================= PROFILE ================= */
+
+.profile{
+    position:relative;
+}
+
+.profile-button{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border:none;
+    background:none;
+    cursor:pointer;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#5b2eff;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:13px;
+}
+
+.profile-info{
+    text-align:left;
+}
+
+.profile-name{
+    font-size:13px;
+    font-weight:700;
+    color:#0b1f3a;
+}
+
+.profile-role{
+    font-size:11px;
+    color:#64748b;
+}
+
+.chevron{
+    color:#64748b;
+    font-size:11px;
+}
+
+.profile-menu{
+    position:absolute;
+    right:0;
+    top:52px;
+    width:210px;
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:13px;
+    box-shadow:0 15px 40px rgba(15,23,42,.15);
+    padding:8px;
+    display:none;
+}
+
+.profile-menu.show{
+    display:block;
+}
+
+.profile-menu a,
+.profile-menu button{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 12px;
+    border:none;
+    background:white;
+    border-radius:8px;
+    text-decoration:none;
+    color:#334155;
+    font-size:13px;
+    cursor:pointer;
+    text-align:left;
+}
+
+.profile-menu a:hover,
+.profile-menu button:hover{
+    background:#f3f7fc;
+}
+
+.profile-menu .logout{
+    color:#dc2626;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:30px 32px 50px;
+    max-width:1450px;
+    margin:auto;
+}
+
+.page-header{
+    margin-bottom:24px;
+}
+
+.page-header h1{
+    color:#0b1f3a;
+    font-size:27px;
+    margin-bottom:7px;
+}
+
+.page-header p{
+    color:#64748b;
+    font-size:13px;
+}
+
+/* ================= AI BANNER ================= */
+
+.ai-banner{
+    background:linear-gradient(135deg,#0b1f3a,#162f52);
+    border-radius:17px;
+    padding:25px 27px;
+    color:white;
+    position:relative;
+    overflow:hidden;
+    margin-bottom:25px;
+}
+
+.ai-banner:after{
+    content:"";
+    position:absolute;
+    width:250px;
+    height:250px;
+    right:-80px;
+    top:-110px;
+    border-radius:50%;
+    background:rgba(91,46,255,.22);
+}
+
+.ai-content{
+    position:relative;
+    z-index:2;
+}
+
+.ai-label{
+    color:#b8aaff;
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:8px;
+}
+
+.ai-banner h2{
+    font-size:20px;
+    margin-bottom:7px;
+}
+
+.ai-banner p{
+    color:#cbd5e1;
+    font-size:12px;
+    line-height:1.6;
+    max-width:750px;
+}
+
+/* ================= UPLOAD SECTION ================= */
+
+.main-grid{
+    display:grid;
+    grid-template-columns:1.45fr .75fr;
+    gap:20px;
+    align-items:start;
+}
+
+.card{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:15px;
+    padding:23px;
+}
+
+.card-title{
+    color:#0b1f3a;
+    font-size:17px;
+    margin-bottom:6px;
+}
+
+.card-subtitle{
+    color:#64748b;
+    font-size:12px;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+/* ================= DROP ZONE ================= */
+
+.drop-zone{
+    border:2px dashed #cbd5e1;
+    border-radius:15px;
+    min-height:275px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:25px;
+    transition:.2s;
+    cursor:pointer;
+    background:#fbfdff;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover{
+    border-color:#5b2eff;
+    background:#faf9ff;
+}
+
+.upload-icon{
+    width:60px;
+    height:60px;
+    margin:0 auto 14px;
+    border-radius:16px;
+    background:#ede9fe;
+    color:#5b2eff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+}
+
+.drop-zone h3{
+    color:#0b1f3a;
+    font-size:15px;
+    margin-bottom:7px;
+}
+
+.drop-zone p{
+    color:#64748b;
+    font-size:11px;
+    margin-bottom:15px;
+}
+
+.browse-btn{
+    display:inline-block;
+    background:#5b2eff;
+    color:white;
+    padding:10px 17px;
+    border-radius:8px;
+    font-size:11px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.file-types{
+    margin-top:12px;
+    color:#94a3b8;
+    font-size:10px;
+}
+
+#fileInput{
+    display:none;
+}
+
+/* ================= FILE PREVIEW ================= */
+
+.file-preview{
+    display:none;
+    margin-top:17px;
+    border:1px solid #e2e8f0;
+    border-radius:11px;
+    padding:13px;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.file-preview.show{
+    display:flex;
+}
+
+.file-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.file-icon{
+    width:38px;
+    height:38px;
+    background:#fef2f2;
+    color:#dc2626;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:11px;
+}
+
+.file-name{
+    color:#0b1f3a;
+    font-size:12px;
+    font-weight:700;
+}
+
+.file-size{
+    color:#94a3b8;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.remove-file{
+    border:none;
+    background:#fef2f2;
+    color:#dc2626;
+    width:30px;
+    height:30px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+/* ================= ANALYZE BUTTON ================= */
+
+.analyze-btn{
+    width:100%;
+    margin-top:18px;
+    padding:13px;
+    border:none;
+    border-radius:9px;
+    background:#5b2eff;
+    color:white;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.analyze-btn:hover{
+    background:#4b22df;
+}
+
+.analyze-btn:disabled{
+    background:#cbd5e1;
+    cursor:not-allowed;
+}
+
+/* ================= INFO CARDS ================= */
+
+.info-list{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.info-item{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+}
+
+.info-icon{
+    width:37px;
+    height:37px;
+    border-radius:9px;
+    background:#e6f7f4;
+    color:#00a88f;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    font-size:15px;
+}
+
+.info-item h4{
+    color:#0b1f3a;
+    font-size:12px;
+    margin-bottom:4px;
+}
+
+.info-item p{
+    color:#64748b;
+    font-size:10px;
+    line-height:1.6;
+}
+
+/* ================= PROCESS ================= */
+
+.process-card{
+    margin-top:20px;
+}
+
+.process-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.process-step{
+    border:1px solid #e2e8f0;
+    border-radius:11px;
+    padding:16px;
+    position:relative;
+}
+
+.step-number{
+    width:30px;
+    height:30px;
+    border-radius:8px;
+    background:#ede9fe;
+    color:#5b2eff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.process-step h4{
+    color:#0b1f3a;
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+.process-step p{
+    color:#64748b;
+    font-size:10px;
+    line-height:1.5;
+}
+
+/* ================= RESULT PREVIEW ================= */
+
+.result-preview{
+    margin-top:20px;
+    background:#0b1f3a;
+    color:white;
+    border-radius:15px;
+    padding:21px;
+}
+
+.result-preview h3{
+    font-size:15px;
+    margin-bottom:6px;
+}
+
+.result-preview p{
+    color:#cbd5e1;
+    font-size:11px;
+    line-height:1.6;
+}
+
+.result-items{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:17px;
+}
+
+.result-item{
+    background:rgba(255,255,255,.07);
+    border-radius:9px;
+    padding:11px;
+}
+
+.result-item strong{
+    display:block;
+    font-size:12px;
+    margin-bottom:3px;
+}
+
+.result-item span{
+    color:#94a3b8;
+    font-size:9px;
+}
+
+/* ================= LOADING MODAL ================= */
+
+.loading-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(11,31,58,.65);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:5000;
+}
+
+.loading-overlay.show{
+    display:flex;
+}
+
+.loading-box{
+    width:390px;
+    max-width:90%;
+    background:white;
+    border-radius:17px;
+    padding:28px;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.spinner{
+    width:45px;
+    height:45px;
+    border:4px solid #ede9fe;
+    border-top-color:#5b2eff;
+    border-radius:50%;
+    margin:0 auto 17px;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.loading-box h3{
+    color:#0b1f3a;
+    font-size:16px;
+    margin-bottom:7px;
+}
+
+.loading-box p{
+    color:#64748b;
+    font-size:11px;
+}
+
+.loading-progress{
+    height:6px;
+    background:#eef2f7;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:17px;
+}
+
+.loading-progress-bar{
+    width:0;
+    height:100%;
+    background:#5b2eff;
+    transition:width .5s;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#0b1f3a;
+    color:white;
+    padding:13px 18px;
+    border-radius:10px;
+    font-size:12px;
+    box-shadow:0 12px 30px rgba(0,0,0,.2);
+    transform:translateY(100px);
+    opacity:0;
+    transition:.3s;
+    z-index:6000;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* ================= MOBILE ================= */
+
+.mobile-menu{
+    display:none;
+    position:fixed;
+    left:15px;
+    top:17px;
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:9px;
+    background:#0b1f3a;
+    color:white;
+    z-index:2000;
+    cursor:pointer;
+}
+
+@media(max-width:1050px){
+
+    .main-grid{
+        grid-template-columns:1fr;
+    }
+
+    .result-items{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar{
+        padding-left:70px;
+    }
+
+    .profile-info,
+    .chevron{
+        display:none;
+    }
+
+    .content{
+        padding:22px 17px 40px;
+    }
+
+    .process-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:550px){
+
+    .result-items{
+        grid-template-columns:1fr;
+    }
+
+    .notification{
+        display:none;
+    }
+
+    .file-preview{
+        align-items:flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">✦</div>
+        <span>SkillTwin AI</span>
+    </div>
+
+
+    <div class="nav-title">MAIN</div>
+
+    <a href="dashboard.html" class="nav-item">
+        <span class="nav-icon">⌂</span>
+        Dashboard
+    </a>
+
+    <a href="resume-analyzer.html" class="nav-item active">
+        <span class="nav-icon">▣</span>
+        Resume Analyzer
+    </a>
+
+    <a href="assessments.html" class="nav-item">
+        <span class="nav-icon">✓</span>
+        Assessments
+    </a>
+
+    <a href="skill-gap.html" class="nav-item">
+        <span class="nav-icon">◈</span>
+        Skill Gap
+    </a>
+
+    <a href="career-path.html" class="nav-item">
+        <span class="nav-icon">⌁</span>
+        Career Path
+    </a>
+
+
+    <div class="nav-title">LEARN</div>
+
+    <a href="learning-resources.html" class="nav-item">
+        <span class="nav-icon">▤</span>
+        Learning Resources
+    </a>
+
+    <a href="projects.html" class="nav-item">
+        <span class="nav-icon">▦</span>
+        Projects
+    </a>
+
+
+    <div class="nav-title">CAREER</div>
+
+    <a href="mock-interview.html" class="nav-item">
+        <span class="nav-icon">◉</span>
+        Mock Interview
+    </a>
+
+    <a href="job-vacancies.html" class="nav-item">
+        <span class="nav-icon">▰</span>
+        Job Vacancies
+    </a>
+
+
+    <div class="nav-title">INSIGHTS</div>
+
+    <a href="analytics.html" class="nav-item">
+        <span class="nav-icon">◒</span>
+        Analytics & Reports
+    </a>
+
+
+    <div class="nav-title">SYSTEM</div>
+
+    <a href="settings.html" class="nav-item">
+        <span class="nav-icon">⚙</span>
+        Settings
+    </a>
+
+</aside>
+
+
+<button class="mobile-menu" onclick="toggleSidebar()">
+    ☰
+</button>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="top-actions">
+
+            <div class="notification"
+                 onclick="showToast('You have 3 new notifications')">
+
+                🔔
+
+                <span class="notification-dot"></span>
+
+            </div>
+
+
+            <div class="profile">
+
+                <button class="profile-button"
+                        onclick="toggleProfile()">
+
+                    <div class="avatar" id="avatar">
+                        AC
+                    </div>
+
+                    <div class="profile-info">
+
+                        <div class="profile-name"
+                             id="profileName">
+                            Ankita Chintakindi
+                        </div>
+
+                        <div class="profile-role">
+                            Learner
+                        </div>
+
+                    </div>
+
+                    <span class="chevron">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="profile-menu"
+                     id="profileMenu">
+
+                    <a href="profile.html">
+                        👤 View Profile
+                    </a>
+
+                    <a href="settings.html">
+                        ⚙ Settings
+                    </a>
+
+                    <a href="#"
+                       onclick="showToast('Help & Support will be available soon'); return false;">
+                        ❓ Help & Support
+                    </a>
+
+                    <button class="logout"
+                            onclick="logout()">
+                        ↪ Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <section class="content">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <h1>
+                Resume Analyzer
+            </h1>
+
+            <p>
+                Upload your resume and let SkillTwin AI analyze your
+                skills, experience and career alignment.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             AI BANNER
+        ================================================== -->
+
+        <div class="ai-banner">
+
+            <div class="ai-content">
+
+                <div class="ai-label">
+                    ✦ AI Resume Intelligence
+                </div>
+
+                <h2>
+                    Discover what your resume says about your career
+                </h2>
+
+                <p>
+                    SkillTwin AI analyzes your technical skills, soft skills,
+                    education, experience and projects to identify your current
+                    strengths and missing skills for your target career.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             UPLOAD + WHAT WE ANALYZE
+        ================================================== -->
+
+        <div class="main-grid">
+
+
+            <!-- UPLOAD -->
+
+            <div class="card">
+
+                <h2 class="card-title">
+                    Upload Your Resume
+                </h2>
+
+                <p class="card-subtitle">
+                    Upload your latest resume to generate your personalized
+                    SkillTwin profile and career recommendations.
+                </p>
+
+
+                <div class="drop-zone"
+                     id="dropZone"
+                     onclick="openFilePicker()">
+
+                    <div>
+
+                        <div class="upload-icon">
+                            ↑
+                        </div>
+
+                        <h3>
+                            Drag & Drop your resume here
+                        </h3>
+
+                        <p>
+                            or choose a file from your computer
+                        </p>
+
+                        <label class="browse-btn"
+                               onclick="event.stopPropagation(); openFilePicker();">
+
+                            Browse Resume
+
+                        </label>
+
+                        <div class="file-types">
+                            Supported formats: PDF, DOC, DOCX • Maximum 10 MB
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <input type="file"
+                       id="fileInput"
+                       accept=".pdf,.doc,.docx">
+
+
+                <!-- FILE PREVIEW -->
+
+                <div class="file-preview"
+                     id="filePreview">
+
+                    <div class="file-info">
+
+                        <div class="file-icon">
+                            FILE
+                        </div>
+
+                        <div>
+
+                            <div class="file-name"
+                                 id="fileName">
+                                Resume.pdf
+                            </div>
+
+                            <div class="file-size"
+                                 id="fileSize">
+                                0 KB
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button class="remove-file"
+                            onclick="removeFile()">
+                        ✕
+                    </button>
+
+                </div>
+
+
+                <button class="analyze-btn"
+                        id="analyzeBtn"
+                        disabled
+                        onclick="analyzeResume()">
+
+                    ✦ Analyze Resume with AI
+
+                </button>
+
+            </div>
+
+
+            <!-- WHAT WE ANALYZE -->
+
+            <div class="card">
+
+                <h2 class="card-title">
+                    What We Analyze
+                </h2>
+
+                <p class="card-subtitle">
+                    SkillTwin AI extracts meaningful career information
+                    from your resume.
+                </p>
+
+
+                <div class="info-list">
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Technical Skills
+                            </h4>
+
+                            <p>
+                                Programming languages, frameworks,
+                                databases and development tools.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            ◈
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Soft Skills
+                            </h4>
+
+                            <p>
+                                Communication, teamwork, leadership
+                                and other professional skills.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            ▣
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Education & Experience
+                            </h4>
+
+                            <p>
+                                Academic background, internships,
+                                work experience and responsibilities.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            ◆
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Projects
+                            </h4>
+
+                            <p>
+                                Projects, technologies used and
+                                practical development experience.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-icon">
+                            ↗
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Career Alignment
+                            </h4>
+
+                            <p>
+                                Compare your current skills with
+                                your selected career path.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             HOW IT WORKS
+        ================================================== -->
+
+        <div class="card process-card">
+
+            <h2 class="card-title">
+                How Resume Analysis Works
+            </h2>
+
+            <p class="card-subtitle">
+                SkillTwin AI turns your resume into an actionable
+                career development plan.
+            </p>
+
+
+            <div class="process-grid">
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <h4>
+                        Upload Resume
+                    </h4>
+
+                    <p>
+                        Upload your latest PDF or Word resume.
+                    </p>
+
+                </div>
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <h4>
+                        AI Analysis
+                    </h4>
+
+                    <p>
+                        AI extracts your skills, experience,
+                        education and projects.
+                    </p>
+
+                </div>
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <h4>
+                        Skill Mapping
+                    </h4>
+
+                    <p>
+                        Your skills are mapped against your
+                        selected career path.
+                    </p>
+
+                </div>
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        04
+                    </div>
+
+                    <h4>
+                        Identify Gaps
+                    </h4>
+
+                    <p>
+                        SkillTwin identifies missing or developing
+                        skills.
+                    </p>
+
+                </div>
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        05
+                    </div>
+
+                    <h4>
+                        Career Suggestions
+                    </h4>
+
+                    <p>
+                        Receive role recommendations based on
+                        your current profile.
+                    </p>
+
+                </div>
+
+
+                <div class="process-step">
+
+                    <div class="step-number">
+                        06
+                    </div>
+
+                    <h4>
+                        Personalized Plan
+                    </h4>
+
+                    <p>
+                        Get recommended learning resources and
+                        practical projects.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RESULT PREVIEW
+        ================================================== -->
+
+        <div class="result-preview">
+
+            <h3>
+                What You'll Get
+            </h3>
+
+            <p>
+                After analysis, SkillTwin AI will generate a complete
+                resume and skill report connected to your career path.
+            </p>
+
+
+            <div class="result-items">
+
+
+                <div class="result-item">
+
+                    <strong>
+                        Resume Score
+                    </strong>
+
+                    <span>
+                        Overall resume quality
+                    </span>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <strong>
+                        Skill Match
+                    </strong>
+
+                    <span>
+                        Career alignment
+                    </span>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <strong>
+                        Skill Gaps
+                    </strong>
+
+                    <span>
+                        Missing skills
+                    </span>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <strong>
+                        Career Roles
+                    </strong>
+
+                    <span>
+                        AI recommendations
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
+     LOADING OVERLAY
+========================================================= -->
+
+<div class="loading-overlay"
+     id="loadingOverlay">
+
+    <div class="loading-box">
+
+        <div class="spinner"></div>
+
+        <h3 id="loadingTitle">
+            Analyzing your resume...
+        </h3>
+
+        <p id="loadingText">
+            SkillTwin AI is extracting your skills and experience.
+        </p>
+
+        <div class="loading-progress">
+
+            <div class="loading-progress-bar"
+                 id="loadingBar">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div class="toast"
+     id="toast">
+</div>
+
+
+<script>
+
+/* =========================================================
+   USER
+========================================================= */
+
+const defaultUser = {
+    name:"Ankita Chintakindi",
+    email:"ankita@example.com"
+};
+
+function getUser(){
+
+    try{
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem("skilltwin_user")
+            );
+
+        if(saved && saved.name){
+            return saved;
+        }
+
+    }catch(error){}
+
+    return defaultUser;
+}
+
+const user = getUser();
+
+const fullName =
+    user.name || "Ankita Chintakindi";
+
+document.getElementById("profileName")
+    .textContent = fullName;
+
+const initials =
+    fullName
+    .split(" ")
+    .map(word => word[0])
+    .slice(0,2)
+    .join("")
+    .toUpperCase();
+
+document.getElementById("avatar")
+    .textContent = initials;
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function toggleProfile(){
+
+    document
+        .getElementById("profileMenu")
+        .classList.toggle("show");
+
+}
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const profile =
+            document.querySelector(".profile");
+
+        if(!profile.contains(event.target)){
+
+            document
+                .getElementById("profileMenu")
+                .classList.remove("show");
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+    localStorage.removeItem("skilltwin_user");
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    setTimeout(
+        function(){
+
+            toast.classList.remove("show");
+
+        },
+        2800
+    );
+
+}
+
+
+/* =========================================================
+   FILE UPLOAD
+========================================================= */
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const dropZone =
+    document.getElementById("dropZone");
+
+const filePreview =
+    document.getElementById("filePreview");
+
+const analyzeBtn =
+    document.getElementById("analyzeBtn");
+
+
+function openFilePicker(){
+
+    fileInput.click();
+
+}
+
+
+fileInput.addEventListener(
+    "change",
+    function(){
+
+        if(this.files.length > 0){
+
+            handleFile(this.files[0]);
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DRAG & DROP
+========================================================= */
+
+dropZone.addEventListener(
+    "dragover",
+    function(event){
+
+        event.preventDefault();
+
+        dropZone.classList.add("dragover");
+
+    }
+);
+
+dropZone.addEventListener(
+    "dragleave",
+    function(){
+
+        dropZone.classList.remove("dragover");
+
+    }
+);
+
+dropZone.addEventListener(
+    "drop",
+    function(event){
+
+        event.preventDefault();
+
+        dropZone.classList.remove("dragover");
+
+        const file =
+            event.dataTransfer.files[0];
+
+        if(file){
+
+            handleFile(file);
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   HANDLE FILE
+========================================================= */
+
+function handleFile(file){
+
+    const allowed =
+        [
+            "application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ];
+
+    const extension =
+        file.name
+        .split(".")
+        .pop()
+        .toLowerCase();
+
+    const validExtension =
+        ["pdf","doc","docx"].includes(extension);
+
+    if(!validExtension){
+
+        showToast(
+            "Please upload a PDF, DOC or DOCX file."
+        );
+
+        return;
+
+    }
+
+    if(file.size > 10 * 1024 * 1024){
+
+        showToast(
+            "File size must be less than 10 MB."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById("fileName")
+        .textContent = file.name;
+
+
+    document.getElementById("fileSize")
+        .textContent =
+        formatFileSize(file.size);
+
+
+    filePreview.classList.add("show");
+
+    analyzeBtn.disabled = false;
+
+    showToast(
+        "Resume uploaded successfully."
+    );
+
+}
+
+
+function formatFileSize(bytes){
+
+    if(bytes < 1024){
+
+        return bytes + " B";
+
+    }
+
+    if(bytes < 1024 * 1024){
+
+        return (
+            bytes / 1024
+        ).toFixed(1) + " KB";
+
+    }
+
+    return (
+        bytes / (1024 * 1024)
+    ).toFixed(1) + " MB";
+
+}
+
+
+/* =========================================================
+   REMOVE FILE
+========================================================= */
+
+function removeFile(){
+
+    fileInput.value = "";
+
+    filePreview.classList.remove("show");
+
+    analyzeBtn.disabled = true;
+
+}
+
+
+/* =========================================================
+   ANALYZE RESUME
+========================================================= */
+
+function analyzeResume(){
+
+    if(!fileInput.files.length){
+
+        showToast(
+            "Please upload your resume first."
+        );
+
+        return;
+
+    }
+
+
+    const loading =
+        document.getElementById("loadingOverlay");
+
+    const loadingBar =
+        document.getElementById("loadingBar");
+
+    const loadingTitle =
+        document.getElementById("loadingTitle");
+
+    const loadingText =
+        document.getElementById("loadingText");
+
+
+    loading.classList.add("show");
+
+
+    /*
+       Frontend prototype simulation.
+
+       Later, this function will send the resume
+       to your Node.js/Express backend, where
+       the actual AI resume analysis will happen.
+    */
+
+    let progress = 0;
+
+
+    const steps = [
+
+        {
+            title:"Reading your resume...",
+            text:"Extracting text and resume sections."
+        },
+
+        {
+            title:"Analyzing your skills...",
+            text:"Identifying technical and soft skills."
+        },
+
+        {
+            title:"Mapping your career...",
+            text:"Comparing your profile with your career path."
+        },
+
+        {
+            title:"Finding skill gaps...",
+            text:"Identifying skills that need development."
+        },
+
+        {
+            title:"Generating recommendations...",
+            text:"Preparing your personalized SkillTwin report."
+        }
+
+    ];
+
+
+    let step = 0;
+
+
+    const interval =
+        setInterval(
+            function(){
+
+                progress += 20;
+
+                loadingBar.style.width =
+                    progress + "%";
+
+
+                if(step < steps.length){
+
+                    loadingTitle.textContent =
+                        steps[step].title;
+
+                    loadingText.textContent =
+                        steps[step].text;
+
+                    step++;
+
+                }
+
+
+                if(progress >= 100){
+
+                    clearInterval(interval);
+
+
+                    /*
+                       Save a simple prototype record.
+                    */
+
+                    localStorage.setItem(
+                        "resume_analyzed",
+                        "true"
+                    );
+
+                    localStorage.setItem(
+                        "resume_file_name",
+                        fileInput.files[0].name
+                    );
+
+
+                    setTimeout(
+                        function(){
+
+                            window.location.href =
+                                "resume-result.html";
+
+                        },
+                        500
+                    );
+
+                }
+
+            },
+            600
+        );
+
+}
+
+</script>
+
+</body>
+</html>

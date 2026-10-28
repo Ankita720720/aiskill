@@ -1,0 +1,3176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Voice Mock Interview - SkillTwin AI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f7fc;
+    color:#334155;
+}
+
+button,select,input{
+    font-family:inherit;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    width:250px;
+    background:#0b1f3a;
+    color:white;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    padding:24px 16px;
+    overflow-y:auto;
+    z-index:1000;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:700;
+    padding:0 12px 28px;
+}
+
+.logo span{
+    color:#00a88f;
+}
+
+.nav-section{
+    margin-bottom:24px;
+}
+
+.nav-title{
+    font-size:11px;
+    color:#94a3b8;
+    letter-spacing:1px;
+    padding:0 12px;
+    margin-bottom:8px;
+    font-weight:700;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 12px;
+    border-radius:9px;
+    color:#cbd5e1;
+    text-decoration:none;
+    margin-bottom:4px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.nav-item:hover{
+    background:rgba(255,255,255,.08);
+    color:white;
+}
+
+.nav-item.active{
+    background:#5b2eff;
+    color:white;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+    height:72px;
+    background:white;
+    border-bottom:1px solid #e2e8f0;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding:0 32px;
+    gap:20px;
+}
+
+.notification{
+    width:38px;
+    height:38px;
+    border:1px solid #e2e8f0;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.profile{
+    position:relative;
+}
+
+.profile-btn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:none;
+    border:none;
+    cursor:pointer;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#5b2eff;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.profile-name{
+    font-size:14px;
+    font-weight:600;
+    color:#0b1f3a;
+}
+
+.profile-menu{
+    position:absolute;
+    right:0;
+    top:52px;
+    width:190px;
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    box-shadow:0 15px 35px rgba(15,23,42,.12);
+    display:none;
+    overflow:hidden;
+    z-index:2000;
+}
+
+.profile-menu.show{
+    display:block;
+}
+
+.profile-menu a,
+.profile-menu button{
+    display:block;
+    width:100%;
+    padding:12px 15px;
+    background:white;
+    border:none;
+    text-align:left;
+    text-decoration:none;
+    color:#334155;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.profile-menu a:hover,
+.profile-menu button:hover{
+    background:#f3f7fc;
+}
+
+/* ================= CONTENT ================= */
+
+.content{
+    padding:32px;
+}
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    color:#0b1f3a;
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+.page-header p{
+    color:#64748b;
+    font-size:14px;
+}
+
+/* ================= AI BANNER ================= */
+
+.ai-banner{
+    background:linear-gradient(135deg,#0b1f3a,#172f53);
+    color:white;
+    border-radius:16px;
+    padding:24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.ai-banner h2{
+    font-size:20px;
+    margin-bottom:7px;
+}
+
+.ai-banner p{
+    color:#cbd5e1;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.ai-symbol{
+    width:55px;
+    height:55px;
+    background:rgba(255,255,255,.1);
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+}
+
+/* ================= SETUP ================= */
+
+.setup-card{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:25px;
+}
+
+.setup-card h2{
+    color:#0b1f3a;
+    font-size:19px;
+    margin-bottom:7px;
+}
+
+.setup-card>p{
+    color:#64748b;
+    font-size:13px;
+    margin-bottom:22px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.form-group label{
+    display:block;
+    color:#0b1f3a;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.form-group select{
+    width:100%;
+    padding:12px;
+    border:1px solid #e2e8f0;
+    border-radius:8px;
+    background:white;
+    outline:none;
+}
+
+.interview-types{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+
+.type-card{
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    padding:15px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.type-card:hover{
+    border-color:#5b2eff;
+}
+
+.type-card.selected{
+    border-color:#5b2eff;
+    background:#ede9fe;
+}
+
+.type-card h4{
+    color:#0b1f3a;
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.type-card p{
+    color:#64748b;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.start-row{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:22px;
+}
+
+/* ================= CHECK ================= */
+
+.check-screen{
+    display:none;
+}
+
+.check-card{
+    max-width:750px;
+    margin:auto;
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:30px;
+}
+
+.check-card h2{
+    color:#0b1f3a;
+    margin-bottom:8px;
+}
+
+.check-card>p{
+    color:#64748b;
+    font-size:13px;
+    margin-bottom:22px;
+}
+
+.check-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.check-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.check-icon{
+    width:38px;
+    height:38px;
+    border-radius:8px;
+    background:#f3f7fc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.check-name{
+    color:#0b1f3a;
+    font-weight:600;
+    font-size:13px;
+}
+
+.ready{
+    color:#00a88f;
+    font-size:12px;
+    font-weight:700;
+}
+
+.consent{
+    display:flex;
+    gap:10px;
+    background:#f3f7fc;
+    padding:15px;
+    border-radius:10px;
+    margin:18px 0;
+    font-size:12px;
+    line-height:1.6;
+}
+
+/* ================= INTERVIEW ================= */
+
+.interview-screen{
+    display:none;
+}
+
+.interview-layout{
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    gap:20px;
+}
+
+/* CAMERA */
+
+.camera-card,
+.ai-card{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    overflow:hidden;
+}
+
+.card-header{
+    padding:17px 20px;
+    border-bottom:1px solid #e2e8f0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.card-header h3{
+    color:#0b1f3a;
+    font-size:16px;
+}
+
+.live{
+    color:#dc2626;
+    background:#fee2e2;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:700;
+}
+
+.video-container{
+    height:350px;
+    background:#0b1f3a;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+#cameraVideo{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+}
+
+.camera-off-message{
+    color:white;
+    text-align:center;
+}
+
+.camera-off-circle{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:#5b2eff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    margin:0 auto 12px;
+}
+
+.video-controls{
+    position:absolute;
+    bottom:15px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.control{
+    width:43px;
+    height:43px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.3);
+    background:rgba(0,0,0,.35);
+    color:white;
+    cursor:pointer;
+}
+
+.control.off{
+    background:#dc2626;
+}
+
+.integrity{
+    padding:13px 17px;
+    font-size:11px;
+    color:#64748b;
+    background:#f8fafc;
+    border-top:1px solid #e2e8f0;
+}
+
+/* AI */
+
+.ai-card{
+    display:flex;
+    flex-direction:column;
+}
+
+.ai-body{
+    padding:20px;
+    min-height:350px;
+    max-height:350px;
+    overflow-y:auto;
+}
+
+.ai-message{
+    margin-bottom:18px;
+}
+
+.sender{
+    font-size:10px;
+    color:#5b2eff;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.ai-message p{
+    background:#f3f7fc;
+    padding:13px;
+    border-radius:10px;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.user-message p{
+    background:#ede9fe;
+}
+
+.voice-status{
+    border-top:1px solid #e2e8f0;
+    padding:15px;
+    text-align:center;
+}
+
+.voice-status-text{
+    font-size:11px;
+    color:#64748b;
+    margin-bottom:10px;
+}
+
+.mic-main{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    border:none;
+    background:#5b2eff;
+    color:white;
+    font-size:25px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.mic-main:hover{
+    transform:scale(1.05);
+}
+
+.mic-main.listening{
+    background:#dc2626;
+    animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        box-shadow:0 0 0 0 rgba(220,38,38,.5);
+    }
+    70%{
+        box-shadow:0 0 0 15px rgba(220,38,38,0);
+    }
+    100%{
+        box-shadow:0 0 0 0 rgba(220,38,38,0);
+    }
+}
+
+.transcript{
+    margin-top:12px;
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:8px;
+    padding:10px;
+    min-height:45px;
+    font-size:11px;
+    color:#64748b;
+    text-align:left;
+}
+
+/* INTERVIEW FOOTER */
+
+.interview-footer{
+    margin-top:18px;
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:17px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.question-counter{
+    color:#64748b;
+    font-size:12px;
+}
+
+.question-counter strong{
+    color:#0b1f3a;
+}
+
+/* ================= REPORT ================= */
+
+.report-screen{
+    display:none;
+}
+
+.report-card{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:30px;
+}
+
+.report-header{
+    text-align:center;
+}
+
+.report-header h2{
+    color:#0b1f3a;
+    margin-bottom:7px;
+}
+
+.report-header p{
+    color:#64748b;
+    font-size:13px;
+}
+
+.score-circle{
+    width:135px;
+    height:135px;
+    border-radius:50%;
+    border:8px solid #5b2eff;
+    background:#ede9fe;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin:20px auto 30px;
+}
+
+.score-circle strong{
+    font-size:30px;
+    color:#5b2eff;
+}
+
+.score-circle span{
+    font-size:11px;
+    color:#64748b;
+}
+
+.metrics{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.metric{
+    background:#f3f7fc;
+    padding:15px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.metric strong{
+    display:block;
+    color:#0b1f3a;
+    font-size:20px;
+    margin-bottom:5px;
+}
+
+.metric span{
+    font-size:11px;
+    color:#64748b;
+}
+
+.voice-analysis{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.analysis-box{
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    padding:18px;
+}
+
+.analysis-box h3{
+    color:#0b1f3a;
+    font-size:15px;
+    margin-bottom:12px;
+}
+
+.analysis-row{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    border-bottom:1px solid #f1f5f9;
+    font-size:12px;
+}
+
+.analysis-row:last-child{
+    border-bottom:none;
+}
+
+.analysis-row strong{
+    color:#5b2eff;
+}
+
+.report-sections{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.report-section{
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    padding:18px;
+}
+
+.report-section h3{
+    color:#0b1f3a;
+    font-size:15px;
+    margin-bottom:12px;
+}
+
+.report-section li{
+    margin-left:18px;
+    font-size:12px;
+    margin-bottom:8px;
+    line-height:1.5;
+}
+
+.report-actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:25px;
+}
+
+/* BUTTONS */
+
+.btn{
+    border:none;
+    border-radius:8px;
+    padding:11px 18px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.btn-primary{
+    background:#5b2eff;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#4920df;
+}
+
+.btn-secondary{
+    background:white;
+    color:#334155;
+    border:1px solid #e2e8f0;
+}
+
+.btn-secondary:hover{
+    border-color:#5b2eff;
+    color:#5b2eff;
+}
+
+.btn-teal{
+    background:#00a88f;
+    color:white;
+}
+
+.btn-teal:hover{
+    background:#008f7a;
+}
+
+/* MOBILE */
+
+.mobile-menu{
+    display:none;
+    border:none;
+    background:none;
+    font-size:23px;
+}
+
+@media(max-width:1100px){
+
+    .interview-layout{
+        grid-template-columns:1fr;
+    }
+
+    .metrics{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:850px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .interview-types{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .voice-analysis,
+    .report-sections{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+    }
+
+    .mobile-menu{
+        display:block;
+        margin-right:auto;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .profile-name{
+        display:none;
+    }
+
+    .ai-banner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .interview-types{
+        grid-template-columns:1fr;
+    }
+
+    .metrics{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .interview-footer{
+        flex-direction:column;
+        gap:12px;
+        align-items:stretch;
+    }
+
+    .report-actions{
+        flex-direction:column;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        Skill<span>Twin</span> AI
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">MAIN</div>
+
+        <a href="dashboard.html" class="nav-item">
+            <span class="nav-icon">⌂</span>
+            Dashboard
+        </a>
+
+        <a href="resume-analyzer.html" class="nav-item">
+            <span class="nav-icon">📄</span>
+            Resume Analyzer
+        </a>
+
+        <a href="assessments.html" class="nav-item">
+            <span class="nav-icon">📝</span>
+            Assessments
+        </a>
+
+        <a href="skill-gap.html" class="nav-item">
+            <span class="nav-icon">🎯</span>
+            Skill Gap
+        </a>
+
+        <a href="career-path.html" class="nav-item">
+            <span class="nav-icon">🛤</span>
+            Career Path
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">LEARN</div>
+
+        <a href="learning-resources.html" class="nav-item">
+            <span class="nav-icon">📚</span>
+            Learning Resources
+        </a>
+
+        <a href="projects.html" class="nav-item">
+            <span class="nav-icon">💻</span>
+            Projects
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">CAREER</div>
+
+        <a href="mock-interview.html" class="nav-item active">
+            <span class="nav-icon">🎤</span>
+            Mock Interview
+        </a>
+
+        <a href="job-vacancies.html" class="nav-item">
+            <span class="nav-icon">💼</span>
+            Job Vacancies
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">INSIGHTS</div>
+
+        <a href="analytics.html" class="nav-item">
+            <span class="nav-icon">📊</span>
+            Analytics & Reports
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-title">SYSTEM</div>
+
+        <a href="settings.html" class="nav-item">
+            <span class="nav-icon">⚙</span>
+            Settings
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <button class="mobile-menu"
+            onclick="toggleSidebar()">
+        ☰
+    </button>
+
+    <div class="notification"
+         onclick="showToast('No new notifications')">
+        🔔
+    </div>
+
+    <div class="profile">
+
+        <button class="profile-btn"
+                onclick="toggleProfile()">
+
+            <div class="avatar"
+                 id="avatar">
+                AC
+            </div>
+
+            <span class="profile-name"
+                  id="profileName">
+                Ankita Chintakindi
+            </span>
+
+            <span>⌄</span>
+
+        </button>
+
+        <div class="profile-menu"
+             id="profileMenu">
+
+            <a href="profile.html">
+                View Profile
+            </a>
+
+            <a href="settings.html">
+                Settings
+            </a>
+
+            <a href="#"
+               onclick="showToast('Help & Support coming soon');return false;">
+                Help & Support
+            </a>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="content">
+
+<!-- ================= HEADER ================= -->
+
+<div class="page-header">
+
+    <h1>AI Voice Mock Interview</h1>
+
+    <p>
+        Speak naturally with your AI interviewer and receive communication and interview feedback.
+    </p>
+
+</div>
+
+
+<!-- ================= AI BANNER ================= -->
+
+<div class="ai-banner">
+
+    <div>
+
+        <h2>🎙️ Speak. Answer. Improve.</h2>
+
+        <p>
+            Your interview is voice-based. SkillTwin AI listens to your
+            answers, creates a transcript and evaluates your communication,
+            answer quality and role knowledge.
+        </p>
+
+    </div>
+
+    <div class="ai-symbol">
+        🤖
+    </div>
+
+</div>
+
+
+<!-- ================= SETUP ================= -->
+
+<div id="setupScreen">
+
+<div class="setup-card">
+
+    <h2>Set Up Your Voice Interview</h2>
+
+    <p>
+        Choose the role and interview format you want to practice.
+    </p>
+
+    <div class="form-grid">
+
+        <div class="form-group">
+
+            <label>
+                Target Career Role
+            </label>
+
+            <select id="targetRole">
+
+                <option>
+                    Frontend Developer
+                </option>
+
+                <option>
+                    Backend Developer
+                </option>
+
+                <option selected>
+                    Full Stack Developer
+                </option>
+
+                <option>
+                    Software Developer
+                </option>
+
+                <option>
+                    Data Analyst
+                </option>
+
+                <option>
+                    Data Scientist
+                </option>
+
+                <option>
+                    AI/ML Engineer
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Experience Level
+            </label>
+
+            <select id="experience">
+
+                <option>
+                    Beginner
+                </option>
+
+                <option selected>
+                    Fresher
+                </option>
+
+                <option>
+                    Intermediate
+                </option>
+
+                <option>
+                    Experienced
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <h3 style="color:#0b1f3a;font-size:15px;margin-top:25px;">
+        Interview Type
+    </h3>
+
+
+    <div class="interview-types">
+
+        <div class="type-card selected"
+             onclick="selectType(this,'HR Interview')">
+
+            <h4>👤 HR Interview</h4>
+
+            <p>
+                Introduction, motivation and career questions.
+            </p>
+
+        </div>
+
+
+        <div class="type-card"
+             onclick="selectType(this,'Technical Interview')">
+
+            <h4>💻 Technical</h4>
+
+            <p>
+                Role-specific technical questions.
+            </p>
+
+        </div>
+
+
+        <div class="type-card"
+             onclick="selectType(this,'Behavioral Interview')">
+
+            <h4>🧠 Behavioral</h4>
+
+            <p>
+                Situational and behavioral questions.
+            </p>
+
+        </div>
+
+
+        <div class="type-card"
+             onclick="selectType(this,'Project Discussion')">
+
+            <h4>📁 Project</h4>
+
+            <p>
+                Questions about your projects.
+            </p>
+
+        </div>
+
+
+        <div class="type-card"
+             onclick="selectType(this,'Coding Interview')">
+
+            <h4>⌨️ Coding</h4>
+
+            <p>
+                Programming and problem-solving questions.
+            </p>
+
+        </div>
+
+
+        <div class="type-card"
+             onclick="selectType(this,'Full Mock Interview')">
+
+            <h4>🎤 Full Mock</h4>
+
+            <p>
+                Complete multi-round interview.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="start-row">
+
+        <button class="btn btn-primary"
+                onclick="startInterview()">
+
+            Start Voice Interview →
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= SYSTEM CHECK ================= -->
+
+<div class="check-screen"
+     id="checkScreen">
+
+<div class="check-card">
+
+    <h2>Pre-Interview System Check</h2>
+
+    <p>
+        Make sure your camera and microphone are available before starting.
+    </p>
+
+
+    <div class="check-item">
+
+        <div class="check-left">
+
+            <div class="check-icon">
+                📷
+            </div>
+
+            <div class="check-name">
+                Camera
+            </div>
+
+        </div>
+
+        <span class="ready">
+            ✓ Ready
+        </span>
+
+    </div>
+
+
+    <div class="check-item">
+
+        <div class="check-left">
+
+            <div class="check-icon">
+                🎙️
+            </div>
+
+            <div class="check-name">
+                Microphone
+            </div>
+
+        </div>
+
+        <span class="ready">
+            ✓ Ready
+        </span>
+
+    </div>
+
+
+    <div class="check-item">
+
+        <div class="check-left">
+
+            <div class="check-icon">
+                🌐
+            </div>
+
+            <div class="check-name">
+                Speech Recognition
+            </div>
+
+        </div>
+
+        <span class="ready"
+              id="speechStatus">
+            Checking...
+        </span>
+
+    </div>
+
+
+    <label class="consent">
+
+        <input type="checkbox"
+               id="consentCheck">
+
+        <span>
+            I understand that camera, microphone and speech
+            recognition may be used during this interview.
+            I consent to continue.
+        </span>
+
+    </label>
+
+
+    <div style="display:flex;justify-content:flex-end;">
+
+        <button class="btn btn-primary"
+                onclick="beginInterview()">
+
+            Begin Interview →
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= INTERVIEW ================= -->
+
+<div class="interview-screen"
+     id="interviewScreen">
+
+<div class="interview-layout">
+
+
+<!-- CAMERA -->
+
+<div class="camera-card">
+
+    <div class="card-header">
+
+        <h3>
+            Your Camera
+        </h3>
+
+        <span class="live">
+            ● LIVE
+        </span>
+
+    </div>
+
+
+    <div class="video-container">
+
+        <video id="cameraVideo"
+               autoplay
+               muted>
+        </video>
+
+
+        <div class="camera-off-message"
+             id="cameraMessage">
+
+            <div class="camera-off-circle">
+                👤
+            </div>
+
+            <p>
+                Camera preview
+            </p>
+
+        </div>
+
+
+        <div class="video-controls">
+
+            <button class="control"
+                    id="cameraBtn"
+                    onclick="toggleCamera()">
+                📷
+            </button>
+
+            <button class="control"
+                    id="micBtn"
+                    onclick="toggleMic()">
+                🎙️
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="integrity">
+
+        🛡️ Integrity monitoring active:
+        camera status, microphone status and browser
+        activity signals may be recorded with consent.
+
+    </div>
+
+</div>
+
+
+<!-- AI INTERVIEWER -->
+
+<div class="ai-card">
+
+    <div class="card-header">
+
+        <h3>
+            🤖 AI Interviewer
+        </h3>
+
+        <span style="font-size:11px;color:#00a88f;">
+            ● Listening
+        </span>
+
+    </div>
+
+
+    <div class="ai-body"
+         id="chatBody">
+
+        <div class="ai-message">
+
+            <div class="sender">
+                SKILLTWIN AI
+            </div>
+
+            <p id="currentQuestionText">
+                Hello! Welcome to your AI mock interview.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- VOICE -->
+
+    <div class="voice-status">
+
+        <div class="voice-status-text"
+             id="voiceStatus">
+
+            Click the microphone and start speaking.
+
+        </div>
+
+
+        <button class="mic-main"
+                id="mainMic"
+                onclick="toggleListening()">
+
+            🎙️
+
+        </button>
+
+
+        <div class="transcript"
+             id="transcript">
+
+            Your spoken answer will appear here...
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="interview-footer">
+
+    <div class="question-counter">
+
+        <strong id="questionCounter">
+            Question 1 of 5
+        </strong>
+
+        <br>
+
+        <span id="roundLabel">
+            HR Interview
+        </span>
+
+    </div>
+
+
+    <button class="btn btn-primary"
+            onclick="nextQuestion()">
+
+        Next Question →
+
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- ================= REPORT ================= -->
+
+<div class="report-screen"
+     id="reportScreen">
+
+<div class="report-card">
+
+    <div class="report-header">
+
+        <h2>
+            AI Voice Interview Report
+        </h2>
+
+        <p>
+            Personalized analysis of your interview performance
+        </p>
+
+        <div class="score-circle">
+
+            <strong id="overallScore">
+                76%
+            </strong>
+
+            <span>
+                Overall
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="metrics">
+
+        <div class="metric">
+
+            <strong id="communicationScore">
+                78%
+            </strong>
+
+            <span>
+                Communication
+            </span>
+
+        </div>
+
+        <div class="metric">
+
+            <strong>
+                74%
+            </strong>
+
+            <span>
+                Technical
+            </span>
+
+        </div>
+
+        <div class="metric">
+
+            <strong>
+                80%
+            </strong>
+
+            <span>
+                Answer Quality
+            </span>
+
+        </div>
+
+        <div class="metric">
+
+            <strong>
+                72%
+            </strong>
+
+            <span>
+                Confidence
+            </span>
+
+        </div>
+
+        <div class="metric">
+
+            <strong>
+                76%
+            </strong>
+
+            <span>
+                Role Knowledge
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="voice-analysis">
+
+        <div class="analysis-box">
+
+            <h3>
+                🎙️ Voice & Communication
+            </h3>
+
+            <div class="analysis-row">
+
+                <span>
+                    Questions Answered
+                </span>
+
+                <strong id="reportQuestions">
+                    5
+                </strong>
+
+            </div>
+
+            <div class="analysis-row">
+
+                <span>
+                    Speaking Duration
+                </span>
+
+                <strong id="speakingDuration">
+                    2 min
+                </strong>
+
+            </div>
+
+            <div class="analysis-row">
+
+                <span>
+                    Filler Words
+                </span>
+
+                <strong id="fillerWords">
+                    8
+                </strong>
+
+            </div>
+
+            <div class="analysis-row">
+
+                <span>
+                    Transcript Quality
+                </span>
+
+                <strong>
+                    Good
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="analysis-box">
+
+            <h3>
+                🗣️ Communication Feedback
+            </h3>
+
+            <div class="analysis-row">
+
+                <span>
+                    Clarity
+                </span>
+
+                <strong>
+                    Good
+                </strong>
+
+            </div>
+
+            <div class="analysis-row">
+
+                <span>
+                    Answer Structure
+                </span>
+
+                <strong>
+                    Good
+                </strong>
+
+            </div>
+
+            <div class="analysis-row">
+
+                <span>
+                    Pace
+                </span>
+
+                <strong>
+                    Moderate
+                </strong>
+
+            </div>
+
+            <div class="analysis-row">
+
+                <span>
+                    Relevance
+                </span>
+
+                <strong>
+                    Strong
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="report-sections">
+
+        <div class="report-section">
+
+            <h3>
+                ✅ Strengths
+            </h3>
+
+            <ul>
+
+                <li>
+                    Communicates ideas clearly.
+                </li>
+
+                <li>
+                    Gives relevant responses.
+                </li>
+
+                <li>
+                    Can explain project experience.
+                </li>
+
+                <li>
+                    Shows willingness to learn.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="report-section">
+
+            <h3>
+                🎯 Areas to Improve
+            </h3>
+
+            <ul>
+
+                <li>
+                    Reduce unnecessary filler words.
+                </li>
+
+                <li>
+                    Give more structured answers.
+                </li>
+
+                <li>
+                    Explain technical decisions with examples.
+                </li>
+
+                <li>
+                    Practice answering under time pressure.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="report-section">
+
+            <h3>
+                🤖 AI Recommendations
+            </h3>
+
+            <ul>
+
+                <li>
+                    Practice Node.js and REST API questions.
+                </li>
+
+                <li>
+                    Use the STAR structure for behavioral questions.
+                </li>
+
+                <li>
+                    Practice speaking answers aloud.
+                </li>
+
+                <li>
+                    Take another mock interview after learning.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="report-section">
+
+            <h3>
+                📊 Interview Details
+            </h3>
+
+            <ul>
+
+                <li>
+                    Role:
+                    <strong id="reportRole">
+                        Full Stack Developer
+                    </strong>
+                </li>
+
+                <li>
+                    Interview:
+                    <strong id="reportType">
+                        HR Interview
+                    </strong>
+                </li>
+
+                <li>
+                    Experience:
+                    <strong id="reportExperience">
+                        Fresher
+                    </strong>
+                </li>
+
+                <li>
+                    Status:
+                    <strong style="color:#00a88f;">
+                        Completed
+                    </strong>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <div class="report-actions">
+
+        <button class="btn btn-secondary"
+                onclick="retakeInterview()">
+
+            Retake Interview
+
+        </button>
+
+        <button class="btn btn-primary"
+                onclick="window.location.href='skill-gap.html'">
+
+            Update Skill Gap
+
+        </button>
+
+        <button class="btn btn-teal"
+                onclick="window.location.href='dashboard.html'">
+
+            Dashboard
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* ==========================================
+   USER
+========================================== */
+
+let user={
+    name:"Ankita Chintakindi",
+    email:"ankita@example.com"
+};
+
+try{
+
+    const saved=
+        JSON.parse(
+            localStorage.getItem("skilltwin_user")
+        );
+
+    if(saved && saved.name){
+        user=saved;
+    }
+
+}catch(error){}
+
+document.getElementById("profileName")
+    .textContent=user.name;
+
+document.getElementById("avatar")
+    .textContent=
+    user.name
+    .split(" ")
+    .map(x=>x[0])
+    .join("")
+    .substring(0,2)
+    .toUpperCase();
+
+
+/* ==========================================
+   STATE
+========================================== */
+
+let selectedType="HR Interview";
+
+let currentQuestion=0;
+
+let cameraStream=null;
+
+let cameraOn=false;
+
+let micOn=true;
+
+let recognition=null;
+
+let isListening=false;
+
+let answerStartTime=null;
+
+let totalSpeakingSeconds=0;
+
+let transcripts=[];
+
+
+/* ==========================================
+   QUESTIONS
+========================================== */
+
+const interviewQuestions={
+
+"HR Interview":[
+
+"Hello! Welcome to your AI mock interview. Please introduce yourself and tell me about your background.",
+
+"Why are you interested in becoming a Full Stack Developer?",
+
+"What are your biggest strengths as a developer?",
+
+"Tell me about a challenge you faced while working on a project.",
+
+"Where do you see yourself in the next three years?"
+
+],
+
+"Technical Interview":[
+
+"Please explain the difference between frontend and backend development.",
+
+"What is React and why is it useful for building web applications?",
+
+"What is an API and how does a frontend application communicate with a backend?",
+
+"What is the difference between SQL and NoSQL databases?",
+
+"How would you debug a web application when something is not working?"
+
+],
+
+"Behavioral Interview":[
+
+"Tell me about a difficult problem you faced and how you solved it.",
+
+"Tell me about a time when you had to learn a new technology quickly.",
+
+"How do you handle feedback from a teacher, teammate or manager?",
+
+"Describe a situation where you worked as part of a team.",
+
+"How do you manage multiple tasks with a deadline?"
+
+],
+
+"Project Discussion":[
+
+"Tell me about one of the projects you have built.",
+
+"What problem does your project solve?",
+
+"Which technologies did you use and why?",
+
+"What was the most difficult part of building your project?",
+
+"If you had more time, what would you improve?"
+
+],
+
+"Coding Interview":[
+
+"How would you reverse a string using JavaScript?",
+
+"How would you find the largest number in an array?",
+
+"What is the difference between let, const and var?",
+
+"What is an API and how would you use one in a project?",
+
+"How do you approach solving a coding problem that you have never seen before?"
+
+],
+
+"Full Mock Interview":[
+
+"Please introduce yourself and tell me about your career goals.",
+
+"Why do you want to become a Full Stack Developer?",
+
+"Explain one technical concept that you understand well.",
+
+"Tell me about a project you have built.",
+
+"How would you debug a problem in your application?",
+
+"How do you handle a question when you do not know the answer?",
+
+"Where do you see yourself in the next three years?"
+
+]
+
+};
+
+
+/* ==========================================
+   SELECT INTERVIEW TYPE
+========================================== */
+
+function selectType(element,type){
+
+    document
+        .querySelectorAll(".type-card")
+        .forEach(card=>{
+            card.classList.remove("selected");
+        });
+
+    element.classList.add("selected");
+
+    selectedType=type;
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+function startInterview(){
+
+    document.getElementById("setupScreen")
+        .style.display="none";
+
+    document.getElementById("checkScreen")
+        .style.display="block";
+
+
+    checkSpeechRecognition();
+
+}
+
+
+/* ==========================================
+   SPEECH CHECK
+========================================== */
+
+function checkSpeechRecognition(){
+
+    const status=
+        document.getElementById("speechStatus");
+
+    if(
+        "webkitSpeechRecognition" in window ||
+        "SpeechRecognition" in window
+    ){
+
+        status.textContent=
+            "✓ Ready";
+
+    }else{
+
+        status.textContent=
+            "⚠ Not supported";
+
+    }
+
+}
+
+
+/* ==========================================
+   BEGIN
+========================================== */
+
+async function beginInterview(){
+
+    const consent=
+        document.getElementById("consentCheck");
+
+    if(!consent.checked){
+
+        showToast(
+            "Please provide consent before starting."
+        );
+
+        return;
+
+    }
+
+
+    await startCamera();
+
+
+    document.getElementById("checkScreen")
+        .style.display="none";
+
+    document.getElementById("interviewScreen")
+        .style.display="block";
+
+
+    currentQuestion=0;
+
+    transcripts=[];
+
+    totalSpeakingSeconds=0;
+
+
+    updateQuestion();
+
+    speakQuestion();
+
+}
+
+
+/* ==========================================
+   CAMERA
+========================================== */
+
+async function startCamera(){
+
+    try{
+
+        cameraStream=
+            await navigator.mediaDevices
+            .getUserMedia({
+                video:true,
+                audio:true
+            });
+
+
+        const video=
+            document.getElementById("cameraVideo");
+
+        video.srcObject=
+            cameraStream;
+
+        video.style.display="block";
+
+        document.getElementById(
+            "cameraMessage"
+        ).style.display="none";
+
+        cameraOn=true;
+
+    }catch(error){
+
+        showToast(
+            "Camera permission was not available. You can continue with the interview."
+        );
+
+        cameraOn=false;
+
+    }
+
+}
+
+
+/* ==========================================
+   CAMERA TOGGLE
+========================================== */
+
+function toggleCamera(){
+
+    if(!cameraStream){
+
+        startCamera();
+
+        return;
+
+    }
+
+
+    const tracks=
+        cameraStream.getVideoTracks();
+
+    cameraOn=!cameraOn;
+
+    tracks.forEach(track=>{
+        track.enabled=cameraOn;
+    });
+
+
+    const btn=
+        document.getElementById("cameraBtn");
+
+
+    if(cameraOn){
+
+        btn.classList.remove("off");
+
+        btn.textContent="📷";
+
+        document.getElementById(
+            "cameraVideo"
+        ).style.display="block";
+
+        document.getElementById(
+            "cameraMessage"
+        ).style.display="none";
+
+    }else{
+
+        btn.classList.add("off");
+
+        btn.textContent="🚫";
+
+        document.getElementById(
+            "cameraVideo"
+        ).style.display="none";
+
+        document.getElementById(
+            "cameraMessage"
+        ).style.display="block";
+
+    }
+
+}
+
+
+/* ==========================================
+   MICROPHONE TOGGLE
+========================================== */
+
+function toggleMic(){
+
+    micOn=!micOn;
+
+    if(cameraStream){
+
+        cameraStream
+            .getAudioTracks()
+            .forEach(track=>{
+                track.enabled=micOn;
+            });
+
+    }
+
+
+    const btn=
+        document.getElementById("micBtn");
+
+
+    if(micOn){
+
+        btn.classList.remove("off");
+
+        btn.textContent="🎙️";
+
+        showToast(
+            "Microphone enabled"
+        );
+
+    }else{
+
+        btn.classList.add("off");
+
+        btn.textContent="🔇";
+
+        showToast(
+            "Microphone muted"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE QUESTION
+========================================== */
+
+function updateQuestion(){
+
+    const questions=
+        interviewQuestions[selectedType];
+
+    const question=
+        questions[currentQuestion];
+
+
+    document.getElementById(
+        "currentQuestionText"
+    ).textContent=question;
+
+
+    document.getElementById(
+        "questionCounter"
+    ).textContent=
+        `Question ${currentQuestion+1} of ${questions.length}`;
+
+
+    document.getElementById(
+        "roundLabel"
+    ).textContent=selectedType;
+
+
+    document.getElementById(
+        "transcript"
+    ).textContent=
+        "Your spoken answer will appear here...";
+
+
+    document.getElementById(
+        "voiceStatus"
+    ).textContent=
+        "Click the microphone and start speaking.";
+
+}
+
+
+/* ==========================================
+   AI SPEAK QUESTION
+========================================== */
+
+function speakQuestion(){
+
+    if(!("speechSynthesis" in window)){
+        return;
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const text=
+        interviewQuestions[selectedType]
+        [currentQuestion];
+
+
+    const speech=
+        new SpeechSynthesisUtterance(text);
+
+
+    speech.rate=.9;
+
+    speech.pitch=1;
+
+    speech.volume=1;
+
+
+    window.speechSynthesis.speak(
+        speech
+    );
+
+}
+
+
+/* ==========================================
+   SPEECH RECOGNITION
+========================================== */
+
+function createRecognition(){
+
+    const SpeechRecognition=
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+    if(!SpeechRecognition){
+
+        showToast(
+            "Speech recognition is not supported in this browser. Please use Chrome or Edge."
+        );
+
+        return null;
+
+    }
+
+
+    const rec=
+        new SpeechRecognition();
+
+
+    rec.continuous=true;
+
+    rec.interimResults=true;
+
+    rec.lang="en-IN";
+
+
+    rec.onstart=function(){
+
+        isListening=true;
+
+        answerStartTime=
+            Date.now();
+
+        document
+            .getElementById("mainMic")
+            .classList.add("listening");
+
+
+        document
+            .getElementById("voiceStatus")
+            .textContent=
+            "Listening... Speak naturally.";
+
+    };
+
+
+    rec.onresult=function(event){
+
+        let finalText="";
+
+        let interimText="";
+
+
+        for(
+            let i=event.resultIndex;
+            i<event.results.length;
+            i++
+        ){
+
+            const text=
+                event.results[i][0].transcript;
+
+
+            if(
+                event.results[i].isFinal
+            ){
+
+                finalText+=text+" ";
+
+            }else{
+
+                interimText+=text;
+
+            }
+
+        }
+
+
+        const transcriptBox=
+            document.getElementById(
+                "transcript"
+            );
+
+
+        transcriptBox.textContent=
+            finalText+interimText;
+
+
+        if(finalText.trim()){
+
+            transcripts[currentQuestion]=
+                finalText.trim();
+
+        }
+
+    };
+
+
+    rec.onerror=function(event){
+
+        console.log(
+            "Speech recognition:",
+            event.error
+        );
+
+        if(
+            event.error==="not-allowed"
+        ){
+
+            showToast(
+                "Microphone permission was denied."
+            );
+
+        }
+
+    };
+
+
+    rec.onend=function(){
+
+        if(isListening){
+
+            try{
+                rec.start();
+            }catch(error){}
+
+        }
+
+    };
+
+
+    return rec;
+
+}
+
+
+/* ==========================================
+   START / STOP LISTENING
+========================================== */
+
+function toggleListening(){
+
+    if(isListening){
+
+        stopListening();
+
+    }else{
+
+        startListening();
+
+    }
+
+}
+
+
+/* ==========================================
+   START LISTENING
+========================================== */
+
+function startListening(){
+
+    if(
+        !(
+            "webkitSpeechRecognition" in window ||
+            "SpeechRecognition" in window
+        )
+    ){
+
+        showToast(
+            "Speech recognition is not supported. Please use Chrome or Edge."
+        );
+
+        return;
+
+    }
+
+
+    if(!recognition){
+
+        recognition=
+            createRecognition();
+
+    }
+
+
+    if(!recognition){
+        return;
+    }
+
+
+    try{
+
+        recognition.start();
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ==========================================
+   STOP LISTENING
+========================================== */
+
+function stopListening(){
+
+    isListening=false;
+
+
+    if(
+        answerStartTime
+    ){
+
+        totalSpeakingSeconds+=
+            Math.round(
+                (Date.now()-answerStartTime)/1000
+            );
+
+    }
+
+
+    if(recognition){
+
+        try{
+
+            recognition.stop();
+
+        }catch(error){}
+
+    }
+
+
+    document
+        .getElementById("mainMic")
+        .classList.remove("listening");
+
+
+    document
+        .getElementById("voiceStatus")
+        .textContent=
+        "Answer captured. You can continue or move to the next question.";
+
+}
+
+
+/* ==========================================
+   NEXT QUESTION
+========================================== */
+
+function nextQuestion(){
+
+    if(isListening){
+
+        stopListening();
+
+    }
+
+
+    const transcript=
+        document.getElementById(
+            "transcript"
+        ).textContent;
+
+
+    if(
+        transcript &&
+        !transcript.includes(
+            "Your spoken answer will appear here"
+        )
+    ){
+
+        addUserAnswer(transcript);
+
+    }
+
+
+    const questions=
+        interviewQuestions[selectedType];
+
+
+    if(
+        currentQuestion <
+        questions.length-1
+    ){
+
+        currentQuestion++;
+
+        updateQuestion();
+
+        speakQuestion();
+
+    }else{
+
+        finishInterview();
+
+    }
+
+}
+
+
+/* ==========================================
+   ADD USER ANSWER
+========================================== */
+
+function addUserAnswer(text){
+
+    const chat=
+        document.getElementById(
+            "chatBody"
+        );
+
+
+    const existing=
+        document.createElement("div");
+
+
+    existing.className=
+        "ai-message user-message";
+
+
+    existing.innerHTML=`
+
+        <div class="sender">
+            YOUR ANSWER
+        </div>
+
+        <p>
+            ${escapeHTML(text)}
+        </p>
+
+    `;
+
+
+    chat.appendChild(existing);
+
+    chat.scrollTop=
+        chat.scrollHeight;
+
+}
+
+
+/* ==========================================
+   FINISH INTERVIEW
+========================================== */
+
+function finishInterview(){
+
+    if(isListening){
+
+        stopListening();
+
+    }
+
+
+    if(cameraStream){
+
+        cameraStream
+            .getTracks()
+            .forEach(track=>{
+                track.stop();
+            });
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const answered=
+        transcripts.filter(
+            x=>x && x.trim()
+        ).length;
+
+
+    const total=
+        interviewQuestions[selectedType].length;
+
+
+    const communication=
+        Math.min(
+            95,
+            65+(answered*3)
+        );
+
+
+    const overall=
+        Math.round(
+            (communication+74+80+72+76)/5
+        );
+
+
+    document.getElementById(
+        "overallScore"
+    ).textContent=
+        overall+"%";
+
+
+    document.getElementById(
+        "communicationScore"
+    ).textContent=
+        communication+"%";
+
+
+    document.getElementById(
+        "reportQuestions"
+    ).textContent=
+        answered+" / "+total;
+
+
+    document.getElementById(
+        "speakingDuration"
+    ).textContent=
+        Math.max(
+            1,
+            Math.ceil(
+                totalSpeakingSeconds/60
+            )
+        )+" min";
+
+
+    let fillerCount=0;
+
+
+    transcripts.forEach(text=>{
+
+        if(!text) return;
+
+
+        const matches=
+            text.match(
+                /\b(um|uh|like|actually|basically|you know)\b/gi
+            );
+
+
+        if(matches){
+
+            fillerCount+=matches.length;
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "fillerWords"
+    ).textContent=
+        fillerCount;
+
+
+    document.getElementById(
+        "reportRole"
+    ).textContent=
+        document.getElementById(
+            "targetRole"
+        ).value;
+
+
+    document.getElementById(
+        "reportType"
+    ).textContent=
+        selectedType;
+
+
+    document.getElementById(
+        "reportExperience"
+    ).textContent=
+        document.getElementById(
+            "experience"
+        ).value;
+
+
+    /* SAVE RESULT */
+
+    const result={
+
+        type:"mock_interview",
+
+        role:
+            document.getElementById(
+                "targetRole"
+            ).value,
+
+        experience:
+            document.getElementById(
+                "experience"
+            ).value,
+
+        interviewType:
+            selectedType,
+
+        score:
+            overall,
+
+        communicationScore:
+            communication,
+
+        questionsAnswered:
+            answered,
+
+        fillerWords:
+            fillerCount,
+
+        speakingDuration:
+            totalSpeakingSeconds,
+
+        transcripts:
+            transcripts,
+
+        date:
+            new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+        "mock_interview_result",
+        JSON.stringify(result)
+    );
+
+
+    document.getElementById(
+        "interviewScreen"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "reportScreen"
+    ).style.display="block";
+
+}
+
+
+/* ==========================================
+   RETAKE
+========================================== */
+
+function retakeInterview(){
+
+    if(cameraStream){
+
+        cameraStream
+            .getTracks()
+            .forEach(track=>{
+                track.stop();
+            });
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    currentQuestion=0;
+
+    transcripts=[];
+
+    totalSpeakingSeconds=0;
+
+    recognition=null;
+
+    isListening=false;
+
+
+    document.getElementById(
+        "reportScreen"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "setupScreen"
+    ).style.display="block";
+
+}
+
+
+/* ==========================================
+   PROFILE
+========================================== */
+
+function toggleProfile(){
+
+    document.getElementById(
+        "profileMenu"
+    ).classList.toggle(
+        "show"
+    );
+
+}
+
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const profile=
+            document.querySelector(
+                ".profile"
+            );
+
+        if(
+            !profile.contains(
+                event.target
+            )
+        ){
+
+            document.getElementById(
+                "profileMenu"
+            ).classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+function toggleSidebar(){
+
+    document.getElementById(
+        "sidebar"
+    ).classList.toggle(
+        "open"
+    );
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout(){
+
+    localStorage.removeItem(
+        "skilltwin_user"
+    );
+
+    window.location.href=
+        "login.html";
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+function showToast(message){
+
+    const toast=
+        document.createElement("div");
+
+    toast.textContent=message;
+
+    toast.style.position="fixed";
+    toast.style.bottom="25px";
+    toast.style.right="25px";
+    toast.style.background="#0b1f3a";
+    toast.style.color="white";
+    toast.style.padding="13px 18px";
+    toast.style.borderRadius="9px";
+    toast.style.fontSize="14px";
+    toast.style.zIndex="9999";
+    toast.style.boxShadow=
+        "0 10px 30px rgba(0,0,0,.2)";
+
+    document.body.appendChild(toast);
+
+    setTimeout(()=>{
+        toast.remove();
+    },3000);
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHTML(text){
+
+    const div=
+        document.createElement("div");
+
+    div.textContent=text;
+
+    return div.innerHTML;
+
+}
+
+</script>
+
+</body>
+</html>
